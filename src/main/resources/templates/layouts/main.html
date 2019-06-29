@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-CN"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE"
+           th:text="${@environment.getProperty('site.app.name')}"></title>
+
+    <link type="text/css" rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+    <link type="text/css" rel="stylesheet" th:href="@{/css/site.css}"/>
+</head>
+<body>
+
+<div class="wrap">
+    <nav id="w0" class="navbar-inverse navbar-fixed-top navbar">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#w0-collapse"><span
+                        class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span></button>
+                <a class="navbar-brand" th:href="@{/}" th:text="${@environment.getProperty('site.app.name')}"></a></div>
+            <div id="w0-collapse" class="collapse navbar-collapse">
+                <ul id="w1" class="navbar-nav navbar-right nav">
+                    <li th:class="${#request.getRequestURI().startsWith('/') ? 'active' : ''}">
+                        <a th:href="@{/}">主页</a>
+                    </li>
+                    <li th:class="${#request.getRequestURI().startsWith('/about') ? 'active' : ''}">
+                        <a th:href="@{/about}">关于</a>
+                    </li>
+
+                    <li sec:authorize="!isAuthenticated()"
+                        th:class="${#request.getRequestURI().startsWith('/login') ? 'active' : ''}">
+                        <a th:href="@{/login}">登录</a>
+                    </li>
+                    <li>
+                        <form action="#" th:action="@{/logout}" method="post">
+                            <input type="hidden" th:name="${_csrf.parameterName}"
+                                   th:value="${_csrf.token}">
+                            <button type="submit" class="btn btn-link logout">注销 (<span
+                                    sec:authentication="name"></span>)
+                            </button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <div layout:fragment="content"></div>
+    </div>
+</div>
+
+<footer class="footer">
+    <div class="container">
+        <p class="pull-left" th:text="'&copy;' + ${@environment.getProperty('site.app.name')}"></p>
+        <p class="pull-right">Powered by <a href="https://spring.io/projects/spring-framework" rel="external">Spring
+            Framework</a></p>
+    </div>
+</footer>
+
+<script type='text/javascript' th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script type='text/javascript' th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+</body>
+</html>
