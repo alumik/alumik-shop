@@ -18,6 +18,10 @@
     <div class="site-login">
         <h1>登录</h1>
 
+        <div class="alert alert-success" th:if="${param.logout != null}">
+            注销成功
+        </div>
+
         <p>请输入用户名和密码</p>
 
         <form id="login-form" class="form-horizontal" action="#" th:action="@{/authenticate}" method="post">
@@ -28,28 +32,33 @@
                                              autofocus aria-required="true"></div>
                 <div class="col-lg-8"><p class="help-block help-block-error "></p></div>
             </div>
-            <div class="form-group field-loginform-password required">
+            <div class="form-group field-loginform-password required"
+                 th:classappend="${param.error != null ? 'has-error' : ''}">
                 <label class="col-lg-1 control-label" for="loginform-password">密码</label>
                 <div class="col-lg-3"><input type="password" id="loginform-password" class="form-control"
                                              name="password" value="" aria-required="true"></div>
+                <div class="col-lg-8">
+                    <p class="help-block help-block-error ">
+                        <span th:if="${param.error != null}">用户名或密码有误</span>
+                    </p>
+                </div>
+            </div>
+            <div class=" form-group field-loginform-rememberme">
+                    <div class="col-lg-offset-1 col-lg-3">
+                        <input type="checkbox" id="loginform-rememberme" name="remember-me" checked>
+                        <label for="loginform-rememberme">保持登录状态</label>
+                    </div>
+                </div>
                 <div class="col-lg-8"><p class="help-block help-block-error "></p></div>
-            </div>
-            <div class="form-group field-loginform-rememberme">
-                <div class="col-lg-offset-1 col-lg-3">
-                    <input type="checkbox" id="loginform-rememberme" name="remember-me" checked>
-                    <label for="loginform-rememberme">保持登录状态</label>
+                <div class="form-group">
+                    <div class="col-lg-offset-1 col-lg-11">
+                        <button type="submit" class="btn btn-primary" name="login-button">登录</button>
+                    </div>
                 </div>
-            </div>
-            <div class="col-lg-8"><p class="help-block help-block-error "></p></div>
-            <div class="form-group">
-                <div class="col-lg-offset-1 col-lg-11">
-                    <button type="submit" class="btn btn-primary" name="login-button">登录</button>
-                </div>
-            </div>
         </form>
 
         <div class="col-lg-offset-1" style="color:#999;">
-            You may login with <strong>admin/admin</strong> or <strong>demo/demo</strong>.
+            可以使用假用户 <strong>admin/admin</strong> 或 <strong>demo/demo</strong> 登录.
         </div>
     </div>
 </div>

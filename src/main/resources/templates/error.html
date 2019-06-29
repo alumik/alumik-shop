@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="zh-CN"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="@{/layouts/main}">
+<head>
+    <title>出错啦！</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <h1 th:text="${error} + '(#' + ${status} + ')'"></h1>
+
+    <div class="alert alert-danger">
+        <span th:text="${message}"></span>
+    </div>
+
+    <pre th:if="${trace != null}" th:text="${trace}"></pre>
+
+    <p>The above error occurred while the Web server was processing your request.</p>
+    <p>Please contact us if you think this is a server error. Thank you.</p>
+</div>
+
+</body>
+</html>
