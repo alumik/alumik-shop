@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-CN"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="@{/layouts/main}">
+<head>
+    <title>登录</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <ul class="breadcrumb">
+        <li>
+            <a th:href="@{/}">主页</a>
+        </li>
+        <li class="active">登录</li>
+    </ul>
+    <div class="site-login">
+        <h1>登录</h1>
+
+        <p>请输入用户名和密码</p>
+
+        <form id="login-form" class="form-horizontal" action="#" th:action="@{/authenticate}" method="post">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+            <div class="form-group field-loginform-username required">
+                <label class="col-lg-1 control-label" for="loginform-username">用户名</label>
+                <div class="col-lg-3"><input type="text" id="loginform-username" class="form-control" name="username"
+                                             autofocus aria-required="true"></div>
+                <div class="col-lg-8"><p class="help-block help-block-error "></p></div>
+            </div>
+            <div class="form-group field-loginform-password required">
+                <label class="col-lg-1 control-label" for="loginform-password">密码</label>
+                <div class="col-lg-3"><input type="password" id="loginform-password" class="form-control"
+                                             name="password" value="" aria-required="true"></div>
+                <div class="col-lg-8"><p class="help-block help-block-error "></p></div>
+            </div>
+            <div class="form-group field-loginform-rememberme">
+                <div class="col-lg-offset-1 col-lg-3">
+                    <input type="checkbox" id="loginform-rememberme" name="remember-me" checked>
+                    <label for="loginform-rememberme">保持登录状态</label>
+                </div>
+            </div>
+            <div class="col-lg-8"><p class="help-block help-block-error "></p></div>
+            <div class="form-group">
+                <div class="col-lg-offset-1 col-lg-11">
+                    <button type="submit" class="btn btn-primary" name="login-button">登录</button>
+                </div>
+            </div>
+        </form>
+
+        <div class="col-lg-offset-1" style="color:#999;">
+            You may login with <strong>admin/admin</strong> or <strong>demo/demo</strong>.
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

@@ -27,7 +27,7 @@
                 <a class="navbar-brand" th:href="@{/}" th:text="${@environment.getProperty('site.app.name')}"></a></div>
             <div id="w0-collapse" class="collapse navbar-collapse">
                 <ul id="w1" class="navbar-nav navbar-right nav">
-                    <li th:class="${#request.getRequestURI().startsWith('/') ? 'active' : ''}">
+                    <li th:class="${#request.getRequestURI() == '/' ? 'active' : ''}">
                         <a th:href="@{/}">主页</a>
                     </li>
                     <li th:class="${#request.getRequestURI().startsWith('/about') ? 'active' : ''}">
@@ -38,7 +38,7 @@
                         th:class="${#request.getRequestURI().startsWith('/login') ? 'active' : ''}">
                         <a th:href="@{/login}">登录</a>
                     </li>
-                    <li>
+                    <li sec:authorize="isAuthenticated()">
                         <form action="#" th:action="@{/logout}" method="post">
                             <input type="hidden" th:name="${_csrf.parameterName}"
                                    th:value="${_csrf.token}">

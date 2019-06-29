@@ -23,10 +23,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .anyRequest()
-                .permitAll()
+                .antMatchers("/", "/webjars/**", "/css/**").permitAll()
+                .anyRequest().authenticated()
                 .and()
-                .formLogin()
-                .permitAll();
+                .formLogin().loginPage("/login").loginProcessingUrl("/authenticate").permitAll()
+                .and()
+                .logout().deleteCookies("JSESSIONID").permitAll()
+                .and()
+                .rememberMe().key("shop").tokenValiditySeconds(3600 * 7 * 24);
     }
 }
