@@ -1,8 +1,8 @@
 package cn.alumik.shop.entity;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "role", uniqueConstraints = {@UniqueConstraint(name = "role_name_uindex", columnNames = "name")})
@@ -22,7 +22,7 @@ public class Role {
             joinColumns = @JoinColumn(name = "id_role"),
             inverseJoinColumns = @JoinColumn(name = "id_user")
     )
-    private List<User> users;
+    private Set<User> users;
 
     public int getId() {
         return id;
@@ -40,18 +40,26 @@ public class Role {
         this.name = name;
     }
 
-    public List<User> getUsers() {
+    public Set<User> getUsers() {
         return users;
     }
 
-    public void setUsers(List<User> users) {
+    public void setUsers(Set<User> users) {
         this.users = users;
     }
 
     public void addUser(User user) {
         if (users == null) {
-            users = new ArrayList<>();
+            users = new HashSet<>();
         }
         users.add(user);
+    }
+
+    @Override
+    public String toString() {
+        return "Role{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

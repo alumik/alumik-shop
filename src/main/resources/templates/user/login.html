@@ -24,7 +24,7 @@
 
         <p>请输入用户名和密码</p>
 
-        <form id="login-form" class="form-horizontal" action="#" th:action="@{/authenticate}" method="post">
+        <form id="login-form" class="form-horizontal" action="#" th:action="@{/login}" method="post">
             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
             <div class="form-group field-loginform-username required">
                 <label class="col-lg-1 control-label" for="loginform-username">用户名</label>
@@ -44,22 +44,19 @@
                 </div>
             </div>
             <div class=" form-group field-loginform-rememberme">
-                    <div class="col-lg-offset-1 col-lg-3">
-                        <input type="checkbox" id="loginform-rememberme" name="remember-me" checked>
-                        <label for="loginform-rememberme">保持登录状态</label>
-                    </div>
+                <div class="col-lg-offset-1 col-lg-3">
+                    <input type="checkbox" id="loginform-rememberme" name="remember-me" checked>
+                    <label for="loginform-rememberme">保持登录状态</label>
                 </div>
-                <div class="col-lg-8"><p class="help-block help-block-error "></p></div>
-                <div class="form-group">
-                    <div class="col-lg-offset-1 col-lg-11">
-                        <button type="submit" class="btn btn-primary" name="login-button">登录</button>
-                    </div>
+            </div>
+            <div class="col-lg-8"><p class="help-block help-block-error "></p></div>
+            <div class="form-group">
+                <div class="col-lg-offset-1 col-lg-11">
+                    <button type="submit" class="btn btn-primary" name="login-button">登录</button>
+                    <a class="btn btn-default" th:href="@{/registration}">注册</a>
                 </div>
+            </div>
         </form>
-
-        <div class="col-lg-offset-1" style="color:#999;">
-            可以使用假用户 <strong>admin/admin</strong> 或 <strong>demo/demo</strong> 登录.
-        </div>
     </div>
 </div>
 

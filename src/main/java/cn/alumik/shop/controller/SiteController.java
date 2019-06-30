@@ -17,9 +17,4 @@ public class SiteController {
     public String actionAbout() {
         return "site/about";
     }
-
-    @GetMapping("/login")
-    public String actionLogin() {
-        return "site/login";
-    }
 }

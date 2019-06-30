@@ -1,8 +1,8 @@
 package cn.alumik.shop.entity;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "user", uniqueConstraints = {@UniqueConstraint(name = "user_username_uindex", columnNames = "username")})
@@ -28,7 +28,10 @@ public class User {
             joinColumns = @JoinColumn(name = "id_user"),
             inverseJoinColumns = @JoinColumn(name = "id_role")
     )
-    private List<Role> roles;
+    private Set<Role> roles;
+
+    @Transient
+    private String passwordConfirm;
 
     public int getId() {
         return id;
@@ -62,18 +65,35 @@ public class User {
         this.enabled = enabled;
     }
 
-    public List<Role> getRoles() {
+    public Set<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(List<Role> roles) {
+    public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
 
     public void addRole(Role role) {
         if (roles == null) {
-            roles = new ArrayList<>();
+            roles = new HashSet<>();
         }
         roles.add(role);
+    }
+
+    public String getPasswordConfirm() {
+        return passwordConfirm;
+    }
+
+    public void setPasswordConfirm(String passwordConfirm) {
+        this.passwordConfirm = passwordConfirm;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", enabled=" + enabled +
+                '}';
     }
 }
