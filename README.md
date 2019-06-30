@@ -4,10 +4,11 @@ Java网络应用开发课程项目
 
 ## 技术栈
 
-+ Spring Core
-+ Spring MVC
++ Spring Framework
+    + Spring MVC
 + Spring Boot
 + Spring Security
 + Spring Data JPA
 + Hibernate
++ Hibernate Validator
 + Thymeleaf
