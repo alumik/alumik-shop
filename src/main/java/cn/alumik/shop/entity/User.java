@@ -41,6 +41,11 @@ public class User {
     )
     private Set<User> favoriteUsers;
 
+    @OneToMany(
+            mappedBy = "user",
+            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    private Set<Cart> carts;
+
     @Transient
     private String passwordConfirm;
 
@@ -131,6 +136,27 @@ public class User {
     public void removeFavoriteUser(User user) {
         if (favoriteUsers != null) {
             favoriteUsers.remove(user);
+        }
+    }
+
+    public Set<Cart> getCarts() {
+        return carts;
+    }
+
+    public void setCarts(Set<Cart> carts) {
+        this.carts = carts;
+    }
+
+    public void addCart(Cart cart) {
+        if (carts == null) {
+            carts = new HashSet<>();
+        }
+        carts.add(cart);
+    }
+
+    public void removeCart(Cart cart) {
+        if (carts != null) {
+            carts.remove(cart);
         }
     }
 }
