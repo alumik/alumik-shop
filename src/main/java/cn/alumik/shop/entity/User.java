@@ -1,7 +1,6 @@
 package cn.alumik.shop.entity;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
