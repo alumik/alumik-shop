@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN"
+      xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/main}">
 <head>
@@ -10,7 +11,7 @@
 <div layout:fragment="content">
     <div class="site-index">
         <div class="jumbotron">
-            <h1>欢迎来到钟震宇的小站</h1>
+            <h1>欢迎来到 <span th:text="${@environment.getProperty('site.app.name')}"></span></h1>
             <p class="lead">恭喜你成功搭建起 Java 网络编程课程项目开发环境</p>
             <p><a class="btn btn-lg btn-success" href="https://spring.io/projects/spring-framework">开始学习 Spring 框架</a>
             </p>
