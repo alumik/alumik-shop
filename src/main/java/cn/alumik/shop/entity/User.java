@@ -46,6 +46,14 @@ public class User {
             cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     private Set<Cart> carts;
 
+    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinTable(
+            name = "favorite_item",
+            joinColumns = @JoinColumn(name = "id_user"),
+            inverseJoinColumns = @JoinColumn(name = "id_item")
+    )
+    private Set<Item> favoriteItems;
+
     @Transient
     private String passwordConfirm;
 
@@ -157,6 +165,27 @@ public class User {
     public void removeCart(Cart cart) {
         if (carts != null) {
             carts.remove(cart);
+        }
+    }
+
+    public Set<Item> getFavoriteItems() {
+        return favoriteItems;
+    }
+
+    public void setFavoriteItems(Set<Item> favoriteItems) {
+        this.favoriteItems = favoriteItems;
+    }
+
+    public void addFavoriteItem(Item item) {
+        if (favoriteItems == null) {
+            favoriteItems = new HashSet<>();
+        }
+        favoriteItems.add(item);
+    }
+
+    public void removeFavoriteItem(Item item) {
+        if (favoriteItems != null) {
+            favoriteItems.remove(item);
         }
     }
 }
