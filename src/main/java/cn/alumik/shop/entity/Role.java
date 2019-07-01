@@ -5,15 +5,15 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "role", uniqueConstraints = {@UniqueConstraint(name = "role_name_uindex", columnNames = "name")})
+@Table(name = "role")
 public class Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     private int id;
 
-    @Column(name = "name", length = 32, nullable = false)
+    @Column(name = "name")
     private String name;
 
     @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
@@ -53,13 +53,5 @@ public class Role {
             users = new HashSet<>();
         }
         users.add(user);
-    }
-
-    @Override
-    public String toString() {
-        return "Role{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
     }
 }

@@ -98,18 +98,4 @@ public class UserProfile {
     public void setJoinDate(Date join_date) {
         this.joinDate = join_date;
     }
-
-    @Override
-    public String toString() {
-        return "UserProfile{" +
-                "id=" + id +
-                ", user=" + user +
-                ", gender=" + gender +
-                ", phone='" + phone + '\'' +
-                ", email='" + email + '\'' +
-                ", detail='" + detail + '\'' +
-                ", avatar='" + avatar + '\'' +
-                ", join_date=" + joinDate +
-                '}';
-    }
 }

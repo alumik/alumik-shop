@@ -1,25 +1,26 @@
 package cn.alumik.shop.entity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "user", uniqueConstraints = {@UniqueConstraint(name = "user_username_uindex", columnNames = "username")})
+@Table(name = "user")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     private int id;
 
-    @Column(name = "username", length = 64, nullable = false)
+    @Column(name = "username")
     private String username;
 
-    @Column(name = "password", length = 128, nullable = false)
+    @Column(name = "password")
     private String password;
 
-    @Column(name = "enabled", length = 1, nullable = false)
+    @Column(name = "enabled")
     private boolean enabled;
 
     @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
@@ -29,6 +30,17 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "id_role")
     )
     private Set<Role> roles;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private UserProfile userProfile;
+
+    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinTable(
+            name = "favorite_user",
+            joinColumns = @JoinColumn(name = "by_user"),
+            inverseJoinColumns = @JoinColumn(name = "favorite_user")
+    )
+    private Set<User> favoriteUsers;
 
     @Transient
     private String passwordConfirm;
@@ -80,6 +92,12 @@ public class User {
         roles.add(role);
     }
 
+    public void removeRole(Role role) {
+        if (roles != null) {
+            roles.remove(role);
+        }
+    }
+
     public String getPasswordConfirm() {
         return passwordConfirm;
     }
@@ -88,12 +106,32 @@ public class User {
         this.passwordConfirm = passwordConfirm;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", enabled=" + enabled +
-                '}';
+    public UserProfile getUserProfile() {
+        return userProfile;
+    }
+
+    public void setUserProfile(UserProfile userProfile) {
+        this.userProfile = userProfile;
+    }
+
+    public Set<User> getFavoriteUsers() {
+        return favoriteUsers;
+    }
+
+    public void setFavoriteUsers(Set<User> favoriteUsers) {
+        this.favoriteUsers = favoriteUsers;
+    }
+
+    public void addFavoriteUser(User user) {
+        if (favoriteUsers == null) {
+            favoriteUsers = new HashSet<>();
+        }
+        favoriteUsers.add(user);
+    }
+
+    public void removeFavoriteUser(User user) {
+        if (favoriteUsers != null) {
+            favoriteUsers.remove(user);
+        }
     }
 }
