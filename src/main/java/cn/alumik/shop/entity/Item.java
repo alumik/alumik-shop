@@ -3,6 +3,8 @@ package cn.alumik.shop.entity;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "item")
@@ -44,6 +46,9 @@ public class Item {
 
     @Column(name = "available")
     private Boolean available;
+
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
+    private Set<Transaction> transactions;
 
     public int getId() {
         return id;
@@ -131,5 +136,20 @@ public class Item {
 
     public void setAvailable(Boolean available) {
         this.available = available;
+    }
+
+    public Set<Transaction> getTransactions() {
+        return transactions;
+    }
+
+    public void setTransactions(Set<Transaction> transactions) {
+        this.transactions = transactions;
+    }
+
+    public void addTransaction(Transaction transaction) {
+        if (transactions == null) {
+            transactions = new HashSet<>();
+        }
+        transactions.add(transaction);
     }
 }

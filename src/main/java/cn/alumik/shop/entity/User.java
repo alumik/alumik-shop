@@ -54,6 +54,9 @@ public class User {
     )
     private Set<Item> favoriteItems;
 
+    @OneToMany(mappedBy = "buyer", cascade = CascadeType.ALL)
+    private Set<Transaction> transactions;
+
     @Transient
     private String passwordConfirm;
 
@@ -187,5 +190,20 @@ public class User {
         if (favoriteItems != null) {
             favoriteItems.remove(item);
         }
+    }
+
+    public Set<Transaction> getTransactions() {
+        return transactions;
+    }
+
+    public void setTransactions(Set<Transaction> transactions) {
+        this.transactions = transactions;
+    }
+
+    public void addTransaction(Transaction transaction) {
+        if (transactions == null) {
+            transactions = new HashSet<>();
+        }
+        transactions.add(transaction);
     }
 }
