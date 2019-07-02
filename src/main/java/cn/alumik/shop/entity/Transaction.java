@@ -30,6 +30,9 @@ public class Transaction {
     @Column(name = "sold_at")
     private Timestamp soldAt;
 
+    @OneToOne(mappedBy = "transaction", cascade = CascadeType.ALL)
+    private Comment comment;
+
     public int getId() {
         return id;
     }
@@ -76,5 +79,13 @@ public class Transaction {
 
     public void setSoldAt(Timestamp soldAt) {
         this.soldAt = soldAt;
+    }
+
+    public Comment getComment() {
+        return comment;
+    }
+
+    public void setComment(Comment comment) {
+        this.comment = comment;
     }
 }
