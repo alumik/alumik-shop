@@ -30,6 +30,22 @@
                     <li th:class="${#request.getRequestURI() == '/' ? 'active' : ''}">
                         <a th:href="@{/}">主页</a>
                     </li>
+                    <li sec:authorize="hasRole('ROLE_SUPER_ADMIN')"
+                        th:class="${#request.getRequestURI().startsWith('/admin/admin') ? 'active' : ''}">
+                        <a th:href="@{/admin/admin}">管理员管理</a>
+                    </li>
+                    <li sec:authorize="hasRole('ROLE_ADMIN')"
+                        th:class="${#request.getRequestURI().startsWith('/admin/user') ? 'active' : ''}">
+                        <a th:href="@{/admin/user}">用户管理</a>
+                    </li>
+                    <li sec:authorize="hasRole('ROLE_ADMIN')"
+                        th:class="${#request.getRequestURI().startsWith('/admin/item') ? 'active' : ''}">
+                        <a th:href="@{/admin/item}">商品管理</a>
+                    </li>
+                    <li sec:authorize="hasRole('ROLE_ADMIN')"
+                        th:class="${#request.getRequestURI().startsWith('/admin/comment') ? 'active' : ''}">
+                        <a th:href="@{/admin/comment}">评论管理</a>
+                    </li>
                     <li th:class="${#request.getRequestURI().startsWith('/about') ? 'active' : ''}">
                         <a th:href="@{/about}">关于</a>
                     </li>
