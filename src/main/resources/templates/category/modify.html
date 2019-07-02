@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="zh-CN"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+<head>
+    <meta charset="UTF-8">
+    <title>修改商品类型</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <form th:object="${category}" action="#" th:action="@{/category/modify}" method="post">
+        <input type="hidden" th:field="*{id}"/>
+        商品类型名称<input type="text" th:field="*{name}"/>
+        <div th:errors="*{name}"></div>
+        <button type="submit">提交</button>
+    </form>
+</div>
+
+</body>
+</html>
