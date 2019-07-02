@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/")
-public class UserController {
+public class SecurityController {
 
     private UserService userService;
 
@@ -22,7 +22,7 @@ public class UserController {
 
     private UserValidator userValidator;
 
-    public UserController(UserService userService, SecurityService securityService, UserValidator userValidator) {
+    public SecurityController(UserService userService, SecurityService securityService, UserValidator userValidator) {
         this.userService = userService;
         this.securityService = securityService;
         this.userValidator = userValidator;

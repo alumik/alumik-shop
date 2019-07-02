@@ -3,6 +3,8 @@ package cn.alumik.shop.entity;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "transaction")
@@ -32,6 +34,9 @@ public class Transaction {
 
     @OneToOne(mappedBy = "transaction", cascade = CascadeType.ALL)
     private Comment comment;
+
+    @OneToMany(mappedBy = "transaction", cascade = CascadeType.ALL)
+    private Set<RefundRequest> refundRequests;
 
     public int getId() {
         return id;
@@ -87,5 +92,26 @@ public class Transaction {
 
     public void setComment(Comment comment) {
         this.comment = comment;
+    }
+
+    public Set<RefundRequest> getRefundRequests() {
+        return refundRequests;
+    }
+
+    public void setRefundRequests(Set<RefundRequest> refundRequests) {
+        this.refundRequests = refundRequests;
+    }
+
+    public void addRefundRequest(RefundRequest refundRequest) {
+        if (refundRequests == null) {
+            refundRequests = new HashSet<>();
+        }
+        refundRequests.add(refundRequest);
+    }
+
+    public void removeRefundRequest(RefundRequest refundRequest) {
+        if (refundRequests != null) {
+            refundRequests.remove(refundRequest);
+        }
     }
 }
