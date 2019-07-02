@@ -60,6 +60,9 @@ public class User {
     @Transient
     private String passwordConfirm;
 
+    @Transient
+    private Boolean isSuperAdmin;
+
     public int getId() {
         return id;
     }
@@ -205,5 +208,9 @@ public class User {
             transactions = new HashSet<>();
         }
         transactions.add(transaction);
+    }
+
+    public Boolean getIsSuperAdmin() {
+        return isSuperAdmin;
     }
 }

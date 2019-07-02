@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-CN"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+<head>
+    <title>管理员管理</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+
+    <ul class="breadcrumb">
+        <li>
+            <a th:href="@{/}">主页</a>
+        </li>
+        <li class="active">管理员管理</li>
+    </ul>
+    <div>
+        <h1>管理员管理</h1>
+
+        <table class="table table-striped table-bordered">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Is Super Admin</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="admin : ${admins}">
+                <td th:text="${admin.id}"></td>
+                <td th:text="${admin.username}"></td>
+                <td th:text="${admin.isSuperAdmin}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+</body>
+</html>
