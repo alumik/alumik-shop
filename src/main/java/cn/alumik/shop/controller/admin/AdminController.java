@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@Controller
+@Controller("adminAdminController")
 @RequestMapping("/admin/admin")
 public class AdminController {
 
@@ -29,8 +29,7 @@ public class AdminController {
             @RequestParam(defaultValue = "") String username,
             @RequestParam(defaultValue = "false") Boolean isSuperAdmin,
             @RequestParam(defaultValue = "id") String sort,
-            @RequestParam(defaultValue = "1") Integer page,
-            @RequestParam(defaultValue = "30") Integer pageSize) {
+            @RequestParam(defaultValue = "1") Integer page) {
         Sort sortObj;
         if (sort.startsWith("-")) {
             sortObj = Sort.by(sort.substring(1)).descending();
@@ -45,7 +44,7 @@ public class AdminController {
             roleName = "ROLE_ADMIN";
         }
 
-        Pageable pageable = PageRequest.of(page - 1, pageSize, sortObj);
+        Pageable pageable = PageRequest.of(page - 1, 30, sortObj);
         Page<User> admins = adminService.findAll(username, roleName, pageable);
 
         for (User admin : admins) {

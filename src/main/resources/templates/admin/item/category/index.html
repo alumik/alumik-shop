@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh-CN"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+<head>
+    <title>商品分类管理</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <ul class="breadcrumb">
+        <li>
+            <a th:href="@{/}">首页</a>
+        </li>
+        <li>
+            <a th:href="@{/admin/item}">商品管理</a>
+        </li>
+        <li class="active">商品分类管理</li>
+    </ul>
+    <div class="category-index">
+        <h1>商品分类管理</h1>
+        <p>
+            <a class="btn btn-success" th:href="@{/admin/item/category/create}">新增商品分类</a>
+        </p>
+        <div id="w0" class="grid-view">
+            <div class="summary">第 <b
+                    th:text="${(categories.totalElements == 0 ? 0 : categories.pageable.offset + 1) + '-' + (categories.pageable.offset + categories.numberOfElements)}"></b>
+                条，共 <b th:text="${categories.totalElements}"></b> 条数据.
+            </div>
+            <form action="#" th:action="@{/admin/item/category}" method="get">
+                <input type="hidden" name="sort" th:value="${sort}">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                    <tr>
+                        <th th:switch="${sort}">
+                            <a th:case="'id'" class="asc"
+                               th:href="@{/admin/item/category(name=${name}, page=${page}, sort='-id')}">ID</a>
+                            <a th:case="'-id'" class="desc"
+                               th:href="@{/admin/item/category(name=${name}, page=${page}, sort='id')}">ID</a>
+                            <a th:case="*"
+                               th:href="@{/admin/item/category(name=${name}, page=${page}, sort='id')}">ID</a>
+                        </th>
+                        <th th:switch="${sort}">
+                            <a th:case="'name'" class="asc"
+                               th:href="@{/admin/item/category(name=${name}, page=${page}, sort='-name')}">名称</a>
+                            <a th:case="'-name'" class="desc"
+                               th:href="@{/admin/item/category(name=${name}, page=${page}, sort='name')}">名称</a>
+                            <a th:case="*"
+                               th:href="@{/admin/item/category(name=${name}, page=${page}, sort='name')}">名称</a>
+                        </th>
+                        <th class="action-column">操作</th>
+                    </tr>
+
+                    <tr id="w0-filters" class="filters">
+                        <td>&nbsp;</td>
+                        <td><input type="text" class="form-control" name="name" th:value="${name}"></td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="category : ${categories}">
+                        <td th:text="${category.id}"></td>
+                        <td th:text="${category.name}"></td>
+                        <td>
+                            <a class="btn btn-primary btn-sm"
+                               th:href="@{/admin/item/category/update(id=${category.id})}">修改</a>
+                            <a class="btn btn-danger btn-sm"
+                               th:href="@{/admin/item/category/delete(id=${category.id})}"
+                               onclick="if (!(confirm('你确定要删除该分类吗？'))) return false">删除</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </form>
+
+            <ul class="pagination" th:if="${categories.totalPages gt 1}">
+                <li class="prev" th:classappend="${categories.number == 0} ? 'disabled'"
+                    th:switch="${categories.number == 0}">
+                    <a th:case="${false}"
+                       th:href="@{/admin/item/category(name=${name}, sort=${sort}, page=${categories.number})}">&laquo;</a>
+                    <span th:case="${true}">&laquo;</span>
+                </li>
+                <li th:class="${categories.number + 1 == i ? 'active': ''}"
+                    th:each="i : ${#numbers.sequence(categories.number - 5 >= 0 ? categories.number - 5 : 1, categories.number + 5 <= categories.totalPages ? categories.number + 5 : categories.totalPages)}">
+                    <a th:href="@{/admin/item/category(name=${name}, sort=${sort}, page=${i})}"
+                       th:text="${i}"></a>
+                </li>
+                <li class="next" th:classappend="${categories.number + 1 == categories.totalPages} ? 'disabled'"
+                    th:switch="${categories.number + 1 == categories.totalPages}">
+                    <a th:case="${false}"
+                       th:href="@{/admin/item/category(name=${name}, sort=${sort}, page=${categories.number + 2})}">&raquo;</a>
+                    <span th:case="true">&raquo;</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

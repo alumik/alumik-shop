@@ -2,6 +2,8 @@ package cn.alumik.shop.service;
 
 import cn.alumik.shop.dao.CategoryRepository;
 import cn.alumik.shop.entity.Category;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -41,4 +43,8 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryRepository.findById(id);
     }
 
+    @Override
+    public Page<Category> findAll(String name, Pageable pageable) {
+        return categoryRepository.findByNameContains(name, pageable);
+    }
 }

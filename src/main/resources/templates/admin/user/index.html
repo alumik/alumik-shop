@@ -19,7 +19,7 @@
         <h1>用户管理</h1>
         <div id="w0" class="grid-view">
             <div class="summary">第 <b
-                    th:text="${(users.pageable.offset + 1) + '-' + (users.pageable.offset + users.numberOfElements)}"></b>
+                    th:text="${(users.totalElements == 0 ? 0 : users.pageable.offset + 1) + '-' + (users.pageable.offset + users.numberOfElements)}"></b>
                 条，共 <b th:text="${users.totalElements}"></b> 条数据.
             </div>
             <form action="#" th:action="@{/admin/user}" method="get">

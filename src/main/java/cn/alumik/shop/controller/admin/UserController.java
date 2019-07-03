@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Optional;
 
-@Controller
+@Controller("adminUserController")
 @RequestMapping("/admin/user")
 public class UserController {
 
@@ -30,8 +30,7 @@ public class UserController {
             @RequestParam(defaultValue = "") String username,
             @RequestParam(defaultValue = "0") Integer enabled,
             @RequestParam(defaultValue = "id") String sort,
-            @RequestParam(defaultValue = "1") Integer page,
-            @RequestParam(defaultValue = "30") Integer pageSize) {
+            @RequestParam(defaultValue = "1") Integer page) {
         Sort sortObj;
         if (sort.startsWith("-")) {
             sortObj = Sort.by(sort.substring(1)).descending();
@@ -39,7 +38,7 @@ public class UserController {
             sortObj = Sort.by(sort);
         }
 
-        Pageable pageable = PageRequest.of(page - 1, pageSize, sortObj);
+        Pageable pageable = PageRequest.of(page - 1, 30, sortObj);
         Page<User> users;
         switch (enabled) {
             case 1:
