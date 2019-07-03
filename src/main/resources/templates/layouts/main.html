@@ -50,6 +50,10 @@
                         <a th:href="@{/about}">关于</a>
                     </li>
 
+                    <li sec:authorize="isAuthenticated()"
+                        th:class="${#request.getRequestURI().startsWith('/info') ? 'active' : ''}">
+                        <a th:href="@{/info/}">个人中心</a>
+                    </li>
                     <li sec:authorize="!isAuthenticated()"
                         th:class="${#request.getRequestURI().startsWith('/login') ? 'active' : ''}">
                         <a th:href="@{/login}">登录</a>
