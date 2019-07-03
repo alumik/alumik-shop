@@ -45,7 +45,6 @@ public class ItemController {
     @PostMapping("/add")
     public String actionAddPoster(@Valid @ModelAttribute("item") Item item, BindingResult bindingResult){
         if (bindingResult.hasErrors()){
-            System.out.println(bindingResult);
             return "item/add";
         }
         itemService.save(item);
@@ -74,7 +73,6 @@ public class ItemController {
 
     @PostMapping("/buy")
      public String actionBuyPoster(@ModelAttribute("result") Result result){
-        System.out.println(result);
         Transaction transaction = new Transaction();
         if (result.address.equals("")){
             transaction.setAddress(result.temp);

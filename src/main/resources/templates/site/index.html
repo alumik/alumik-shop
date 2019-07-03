@@ -13,34 +13,17 @@
         <h1>所有商品</h1>
         <p><a class="btn btn-primary btn-lg" role="button" th:href="@{/item/add}">添加商品</a></p>
     </div>
-    <table class="table table-striped table-bordered">
-        <thead class="thead-dark">
-        <tr>
-            <th>名称</th>
-            <th>类型</th>
-            <th>价格</th>
-            <th>库存</th>
-            <th>修改时间</th>
-            <th>用户</th>
-            <th>操作</th>
-        </tr>
-        </thead>
-        <tbody>
-        <div th:each="item:${items}">
-            <tr>
-                <td th:text="${item.name}"></td>
-                <td th:text="${item.category == null ? '未分类' : item.category.name}"></td>
-                <td th:text="${item.price}"></td>
-                <td th:text="${item.stock}"></td>
-                <td th:text="${item.modifiedAt}"></td>
-                <td th:text="${item.seller.username}"></td>
-                <td><a class="btn btn-sm btn-primary" th:href="@{/item/detail(id=${item.id})}">查看详情</a></td>
-            </tr>
-            <div hidden th:text="${item.detail}"></div>
+
+
+
+    <div class="row" th:each="rawItems:${items}">
+        <div class="col-md-3"  th:each="colItem:${rawItems}"
+             style="background-color: #dedef8; box-shadow: inset 1px -1px 1px #444, inset -1px 1px 1px #444;">
+            <p th:text="${colItem.name}">
+            </p>
         </div>
 
-        </tbody>
-    </table>
+    </div>
 </div>
 
 </body>
