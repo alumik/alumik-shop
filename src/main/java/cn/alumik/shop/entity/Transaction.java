@@ -38,6 +38,9 @@ public class Transaction {
     @OneToMany(mappedBy = "transaction", cascade = CascadeType.ALL)
     private Set<RefundRequest> refundRequests;
 
+    @Column(name = "address")
+    private String address;
+
     public int getId() {
         return id;
     }
@@ -113,5 +116,13 @@ public class Transaction {
         if (refundRequests != null) {
             refundRequests.remove(refundRequest);
         }
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

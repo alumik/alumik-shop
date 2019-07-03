@@ -57,6 +57,9 @@ public class User {
     @OneToMany(mappedBy = "buyer", cascade = CascadeType.ALL)
     private Set<Transaction> transactions;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private Set<Address> addresses;
+
     @Transient
     private String passwordConfirm;
 
@@ -212,5 +215,31 @@ public class User {
 
     public Boolean getIsSuperAdmin() {
         return isSuperAdmin;
+    }
+
+    public void setIsSuperAdmin(Boolean isSuperAdmin) {
+        this.isSuperAdmin = isSuperAdmin;
+    }
+
+    public Set<Address> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(Set<Address> addresses) {
+        this.addresses = addresses;
+    }
+
+    public void addAddress(Address address) {
+        if (addresses == null) {
+            addresses = new HashSet<>();
+        }
+        addresses.add(address);
+        address.setUser(this);
+    }
+
+    public void removeAddress(Address address) {
+        if (addresses != null) {
+            addresses.remove(address);
+        }
     }
 }
