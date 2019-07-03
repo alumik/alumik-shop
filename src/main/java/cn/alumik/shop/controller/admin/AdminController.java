@@ -68,6 +68,30 @@ public class AdminController {
         return "admin/admin/index";
     }
 
+    @GetMapping("/create")
+    public String actionCreate(
+            Model model,
+            @RequestParam(defaultValue = "") String username,
+            @RequestParam(defaultValue = "id") String sort,
+            @RequestParam(defaultValue = "1") Integer page) {
+        Sort sortObj;
+        if (sort.startsWith("-")) {
+            sortObj = Sort.by(sort.substring(1)).descending();
+        } else {
+            sortObj = Sort.by(sort);
+        }
+
+        Pageable pageable = PageRequest.of(page - 1, 30, sortObj);
+        Page<User> users = adminService.findAllNormalUser(username, pageable);
+
+        model.addAttribute("users", users);
+        model.addAttribute("username", username);
+        model.addAttribute("sort", sort);
+        model.addAttribute("page", page);
+
+        return "admin/admin/create";
+    }
+
     @GetMapping("/toggle-super-admin")
     public String actionToggleSuperAdmin(Integer id) {
         Optional<User> userOptional = adminService.findById(id);

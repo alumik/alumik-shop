@@ -15,4 +15,6 @@ public interface AdminService {
     void toggleSuperAdmin(User user);
 
     void toggleAdmin(User user);
+
+    Page<User> findAllNormalUser(String username, Pageable pageable);
 }

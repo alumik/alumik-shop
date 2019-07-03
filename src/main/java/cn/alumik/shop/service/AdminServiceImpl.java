@@ -36,12 +36,14 @@ public class AdminServiceImpl implements AdminService {
     public void toggleSuperAdmin(User user) {
         Optional<Role> roleSuperAdmin = roleRepository.findByName("ROLE_SUPER_ADMIN");
         Optional<Role> roleAdmin = roleRepository.findByName("ROLE_ADMIN");
-        if (roleSuperAdmin.isPresent() && roleAdmin.isPresent()) {
+        Optional<Role> roleUser = roleRepository.findByName("ROLE_USER");
+        if (roleSuperAdmin.isPresent() && roleAdmin.isPresent() && roleUser.isPresent()) {
             if (user.getRoles().contains(roleSuperAdmin.get())) {
                 user.removeRole(roleSuperAdmin.get());
             } else {
                 user.addRole(roleAdmin.get());
                 user.addRole(roleSuperAdmin.get());
+                user.removeRole(roleUser.get());
             }
             userRepository.save(user);
         }
@@ -51,14 +53,22 @@ public class AdminServiceImpl implements AdminService {
     public void toggleAdmin(User user) {
         Optional<Role> roleSuperAdmin = roleRepository.findByName("ROLE_SUPER_ADMIN");
         Optional<Role> roleAdmin = roleRepository.findByName("ROLE_ADMIN");
-        if (roleSuperAdmin.isPresent() && roleAdmin.isPresent()) {
+        Optional<Role> roleUser = roleRepository.findByName("ROLE_USER");
+        if (roleSuperAdmin.isPresent() && roleAdmin.isPresent() && roleUser.isPresent()) {
             if (user.getRoles().contains(roleAdmin.get())) {
                 user.removeRole(roleSuperAdmin.get());
                 user.removeRole(roleAdmin.get());
+                user.addRole(roleUser.get());
             } else {
                 user.addRole(roleAdmin.get());
+                user.removeRole(roleUser.get());
             }
             userRepository.save(user);
         }
+    }
+
+    @Override
+    public Page<User> findAllNormalUser(String username, Pageable pageable) {
+        return userRepository.findAllByUsernameContainingAndRoles_Name(username, "ROLE_USER", pageable);
     }
 }

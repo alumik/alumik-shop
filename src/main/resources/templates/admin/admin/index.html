@@ -55,7 +55,7 @@
                         <td><input type="text" class="form-control" name="username" th:value="${username}"></td>
                         <td><select class="form-control" onchange="this.form.submit()" name="isSuperAdmin"
                                     th:value="${isSuperAdmin}">
-                            <option value="0" th:selected="${!isSuperAdmin}">全部</option>
+                            <option value="0" th:selected="${!isSuperAdmin}"></option>
                             <option value="1" th:selected="${isSuperAdmin}">是</option>
                         </select></td>
                         <td>&nbsp;</td>
