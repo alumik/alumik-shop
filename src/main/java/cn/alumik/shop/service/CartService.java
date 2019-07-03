@@ -7,4 +7,5 @@ import java.util.Set;
 
 public interface CartService {
     Set<Cart> findAll();
+    void delete(int id);
 }

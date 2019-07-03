@@ -1,14 +1,13 @@
 package cn.alumik.shop.controller;
 
 import cn.alumik.shop.entity.Cart;
-import cn.alumik.shop.entity.Item;
 import cn.alumik.shop.service.CartService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.List;
 import java.util.Set;
 
 @Controller
@@ -26,5 +25,11 @@ public class CartController {
         Set<Cart> carts = cartService.findAll();
         model.addAttribute("carts", carts);
         return "cart/cart";
+    }
+
+    @PostMapping("/delete")
+    public String actionDeleteGood(Model model, int id) {
+        cartService.delete(id);
+        return "redirect:/cart/index";
     }
 }

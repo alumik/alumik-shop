@@ -26,4 +26,9 @@ public class CartServiceImpl implements CartService {
         User user = userService.findByUsername(username);
         return user.getCarts();
     }
+
+    @Override
+    public void delete(int id) {
+        cartRepository.deleteById(id);
+    }
 }
