@@ -40,7 +40,7 @@ public class SecurityController {
         if (bindingResult.hasErrors()) {
             return "user/registration";
         }
-        userService.save(userForm);
+        userService.save(userForm, true);
         securityService.autoLogin(userForm.getUsername(), userForm.getPasswordConfirm());
         return "redirect:/";
     }
