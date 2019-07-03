@@ -2,15 +2,19 @@ package cn.alumik.shop.controller.admin;
 
 import cn.alumik.shop.entity.Category;
 import cn.alumik.shop.service.CategoryService;
+import cn.alumik.shop.validator.CategoryValidator;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @Controller("adminCategoryController")
 @RequestMapping("/admin/item/category")
@@ -18,8 +22,11 @@ public class CategoryController {
 
     private CategoryService categoryService;
 
-    public CategoryController(CategoryService categoryService) {
+    private CategoryValidator categoryValidator;
+
+    public CategoryController(CategoryService categoryService, CategoryValidator categoryValidator) {
         this.categoryService = categoryService;
+        this.categoryValidator = categoryValidator;
     }
 
     @GetMapping("")
@@ -44,5 +51,30 @@ public class CategoryController {
         model.addAttribute("page", page);
 
         return "admin/item/category/index";
+    }
+
+    @GetMapping("/create")
+    public String actionCreate(Model model) {
+        Category category = new Category();
+        model.addAttribute("category", category);
+        return "admin/item/category/create";
+    }
+
+    @PostMapping("/create")
+    public String actionCreate(
+            @Valid @ModelAttribute("category") Category category,
+            BindingResult bindingResult) {
+        categoryValidator.validate(category, bindingResult);
+        if (bindingResult.hasErrors()) {
+            return "admin/item/category/create";
+        }
+        categoryService.save(category);
+        return "redirect:/admin/item/category";
+    }
+
+    @GetMapping("/delete")
+    public String actionDelete(Integer id) {
+        categoryService.deleteById(id);
+        return "redirect:/admin/item/category";
     }
 }

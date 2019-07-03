@@ -29,7 +29,7 @@
         <div th:each="item:${items}">
             <tr>
                 <td th:text="${item.name}"></td>
-                <td th:text="${item.category.name}"></td>
+                <td th:text="${item.category == null ? '未分类' : item.category.name}"></td>
                 <td th:text="${item.price}"></td>
                 <td th:text="${item.stock}"></td>
                 <td th:text="${item.modifiedAt}"></td>

@@ -1,21 +1,29 @@
 package cn.alumik.shop.service;
 
 import cn.alumik.shop.dao.CategoryRepository;
+import cn.alumik.shop.dao.ItemRepository;
 import cn.alumik.shop.entity.Category;
+import cn.alumik.shop.entity.Item;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.function.Consumer;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
     private CategoryRepository categoryRepository;
 
-    public CategoryServiceImpl(CategoryRepository categoryRepository) {
+    private ItemRepository itemRepository;
+
+    public CategoryServiceImpl(CategoryRepository categoryRepository, ItemRepository itemRepository) {
         this.categoryRepository = categoryRepository;
+        this.itemRepository = itemRepository;
     }
 
     @Override
@@ -24,27 +32,30 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public void add(Category category) {
-        categoryRepository.save(category);
-    }
-
-    @Override
-    public void modify(Category category) {
-        categoryRepository.save(category);
-    }
-
-    @Override
-    public void delete(int id) {
-        categoryRepository.deleteById(id);
-    }
-
-    @Override
-    public Optional<Category> getById(int id) {
-        return categoryRepository.findById(id);
-    }
-
-    @Override
     public Page<Category> findAll(String name, Pageable pageable) {
-        return categoryRepository.findByNameContains(name, pageable);
+        return categoryRepository.findAllByNameContains(name, pageable);
+    }
+
+    @Override
+    public Category save(Category category) {
+        return categoryRepository.save(category);
+    }
+
+    @Override
+    public Optional<Category> findByName(String name) {
+        return categoryRepository.findByName(name);
+    }
+
+    @Override
+    public void deleteById(Integer id) {
+        Optional<Category> categoryOptional = categoryRepository.findById(id);
+        categoryOptional.ifPresent(category -> {
+            Set<Item> items = category.getItems();
+            for (Item item : items) {
+                item.setCategory(null);
+                itemRepository.save(item);
+            }
+        });
+        categoryRepository.deleteById(id);
     }
 }

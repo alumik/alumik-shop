@@ -8,15 +8,14 @@ import java.util.List;
 import java.util.Optional;
 
 public interface CategoryService {
+
     List<Category> findAll();
 
-    void add(Category category);
-
-    void modify(Category category);
-
-    void delete(int id);
-
-    Optional<Category> getById(int id);
-
     Page<Category> findAll(String name, Pageable pageable);
+
+    Category save(Category category);
+
+    Optional<Category> findByName(String name);
+
+    void deleteById(Integer id);
 }
