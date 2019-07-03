@@ -68,10 +68,17 @@
                         <td th:text="${admin.isSuperAdmin ? '是' : '否'}"></td>
                         <td>
                             <span th:if="${#authentication.name != admin.username}">
-                                <a class="btn btn-default btn-sm"
-                                   onclick="if (!(confirm('你确定要取消该用户的管理员权限吗？'))) return false">取消管理员权限</a>
-                                <a th:if="${admin.isSuperAdmin}" class="btn btn-default btn-sm"
-                                   onclick="if (!(confirm('你确定要取消该用户的超级管理员权限吗？'))) return false">取消超级管理员权限</a>
+                                <a th:if="${!admin.isSuperAdmin}"
+                                   class="btn btn-danger btn-sm"
+                                   th:href="@{/admin/admin/toggle-admin(id=${admin.id})}"
+                                   onclick="if (!(confirm('你确定要撤销该用户的管理员权限吗？'))) return false">撤销管理员权限</a>
+                                <a th:if="${admin.isSuperAdmin}"
+                                   class="btn btn-danger btn-sm"
+                                   th:href="@{/admin/admin/toggle-super-admin(id=${admin.id})}"
+                                   onclick="if (!(confirm('你确定要撤销该用户的超级管理员权限吗？'))) return false">撤销超级管理员权限</a>
+                                <a th:if="${!admin.isSuperAdmin}"
+                                   th:href="@{/admin/admin/toggle-super-admin(id=${admin.id})}"
+                                   class="btn btn-success btn-sm">设为超级管理员</a>
                             </span>
                         </td>
                     </tr>

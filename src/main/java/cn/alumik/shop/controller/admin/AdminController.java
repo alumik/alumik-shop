@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.Optional;
+
 @Controller("adminAdminController")
 @RequestMapping("/admin/admin")
 public class AdminController {
@@ -64,5 +66,19 @@ public class AdminController {
         model.addAttribute("page", page);
 
         return "admin/admin/index";
+    }
+
+    @GetMapping("/toggle-super-admin")
+    public String actionToggleSuperAdmin(Integer id) {
+        Optional<User> userOptional = adminService.findById(id);
+        userOptional.ifPresent(user -> adminService.toggleSuperAdmin(user));
+        return "redirect:/admin/admin";
+    }
+
+    @GetMapping("/toggle-admin")
+    public String actionToggleAdmin(Integer id) {
+        Optional<User> userOptional = adminService.findById(id);
+        userOptional.ifPresent(user -> adminService.toggleAdmin(user));
+        return "redirect:/admin/admin";
     }
 }
