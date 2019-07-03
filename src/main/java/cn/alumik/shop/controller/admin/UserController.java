@@ -71,4 +71,14 @@ public class UserController {
         }
         return "redirect:/admin/user";
     }
+
+    @GetMapping("/view")
+    public String actionView(Model model, Integer id) {
+        Optional<User> userOptional = userService.findById(id);
+        if (userOptional.isPresent()) {
+            model.addAttribute("user", userOptional.get());
+            return "admin/user/view";
+        }
+        return "redirect:/admin/user";
+    }
 }

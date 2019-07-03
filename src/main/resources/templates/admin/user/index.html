@@ -11,7 +11,7 @@
 <div layout:fragment="content">
     <ul class="breadcrumb">
         <li>
-            <a th:href="@{/}">主页</a>
+            <a th:href="@{/}">首页</a>
         </li>
         <li class="active">用户管理</li>
     </ul>
@@ -65,7 +65,7 @@
                         <td th:text="${user.username}"></td>
                         <td th:text="${user.enabled ? '否' : '是'}"></td>
                         <td>
-                            <a class="btn btn-primary btn-sm">查看详情</a>
+                            <a class="btn btn-primary btn-sm" th:href="@{/admin/user/view(id=${user.id})}">查看详情</a>
                             <span th:if="${#authentication.name != user.username}">
                                 <a th:if="${user.enabled}" class="btn btn-danger btn-sm"
                                    th:href="@{/admin/user/toggle-enabled(id=${user.id})}"
