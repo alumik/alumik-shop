@@ -9,58 +9,40 @@
 <body>
 
 <div layout:fragment="content">
-    <div class="site-index">
-        <div class="jumbotron">
-            <h1>欢迎来到 <span th:text="${@environment.getProperty('site.app.name')}"></span></h1>
-            <p class="lead">恭喜你成功搭建起 Java 网络编程课程项目开发环境</p>
-            <p><a class="btn btn-lg btn-success" href="https://spring.io/projects/spring-framework">开始学习 Spring 框架</a>
-            </p>
+    <div class="jumbotron">
+        <h1>所有商品</h1>
+        <p><a class="btn btn-primary btn-lg" role="button" th:href="@{/item/add}">添加商品</a></p>
+    </div>
+    <table class="table table-striped table-bordered">
+        <thead class="thead-dark">
+        <tr>
+            <th>名称</th>
+            <th>类型</th>
+            <th>价格</th>
+            <th>库存</th>
+            <th>修改时间</th>
+            <th>用户</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <div th:each="item:${items}">
+            <tr>
+                <td th:text="${item.name}"></td>
+                <td th:text="${item.category.name}"></td>
+                <td th:text="${item.price}"></td>
+                <td th:text="${item.stock}"></td>
+                <td th:text="${item.modifiedAt}"></td>
+                <td th:text="${item.seller.username}"></td>
+                <td><a class="btn btn-sm btn-primary" th:href="@{/item/detail(id=${item.id})}">查看详情</a></td>
+            </tr>
+            <div hidden th:text="${item.detail}"></div>
         </div>
 
-        <div class="body-content">
-            <div class="row">
-                <div class="col-lg-4">
-                    <h2>钟震宇干活</h2>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
-                        labore et
-                        dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi
-                        ut aliquip
-                        ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                        cillum dolore eu
-                        fugiat nulla pariatur.</p>
-                    <p><a class="btn btn-default" href="https://page.alumik.cn">钟震宇的博客
-                        &raquo;</a></p>
-                </div>
-                <div class="col-lg-4">
-                    <h2>左天衡牛逼</h2>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
-                        labore et
-                        dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi
-                        ut aliquip
-                        ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                        cillum dolore eu
-                        fugiat nulla pariatur.</p>
-                    <p><a class="btn btn-default" href="https://github.com/AlumiK">钟震宇的 GitHub
-                        &raquo;</a></p>
-                </div>
-                <div class="col-lg-4">
-                    <h2>张鑫豪很帅</h2>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
-                        labore et
-                        dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi
-                        ut aliquip
-                        ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                        cillum dolore eu
-                        fugiat nulla pariatur.</p>
-                    <p><a class="btn btn-default" href="https://github.com/AlumiK/shop">项目仓库
-                        &raquo;</a></p>
-                </div>
-            </div>
-        </div>
-    </div>
+        </tbody>
+    </table>
 
     <div>
-        <a th:href="@{/item/add}">添加商品</a>
         <a th:href="@{/category/index}">商品类型</a>
     </div>
 </div>
