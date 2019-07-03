@@ -4,7 +4,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/main}">
 <head>
-    <title>用户管理</title>
+    <title>用户详情</title>
 </head>
 <body>
 
@@ -15,7 +15,7 @@
         <li class="active" th:text="${user.id}"></li>
     </ul>
     <div class="user-view">
-        <h1 th:text="${user.username}">223</h1>
+        <h1 th:text="${user.username}"></h1>
         <p>
             <span th:if="${#authentication.name != user.username}">
                 <a th:if="${user.enabled}" class="btn btn-danger btn-sm"

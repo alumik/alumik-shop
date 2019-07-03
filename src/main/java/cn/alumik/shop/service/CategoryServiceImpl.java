@@ -8,11 +8,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.function.Consumer;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
@@ -57,5 +55,10 @@ public class CategoryServiceImpl implements CategoryService {
             }
         });
         categoryRepository.deleteById(id);
+    }
+
+    @Override
+    public Optional<Category> findById(Integer id) {
+        return categoryRepository.findById(id);
     }
 }

@@ -18,4 +18,6 @@ public interface CategoryService {
     Optional<Category> findByName(String name);
 
     void deleteById(Integer id);
+
+    Optional<Category> findById(Integer id);
 }

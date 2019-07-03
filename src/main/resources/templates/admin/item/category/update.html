@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-CN"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+<head>
+    <title>修改商品分类</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <ul class="breadcrumb">
+        <li>
+            <a th:href="@{/}">首页</a>
+        </li>
+        <li>
+            <a th:href="@{/admin/item}">商品管理</a>
+        </li>
+        <li>
+            <a th:href="@{/admin/item/category}">商品分类管理</a>
+        </li>
+        <li class="active" th:text="${category.id}"></li>
+        <li class="active">修改</li>
+    </ul>
+    <div class="category-update">
+        <h1 th:text="${'修改商品分类：' + category.name}"></h1>
+        <div class="category-form">
+            <form id="w0" action="#" th:object="${category}" th:action="@{/admin/item/category/create}" method="post">
+                <input type="hidden" th:field="*{id}">
+                <div class="form-group" th:classappend="${#fields.hasAnyErrors() ? 'has-error' : ''}">
+                    <label class="control-label" for="category-name">名称</label>
+                    <input type="text" id="category-name" class="form-control" name="name" th:field="*{name}">
+                    <div class="help-block" th:errors="*{name}"></div>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success">保存</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

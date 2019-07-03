@@ -3,7 +3,6 @@ package cn.alumik.shop.controller.admin;
 import cn.alumik.shop.entity.Category;
 import cn.alumik.shop.service.CategoryService;
 import cn.alumik.shop.validator.CategoryValidator;
-import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -11,10 +10,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @Controller("adminCategoryController")
 @RequestMapping("/admin/item/category")
@@ -67,6 +66,28 @@ public class CategoryController {
         categoryValidator.validate(category, bindingResult);
         if (bindingResult.hasErrors()) {
             return "admin/item/category/create";
+        }
+        categoryService.save(category);
+        return "redirect:/admin/item/category";
+    }
+
+    @GetMapping("/update")
+    public String actionUpdate(Model model, Integer id) {
+        Optional<Category> categoryOptional = categoryService.findById(id);
+        if (categoryOptional.isPresent()) {
+            model.addAttribute("category", categoryOptional.get());
+            return "admin/item/category/update";
+        }
+        return "redirect:/admin/item/category";
+    }
+
+    @PostMapping("/update")
+    public String actionUpdate(
+            @Valid @ModelAttribute("category") Category category,
+            BindingResult bindingResult) {
+        categoryValidator.validate(category, bindingResult);
+        if (bindingResult.hasErrors()) {
+            return "admin/item/category/update";
         }
         categoryService.save(category);
         return "redirect:/admin/item/category";
