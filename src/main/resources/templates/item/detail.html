@@ -49,6 +49,8 @@
                 <div class="panel-body" th:text="*{category.name}">
                 </div>
             </div>
+
+            <a th:href="@{/item/buy(id=${item.id})}" class="btn btn-default">立即购买</a>
         </div>
     </div>
 </div>
