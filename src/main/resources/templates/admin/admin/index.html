@@ -22,7 +22,7 @@
         </p>
         <div id="w0" class="grid-view">
             <div class="summary">第 <b
-                    th:text="${admins.pageable.offset + '-' + (admins.pageable.offset + admins.numberOfElements)}"></b>
+                    th:text="${(admins.pageable.offset + 1) + '-' + (admins.pageable.offset + admins.numberOfElements)}"></b>
                 条，共 <b th:text="${admins.getTotalElements()}"></b> 条数据.
             </div>
             <form action="#" th:action="@{/admin/admin}" method="get">
@@ -47,7 +47,7 @@
                                th:href="@{/admin/admin(username=${username}, isSuperAdmin=${isSuperAdmin}, page=${page}, sort='username')}">用户名</a>
                         </th>
                         <th>超级管理员</th>
-                        <th class="action-column">&nbsp;</th>
+                        <th class="action-column">操作</th>
                     </tr>
 
                     <tr id="w0-filters" class="filters">
@@ -67,8 +67,11 @@
                         <td th:text="${admin.username}"></td>
                         <td th:text="${admin.isSuperAdmin ? '是' : '否'}"></td>
                         <td>
-                            <a class="btn btn-default">取消管理员权限</a>
-                            <a th:if="${admin.isSuperAdmin}" class="btn btn-default">取消超级管理员权限</a>
+                            <div th:if="${#authentication.name != admin.username}">
+                                <a class="btn btn-default btn-sm" onclick="if (!(confirm('你确定要取消该用户的管理员权限吗？'))) return false">取消管理员权限</a>
+                                <a th:if="${admin.isSuperAdmin}" class="btn btn-default btn-sm"
+                                   onclick="if (!(confirm('你确定要取消该用户的超级管理员权限吗？'))) return false">取消超级管理员权限</a>
+                            </div>
                         </td>
                     </tr>
                     </tbody>
