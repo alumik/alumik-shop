@@ -46,9 +46,6 @@
                         th:class="${#request.getRequestURI().startsWith('/admin/comment') ? 'active' : ''}">
                         <a th:href="@{/admin/comment}">评论管理</a>
                     </li>
-                    <li th:class="${#request.getRequestURI().startsWith('/about') ? 'active' : ''}">
-                        <a th:href="@{/about}">关于</a>
-                    </li>
 
                     <li sec:authorize="isAuthenticated()"
                         th:class="${#request.getRequestURI().startsWith('/info') ? 'active' : ''}">
