@@ -11,9 +11,17 @@
 <div layout:fragment="content">
     <form th:object="${category}" action="#" th:action="@{/category/add}" method="post">
         <input type="hidden" th:field="*{id}"/>
-        商品类型名称<input type="text" th:field="*{name}"/>
-        <div th:errors="*{name}"></div>
-        <button type="submit">提交</button>
+        <div class="row">
+            <div class="col-md-11">
+                <input type="text" class="form-control" placeholder="商品类型名称"
+                       aria-describedby="sizing-addon1" th:field="*{name}">
+            </div>
+            <div class="col-md-1">
+                <input type="submit" class="btn btn-primary btn-block"/>
+            </div>
+
+        </div>
+
     </form>
 </div>
 

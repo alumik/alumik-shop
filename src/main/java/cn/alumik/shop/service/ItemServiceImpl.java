@@ -6,6 +6,7 @@ import cn.alumik.shop.entity.User;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 @Service
 public class ItemServiceImpl implements ItemService{
@@ -28,5 +29,15 @@ public class ItemServiceImpl implements ItemService{
         item.setModifiedAt(new Timestamp(System.currentTimeMillis()));
         item.setAvailable(true);
         itemRepository.save(item);
+    }
+
+    @Override
+    public List<Item> findAll() {
+        return itemRepository.findAll();
+    }
+
+    @Override
+    public Item getById(int id) {
+        return itemRepository.findById(id).get();
     }
 }

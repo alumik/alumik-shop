@@ -45,4 +45,11 @@ public class ItemController {
         itemService.save(item);
         return "redirect:/";
     }
+
+    @GetMapping("/detail")
+    public String actionDetailGetter(Model model, int id) {
+        Item item = itemService.getById(id);
+        model.addAttribute("item", item);
+        return "item/detail";
+    }
 }
