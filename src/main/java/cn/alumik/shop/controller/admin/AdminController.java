@@ -1,5 +1,6 @@
 package cn.alumik.shop.controller.admin;
 
+import cn.alumik.shop.entity.Role;
 import cn.alumik.shop.entity.User;
 import cn.alumik.shop.service.AdminService;
 import org.springframework.data.domain.Page;
@@ -26,19 +27,43 @@ public class AdminController {
     public String actionIndex(
             Model model,
             @RequestParam(defaultValue = "") String username,
-            @RequestParam(defaultValue = "ROLE_ADMIN") String roleName,
+            @RequestParam(defaultValue = "false") Boolean isSuperAdmin,
             @RequestParam(defaultValue = "id") String sort,
-            @RequestParam(defaultValue = "0") Integer page,
-            @RequestParam(defaultValue = "10") Integer pageSize) {
+            @RequestParam(defaultValue = "1") Integer page,
+            @RequestParam(defaultValue = "30") Integer pageSize) {
         Sort sortObj;
         if (sort.startsWith("-")) {
             sortObj = Sort.by(sort.substring(1)).descending();
         } else {
             sortObj = Sort.by(sort);
         }
-        Pageable pageable = PageRequest.of(page, pageSize, sortObj);
+
+        String roleName;
+        if (isSuperAdmin) {
+            roleName = "ROLE_SUPER_ADMIN";
+        } else {
+            roleName = "ROLE_ADMIN";
+        }
+
+        Pageable pageable = PageRequest.of(page - 1, pageSize, sortObj);
         Page<User> admins = adminService.findAll(username, roleName, pageable);
+
+        for (User admin : admins) {
+            admin.setIsSuperAdmin(false);
+            for (Role role : admin.getRoles()) {
+                if (role.getName().equals("ROLE_SUPER_ADMIN")) {
+                    admin.setIsSuperAdmin(true);
+                    break;
+                }
+            }
+        }
+
         model.addAttribute("admins", admins);
+        model.addAttribute("username", username);
+        model.addAttribute("isSuperAdmin", isSuperAdmin);
+        model.addAttribute("sort", sort);
+        model.addAttribute("page", page);
+
         return "admin/admin/index";
     }
 }

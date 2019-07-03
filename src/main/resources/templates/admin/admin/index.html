@@ -9,34 +9,92 @@
 <body>
 
 <div layout:fragment="content">
-
     <ul class="breadcrumb">
         <li>
             <a th:href="@{/}">主页</a>
         </li>
         <li class="active">管理员管理</li>
     </ul>
-    <div>
+    <div class="admin-index">
         <h1>管理员管理</h1>
+        <p>
+            <a class="btn btn-success" th:href="@{/admin/admin/create}">新增管理员</a>
+        </p>
+        <div id="w0" class="grid-view">
+            <div class="summary">第 <b
+                    th:text="${admins.pageable.offset + '-' + (admins.pageable.offset + admins.numberOfElements)}"></b>
+                条，共 <b th:text="${admins.getTotalElements()}"></b> 条数据.
+            </div>
+            <form action="#" th:action="@{/admin/admin}" method="get">
+                <input type="hidden" name="sort" th:value="${sort}">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                    <tr>
+                        <th th:switch="${sort}">
+                            <a th:case="'id'" class="asc"
+                               th:href="@{/admin/admin(username=${username}, isSuperAdmin=${isSuperAdmin}, page=${page}, sort='-id')}">ID</a>
+                            <a th:case="'-id'" class="desc"
+                               th:href="@{/admin/admin(username=${username}, isSuperAdmin=${isSuperAdmin}, page=${page}, sort='id')}">ID</a>
+                            <a th:case="*"
+                               th:href="@{/admin/admin(username=${username}, isSuperAdmin=${isSuperAdmin}, page=${page}, sort='id')}">ID</a>
+                        </th>
+                        <th th:switch="${sort}">
+                            <a th:case="'username'" class="asc"
+                               th:href="@{/admin/admin(username=${username}, isSuperAdmin=${isSuperAdmin}, page=${page}, sort='-username')}">用户名</a>
+                            <a th:case="'-username'" class="desc"
+                               th:href="@{/admin/admin(username=${username}, isSuperAdmin=${isSuperAdmin}, page=${page}, sort='username')}">用户名</a>
+                            <a th:case="*"
+                               th:href="@{/admin/admin(username=${username}, isSuperAdmin=${isSuperAdmin}, page=${page}, sort='username')}">用户名</a>
+                        </th>
+                        <th>超级管理员</th>
+                        <th class="action-column">&nbsp;</th>
+                    </tr>
 
-        <table class="table table-striped table-bordered">
-            <thead>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Is Super Admin</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="admin : ${admins}">
-                <td th:text="${admin.id}"></td>
-                <td th:text="${admin.username}"></td>
-                <td th:text="${admin.isSuperAdmin}"></td>
-            </tr>
-            </tbody>
-        </table>
+                    <tr id="w0-filters" class="filters">
+                        <td>&nbsp;</td>
+                        <td><input type="text" class="form-control" name="username" th:value="${username}"></td>
+                        <td><select class="form-control" onchange="this.form.submit()" name="isSuperAdmin"
+                                    th:value="${isSuperAdmin}">
+                            <option value="0" th:selected="${!isSuperAdmin}">全部</option>
+                            <option value="1" th:selected="${isSuperAdmin}">是</option>
+                        </select></td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="admin : ${admins}">
+                        <td th:text="${admin.id}"></td>
+                        <td th:text="${admin.username}"></td>
+                        <td th:text="${admin.isSuperAdmin ? '是' : '否'}"></td>
+                        <td>
+                            <a class="btn btn-default">取消管理员权限</a>
+                            <a th:if="${admin.isSuperAdmin}" class="btn btn-default">取消超级管理员权限</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </form>
+
+            <ul class="pagination" th:if="${admins.totalPages gt 1}">
+                <li class="prev" th:classappend="${admins.number == 0} ? 'disabled'" th:switch="${admins.number == 0}">
+                    <a th:case="${false}"
+                       th:href="@{/admin/admin(username=${username}, isSuperAdmin=${isSuperAdmin}, sort=${sort}, page=${admins.number})}">&laquo;</a>
+                    <span th:case="${true}">&laquo;</span>
+                </li>
+                <li th:class="${admins.number + 1 == i ? 'active': ''}"
+                    th:each="i : ${#numbers.sequence(admins.number - 5 >= 0 ? admin.numbers - 5 : 1, admins.number + 5 <= admins.totalPages ? admins.number + 5 : admins.totalPages)}">
+                    <a th:href="@{/admin/admin(username=${username}, isSuperAdmin=${isSuperAdmin}, sort=${sort}, page=${i})}"
+                       th:text="${i}"></a>
+                </li>
+                <li class="next" th:classappend="${admins.number + 1 == admins.totalPages} ? 'disabled'"
+                    th:switch="${admins.number + 1 == admins.totalPages}">
+                    <a th:case="${false}"
+                       th:href="@{/admin/admin(username=${username}, isSuperAdmin=${isSuperAdmin}, sort=${sort}, page=${admins.number + 2})}">&raquo;</a>
+                    <span th:case="true">&raquo;</span>
+                </li>
+            </ul>
+        </div>
     </div>
-
 </div>
 
 </body>
