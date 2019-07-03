@@ -117,3 +117,7 @@ a.desc:after {
 .marginedDiv {
     margin-bottom: 30px;
 }
+
+td {
+    vertical-align: middle !important;
+}

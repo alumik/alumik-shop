@@ -3,6 +3,8 @@ package cn.alumik.shop.service;
 import cn.alumik.shop.dao.RoleRepository;
 import cn.alumik.shop.dao.UserRepository;
 import cn.alumik.shop.entity.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -32,5 +34,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findByUsername(String username) {
         return userRepository.findByUsername(username);
+    }
+
+    @Override
+    public Page<User> findAll(String username, Boolean enabled, Pageable pageable) {
+        return userRepository.findAllByUsernameContainingAndEnabled(username, enabled, pageable);
     }
 }
