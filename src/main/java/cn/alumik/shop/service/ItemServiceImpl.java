@@ -54,4 +54,9 @@ public class ItemServiceImpl implements ItemService{
         Pageable pageable = PageRequest.of(pageNum, pageSize, sort);
         return itemRepository.findAllByNameContainsSell(name, pageable);
     }
+
+    @Override
+    public List<Object[]> findAllOrderByRand(String name, int size) {
+        return itemRepository.findAllByNameContainsSellOrderByRand(name, size);
+    }
 }

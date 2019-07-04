@@ -17,4 +17,6 @@ public interface ItemService {
     Item getById(int id);
 
     Page<Object []> findAll(String name, int pageNum, int pageSize, Sort sort);
+
+    List<Object []> findAllOrderByRand(String name, int size);
 }
