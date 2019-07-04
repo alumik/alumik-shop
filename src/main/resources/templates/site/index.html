@@ -16,11 +16,12 @@
 
 
 
-    <div class="row" th:each="rawItems:${items}">
-        <div class="col-md-3"  th:each="colItem:${rawItems}"
-             style="background-color: #dedef8; box-shadow: inset 1px -1px 1px #444, inset -1px 1px 1px #444;">
-            <p th:text="${colItem.name}">
-            </p>
+    <div class="row" th:each="rawItems, indexi:${items}">
+        <div class="col-md-3" th:each="colItem, indexj:${rawItems}"
+             style="box-shadow: inset 1px -1px 1px #444, inset -1px 1px 1px #444;">
+            <img th:src="@{${'/item/getpic?id=' + colItem.id}}" class="form-control" style="object-fit: fill;">
+            <a th:href="@{${'/item/detail?id=' + colItem.id}}"
+            style="text-align: center; display: block;width: 100%;" th:text="${colItem.name}"></a>
         </div>
 
     </div>
