@@ -4,6 +4,10 @@ import cn.alumik.shop.entity.*;
 import cn.alumik.shop.service.*;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -100,10 +104,31 @@ public class ItemController {
     @GetMapping("/getpic")
     public ResponseEntity<Resource> serveFile(Model model, int id) {
         Item item = itemService.getById(id);
-        System.out.println(item.getPic());
         Resource file = new FileSystemResource(item.getPic());
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
                 "attachment; filename=\"" + file.getFilename() + "\"").body(file);
+    }
+
+    @GetMapping("/search")
+    public String actionSearchGetter(
+            Model model,
+            @RequestParam(defaultValue = "") String name,
+            @RequestParam(defaultValue = "id") String sort,
+            @RequestParam(defaultValue = "1") Integer page) {
+        Sort sortObj;
+
+        if (sort.startsWith("-")) {
+            sortObj = Sort.by(sort.substring(1)).descending();
+        } else {
+            sortObj = Sort.by(sort);
+        }
+
+        Page<Object []> items = itemService.findAll(name, page - 1, 4, sortObj);
+        model.addAttribute("name", name);
+        model.addAttribute("sort", sort);
+        model.addAttribute("page", page);
+        model.addAttribute("items", items);
+        return "item/search";
     }
 
 }

@@ -2,8 +2,13 @@ package cn.alumik.shop.service;
 
 import cn.alumik.shop.dao.ItemRepository;
 import cn.alumik.shop.dao.UserRepository;
+import cn.alumik.shop.entity.Category;
 import cn.alumik.shop.entity.Item;
 import cn.alumik.shop.entity.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -42,5 +47,11 @@ public class ItemServiceImpl implements ItemService{
     @Override
     public Item getById(int id) {
         return itemRepository.findById(id).get();
+    }
+
+    @Override
+    public Page<Object []> findAll(String name, int pageNum, int pageSize, Sort sort){
+        Pageable pageable = PageRequest.of(pageNum, pageSize, sort);
+        return itemRepository.findAllByNameContainsSell(name, pageable);
     }
 }
