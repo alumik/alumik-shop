@@ -1,17 +1,15 @@
 package cn.alumik.shop.controller;
 
+import cn.alumik.shop.entity.Address;
 import cn.alumik.shop.entity.Gender;
 import cn.alumik.shop.entity.User;
+import cn.alumik.shop.service.AddressService;
 import cn.alumik.shop.service.GenderService;
 import cn.alumik.shop.service.SecurityService;
 import cn.alumik.shop.service.UserService;
-import cn.alumik.shop.validator.UserValidator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,11 +23,14 @@ public class InfoController {
 
     private GenderService genderService;
 
+    private AddressService addressService;
 
-    public InfoController(SecurityService securityService, UserService userService, GenderService genderService) {
+
+    public InfoController(SecurityService securityService, UserService userService, GenderService genderService, AddressService addressService) {
         this.securityService = securityService;
         this.userService = userService;
         this.genderService = genderService;
+        this.addressService = addressService;
     }
 
     @GetMapping("/")
@@ -61,6 +62,46 @@ public class InfoController {
         user.getUserProfile().setDetail(userForm.getUserProfile().getDetail());
         user.getUserProfile().setGender(userForm.getUserProfile().getGender());
         userService.save(user, false);
+        return "redirect:/info/";
+    }
+
+    @GetMapping("/infoAddress")
+    public String actionInfoAddressGetter(Model model){
+        List<Address> addresses = addressService.getAll();
+        model.addAttribute("addresses", addresses);
+        return "user/address/index";
+    }
+
+    @GetMapping("/addAddress")
+    public String actionAddAddressGetter(Model model){
+        Address address = new Address();
+        model.addAttribute("address", address);
+        return "user/address/add";
+    }
+
+    @PostMapping("/addAddress")
+    public String actionAddAddressPoster(@ModelAttribute("address")Address address){
+        addressService.save(address);
+        return "redirect:/info/";
+    }
+
+    @GetMapping("/modifyAddress")
+    public String actionModifyAddressGetter(Model model, int id){
+        Address address = addressService.getById(id);
+        model.addAttribute("address", address);
+        return "user/address/modify";
+
+    }
+
+    @PostMapping("/modifyAddress")
+    public String actionModifyAddressPoster(@ModelAttribute("address")Address address){
+        addressService.save(address);
+        return "redirect:/info/";
+    }
+
+    @PostMapping("/deleteAddress")
+    public String actionDeleteAddressPoster(Integer id){
+        addressService.delete(addressService.getById(id));
         return "redirect:/info/";
     }
 }

@@ -18,7 +18,7 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
             "(select count(*) as sell, id_item from " +
             "transaction group by id_item ) as a " +
             "right outer join item on a.id_item = item.id " +
-            "where name like %:name%",
+            "where name like %:name% and stock > 0",
         nativeQuery = true)
     Page<Object []> findAllByNameContainsSell(@Param("name") String name, Pageable pageable);
 
@@ -29,7 +29,8 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
             "(select count(*) as sell, id_item from " +
             "transaction group by id_item ) as a " +
             "right outer join item on a.id_item = item.id " +
-            "where name like %:name% order by rand() limit :size",
+            "where name like %:name% and stock > 0 " +
+            "order by rand() limit :size",
             nativeQuery = true)
     List<Object[]> findAllByNameContainsSellOrderByRand(@Param("name") String name, @Param("size") int size);
 }

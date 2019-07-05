@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-CN"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+<head>
+    <title>查看地址</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <ul class="breadcrumb">
+        <li>
+            <a th:href="@{/}">首页</a>
+        </li>
+        <li>
+            <a th:href="@{/info}">个人中心</a>
+        </li>
+        <li class="active">查看地址</li>
+    </ul>
+    <div class="category-update">
+        <div class="jumbotron">
+            <h1>查看地址</h1>
+            <a th:href="@{/info/addAddress}" class="btn btn-default">添加地址</a>
+        </div>
+        <div class="category-form">
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <th>收货地址</th>
+                    <th>操作</th>
+                </thead>
+                <tbody>
+                    <tr th:each="address: ${addresses}">
+                        <td th:text="${address.name}"></td>
+                        <td>
+                            <div class="row">
+                                <div class="col-md-1">
+                                    <a class="btn btn-primary btn-sm" th:href="@{/info/modifyAddress}">编辑</a>
+                                </div>
+                                <div class="col-md-1">
+                                    <form action="#" th:action="@{/info/deleteAddress}" method="post"
+                                          onsubmit="if (!(confirm('你确定要删除该地址吗？'))) return false">
+                                        <input type="hidden" name="id" th:value="${address.id}"/>
+                                        <button class="btn btn-sm btn-danger" type="submit">删除</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
