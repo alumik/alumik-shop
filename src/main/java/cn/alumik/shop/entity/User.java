@@ -60,6 +60,9 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Set<Address> addresses;
 
+    @OneToMany(mappedBy = "seller", cascade = CascadeType.ALL)
+    private Set<Item> sellingItems;
+
     @Transient
     private String passwordConfirm;
 
@@ -241,5 +244,13 @@ public class User {
         if (addresses != null) {
             addresses.remove(address);
         }
+    }
+
+    public Set<Item> getSellingItems() {
+        return sellingItems;
+    }
+
+    public void setSellingItems(Set<Item> sellingItems) {
+        this.sellingItems = sellingItems;
     }
 }

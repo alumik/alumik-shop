@@ -30,8 +30,14 @@
             </a>
         </li>
         <li>
-            <a href="#sell" data-toggle="tab">
+            <a href="#cart" data-toggle="tab">
                 我的购物车
+            </a>
+        </li>
+
+        <li>
+            <a href="#sell" data-toggle="tab">
+                我的售卖
             </a>
         </li>
 
@@ -112,7 +118,7 @@
             </div>
         </div>
 
-        <div class="tab-pane fade" id="sell">
+        <div class="tab-pane fade" id="cart">
             <div th:if="${user.getCarts().size() == 0}" class="form-group panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title">
@@ -129,6 +135,27 @@
                     <div class="panel-body" th:text="${cartItem.item.price}"></div>
                 </div>
             </div>
+        </div>
+
+        <div class="tab-pane fade" id="sell">
+            <div th:if="${user.getSellingItems().size() == 0}" class="form-group panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        你没有售卖任何物品
+                    </h3>
+                </div>
+            </div>
+
+            <div th:if="${user.getSellingItems().size() != 0}">
+                <div th:each="item: *{sellingItems}" class="form-group panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title" th:text="${item.name}"></h3>
+                    </div>
+                    <div class="panel-body" th:text="${item.price}"></div>
+                </div>
+            </div>
+
+            <a th:href="@{/item/add}" class="btn btn-default">添加售卖商品</a>
         </div>
     </div>
 
