@@ -10,7 +10,7 @@ import java.io.File;
 import java.util.List;
 
 public interface ItemService {
-    void save(Item item, File file);
+    void save(Item item, String filename);
 
     List<Item> findAll();
 

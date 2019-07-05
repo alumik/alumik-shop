@@ -3,10 +3,9 @@ package cn.alumik.shop.controller;
 import cn.alumik.shop.entity.*;
 import cn.alumik.shop.service.*;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -19,15 +18,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.io.*;
-import java.util.HashMap;
+import java.net.Socket;
 import java.util.List;
 import java.util.UUID;
 
 @Controller
 @RequestMapping("/item")
 public class ItemController {
-
-    public static final String filePath = "f:/home/upload/";
     private ItemService itemService;
     private CategoryService categoryService;
     private UserService userService;
@@ -52,6 +49,11 @@ public class ItemController {
         return "item/add";
     }
 
+    private static final String IP_ADDR = "111.230.242.203";//服务器地址
+    //private static final String IP_ADDR = "localhost";//服务器地址
+    private static final int uploadPort = 12345;//服务器端口号
+    private static final int downloadPort = 10010;
+
     @PostMapping("/add")
     public String actionAddPoster(@Valid @ModelAttribute("item") Item item, BindingResult bindingResult,
                                   @RequestParam("image")MultipartFile file) throws IOException {
@@ -60,9 +62,16 @@ public class ItemController {
         }
         String fileOriginalName = file.getOriginalFilename();
         String newFileName = UUID.randomUUID() + fileOriginalName.substring(fileOriginalName.lastIndexOf("."));
-        File f = new File(filePath + newFileName);
-        file.transferTo(f);
-        itemService.save(item, f);
+        Socket socket = new Socket(IP_ADDR, uploadPort);
+        DataOutputStream filenameos = new DataOutputStream(socket.getOutputStream());
+        filenameos.writeUTF(newFileName);
+        filenameos.writeLong(file.getSize());
+        OutputStream filecontentos = socket.getOutputStream();
+        InputStream filecontentis = file.getInputStream();
+        byte [] results = filecontentis.readAllBytes();
+        filecontentos.write(results);
+        itemService.save(item, newFileName);
+        socket.shutdownOutput();
         return "redirect:/";
     }
 
@@ -102,9 +111,13 @@ public class ItemController {
     }
 
     @GetMapping("/getpic")
-    public ResponseEntity<Resource> serveFile(Model model, int id) {
+    public ResponseEntity<Resource> serveFile(Model model, int id) throws IOException {
         Item item = itemService.getById(id);
-        Resource file = new FileSystemResource(item.getPic());
+        Socket socket = new Socket(IP_ADDR, downloadPort);
+        DataOutputStream os = new DataOutputStream(socket.getOutputStream());
+        os.writeUTF(item.getPic());
+        InputStream is = socket.getInputStream();
+        Resource file = new InputStreamResource(is);
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
                 "attachment; filename=\"" + file.getFilename() + "\"").body(file);
     }

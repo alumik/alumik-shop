@@ -28,14 +28,14 @@ public class ItemServiceImpl implements ItemService{
     }
 
     @Override
-    public void save(Item item, File file) {
+    public void save(Item item, String filename) {
         String username = securityService.findLoggedInUsername();
         User user = userRepository.findByUsername(username);
         item.setSeller(user);
         item.setCreatedAt(new Timestamp(System.currentTimeMillis()));
         item.setModifiedAt(new Timestamp(System.currentTimeMillis()));
         item.setAvailable(true);
-        item.setPic(file.getPath());
+        item.setPic(filename);
         itemRepository.save(item);
     }
 
