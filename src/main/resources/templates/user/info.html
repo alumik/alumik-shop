@@ -181,7 +181,7 @@
 
             <div th:if="${user.getCarts().size() != 0}">
                 <p>
-                    <a class="btn btn-success">结算</a>
+                    <a th:href="@{/item/buyAll}" class="btn btn-danger">立即购买</a>
                 </p>
                 <table class="table table-striped table-bordered">
                     <thead class="thead-dark">

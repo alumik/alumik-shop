@@ -18,8 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.io.*;
 import java.net.Socket;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Controller
 @RequestMapping("/item")
@@ -30,15 +29,19 @@ public class ItemController {
     private SecurityService securityService;
     private TransactionService transactionService;
     private CommentService commentService;
+    private CartService cartService;
 
     public ItemController(ItemService itemService, CategoryService categoryService,
-                          UserService userService, SecurityService securityService, TransactionService transactionService, CommentService commentService){
+                          UserService userService, SecurityService securityService,
+                          TransactionService transactionService, CommentService commentService,
+                          CartService cartService){
         this.itemService = itemService;
         this.categoryService = categoryService;
         this.userService = userService;
         this.securityService = securityService;
         this.transactionService = transactionService;
         this.commentService = commentService;
+        this.cartService = cartService;
     }
 
     @GetMapping("/add")
@@ -153,6 +156,34 @@ public class ItemController {
         transaction.setAmount(result.amount);
         Item item = itemService.getById(result.itemId);
         transactionService.save(transaction, item);
+        return "redirect:/";
+    }
+
+    @GetMapping("/buyAll")
+    public String actionBuyAllGetter(Model model) {
+        Set<Cart> carts = cartService.findAll();
+        model.addAttribute("carts", carts);
+        User user = userService.findByUsername(securityService.findLoggedInUsername());
+        model.addAttribute("srcUser", user);
+        Result result = new Result();
+        model.addAttribute("result", result);
+        return "item/buyAll";
+    }
+
+    @PostMapping("/buyAll")
+    public String actionBuyAllPoster(@ModelAttribute("result") Result result) {
+        Set<Cart> carts = cartService.findAll();
+        for (Cart cart : carts) {
+            Transaction transaction = new Transaction();
+            if (result.address.equals("")){
+                transaction.setAddress(result.temp);
+            }
+            else{
+                transaction.setAddress(result.address);
+            }
+            transaction.setAmount(cart.getAmount());
+        }
+        cartService.deleteAll();
         return "redirect:/";
     }
 
