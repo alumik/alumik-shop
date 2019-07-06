@@ -30,6 +30,6 @@ public class CartController {
     @PostMapping("/delete")
     public String actionDeleteGood(Model model, int id) {
         cartService.delete(id);
-        return "redirect:/cart/index";
+        return "redirect:/info/";
     }
 }
