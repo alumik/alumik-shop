@@ -245,7 +245,7 @@ public class ItemController {
 
     @PostMapping("/deleteComment")
     public String actionDeleteCommentPoster(Integer id){
-        commentService.delete(id);
+        commentService.deleteById(id);
         return "redirect:/info/";
     }
 }

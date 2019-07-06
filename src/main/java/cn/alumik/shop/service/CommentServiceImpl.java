@@ -21,7 +21,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public Page<Comment> findAll(int id, int pageNum, int pageSize, Sort sort){
+    public Page<Comment> findAll(int id, int pageNum, int pageSize, Sort sort) {
         Pageable pageable = PageRequest.of(pageNum, pageSize, sort);
         return commentRepository.findAllByNameContainsSell(id, pageable);
     }
@@ -37,7 +37,21 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public void delete(Integer id) {
+    public void deleteById(Integer id) {
         commentRepository.deleteById(id);
+    }
+
+    @Override
+    public Page<Comment> findAll(String username, Integer itemId, Integer star, String content, Pageable pageable) {
+        if (star == 0) {
+            if (itemId == 0) {
+                return commentRepository.findAllByTransaction_Buyer_UsernameContainsAndContentContains(username, content, pageable);
+            }
+            return commentRepository.findAllByTransaction_Buyer_UsernameContainsAndContentContainsAndTransaction_Item_Id(username, content, itemId, pageable);
+        }
+        if (itemId == 0) {
+            return commentRepository.findAllByTransaction_Buyer_UsernameContainsAndContentContainsAndStar(username, content, star, pageable);
+        }
+        return commentRepository.findAllByTransaction_Buyer_UsernameContainsAndContentContainsAndStarAndTransaction_Item_Id(username, content, star, itemId, pageable);
     }
 }
