@@ -5,6 +5,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+import java.util.Optional;
+
 public interface CommentService {
     Page<Comment> findAll(int id, int i, int i1, Sort sortObj);
 
@@ -15,4 +17,6 @@ public interface CommentService {
     void deleteById(Integer id);
 
     Page<Comment> findAll(String username, Integer itemId, Integer star, String content, Pageable pageable);
+
+    Optional<Comment> findById(Integer id);
 }

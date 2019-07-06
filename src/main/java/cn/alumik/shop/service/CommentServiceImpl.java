@@ -11,6 +11,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 public class CommentServiceImpl implements CommentService {
 
@@ -53,5 +55,10 @@ public class CommentServiceImpl implements CommentService {
             return commentRepository.findAllByTransaction_Buyer_UsernameContainsAndContentContainsAndStar(username, content, star, pageable);
         }
         return commentRepository.findAllByTransaction_Buyer_UsernameContainsAndContentContainsAndStarAndTransaction_Item_Id(username, content, star, itemId, pageable);
+    }
+
+    @Override
+    public Optional<Comment> findById(Integer id) {
+        return commentRepository.findById(id);
     }
 }

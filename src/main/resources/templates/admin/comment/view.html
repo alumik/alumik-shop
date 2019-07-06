@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-CN"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+<head>
+    <title>评论详情</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <ul class="breadcrumb">
+        <li><a th:href="@{/}">首页</a></li>
+        <li><a th:href="@{/admin/comment}">评论管理</a></li>
+        <li class="active" th:text="${comment.id}"></li>
+    </ul>
+    <div class="comment-view">
+        <h1 th:text="${comment.id}"></h1>
+        <p>
+            <a class="btn btn-danger btn-sm"
+               th:href="@{/admin/comment/delete(id=${comment.id})}"
+               onclick="if (!(confirm('你确定要删除该评论吗？'))) return false">删除评论</a>
+        </p>
+        <table id="w0" class="table table-striped table-bordered detail-view">
+            <tr>
+                <th class="col-md-2">ID</th>
+                <td th:text="${comment.id}"></td>
+            </tr>
+            <tr>
+                <th>用户名</th>
+                <td><a th:text="${comment.transaction.buyer.username}"
+                       th:href="@{/admin/user/view(id=${comment.transaction.buyer.id})}"></a></td>
+            </tr>
+            <tr>
+                <th>商品 ID</th>
+                <td><a th:text="${comment.transaction.item.id}"
+                       th:href="@{/admin/item/view(id=${comment.transaction.item.id})}"></a></td>
+            </tr>
+            <tr>
+                <th>商品名称</th>
+                <td th:text="${comment.transaction.item.name}"></td>
+            </tr>
+            <tr>
+                <th>星级</th>
+                <td th:text="${comment.star}"></td>
+            </tr>
+            <tr>
+                <th>内容</th>
+                <td th:text="${comment.content}"></td>
+            </tr>
+            <tr>
+                <th>评论时间</th>
+                <td th:text="${comment.createdAt}"></td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>

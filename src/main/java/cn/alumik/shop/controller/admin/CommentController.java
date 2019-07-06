@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.Optional;
+
 @Controller
 @RequestMapping("/admin/comment")
 public class CommentController {
@@ -50,5 +52,15 @@ public class CommentController {
         model.addAttribute("page", page);
 
         return "admin/comment/index";
+    }
+
+    @GetMapping("/view")
+    public String actionView(Model model, Integer id) {
+        Optional<Comment> commentOptional = commentService.findById(id);
+        if (commentOptional.isPresent()) {
+            model.addAttribute("comment", commentOptional.get());
+            return "admin/comment/view";
+        }
+        return "redirect:/admin/comment";
     }
 }
