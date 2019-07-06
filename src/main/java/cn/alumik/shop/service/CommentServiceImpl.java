@@ -1,15 +1,12 @@
 package cn.alumik.shop.service;
 
 import cn.alumik.shop.dao.CommentRepository;
-import cn.alumik.shop.dao.TransactionRepository;
 import cn.alumik.shop.entity.Comment;
-import cn.alumik.shop.entity.Transaction;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -25,7 +22,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public Page<Comment> findAll(int id, int pageNum, int pageSize, Sort sort) {
         Pageable pageable = PageRequest.of(pageNum, pageSize, sort);
-        return commentRepository.findAllByNameContainsSell(id, pageable);
+        return commentRepository.findAllByTransaction_Item_Id(id, pageable);
     }
 
     @Override

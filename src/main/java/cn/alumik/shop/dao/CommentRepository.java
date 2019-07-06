@@ -9,12 +9,7 @@ import org.springframework.data.repository.query.Param;
 
 public interface CommentRepository extends JpaRepository<Comment, Integer> {
 
-    @Query(value = "select * from comment where id_transaction in " +
-            "(select id from transaction where id_item = :id)",
-    nativeQuery = true)
-    Page<Comment> findAllByNameContainsSell(@Param("id") int id, Pageable pageable);
-
-    void deleteByStar(int star);
+    Page<Comment> findAllByTransaction_Item_Id(Integer id, Pageable pageable);
 
     Page<Comment> findAllByTransaction_Buyer_UsernameContainsAndContentContains(String username, String content, Pageable pageable);
 
