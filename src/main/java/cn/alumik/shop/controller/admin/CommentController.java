@@ -63,4 +63,10 @@ public class CommentController {
         }
         return "redirect:/admin/comment";
     }
+
+    @GetMapping("/delete")
+    public String actionDelete(Integer id) {
+        commentService.deleteById(id);
+        return "redirect:/admin/comment";
+    }
 }

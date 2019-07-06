@@ -15,7 +15,7 @@
         <li class="active" th:text="${comment.id}"></li>
     </ul>
     <div class="comment-view">
-        <h1 th:text="${comment.id}"></h1>
+        <h1 th:text="'评论详情：' + ${comment.id}"></h1>
         <p>
             <a class="btn btn-danger btn-sm"
                th:href="@{/admin/comment/delete(id=${comment.id})}"
