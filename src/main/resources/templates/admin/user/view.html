@@ -28,36 +28,36 @@
         </p>
         <table id="w0" class="table table-striped table-bordered detail-view">
             <tr>
-                <th>ID</th>
+                <th class="col-md-2">ID</th>
                 <td th:text="${user.id}"></td>
             </tr>
             <tr>
-                <td>用户名</td>
+                <th>用户名</th>
                 <td th:text="${user.username}"></td>
             </tr>
 
             <tr th:if="${user.userProfile != null}">
-                <td>性别</td>
+                <th>性别</th>
                 <td th:text="${user.userProfile.gender.name}"></td>
             </tr>
             <tr th:if="${user.userProfile != null}">
-                <td>电话</td>
+                <th>电话</th>
                 <td th:text="${user.userProfile.phone}"></td>
             </tr>
             <tr th:if="${user.userProfile != null}">
-                <td>电子邮件</td>
+                <th>电子邮件</th>
                 <td th:text="${user.userProfile.email}">否</td>
             </tr>
             <tr th:if="${user.userProfile != null}">
-                <td>个人简介</td>
+                <th>个人简介</th>
                 <td th:text="${user.userProfile.detail}">否</td>
             </tr>
             <tr th:if="${user.userProfile != null}">
-                <td>头像</td>
-                <td><img class="avatar" src="#" th:src="${user.userProfile.avatar}" alt="头像"/></td>
+                <th>头像</th>
+                <td><img th:if="${user.userProfile.avatar != null}" class="avatar" src="#" th:src="${user.userProfile.avatar}" alt="头像"/></td>
             </tr>
             <tr th:if="${user.userProfile != null}">
-                <td>注册日期</td>
+                <th>注册日期</th>
                 <td th:text="${user.userProfile.joinDate}">否</td>
             </tr>
         </table>
