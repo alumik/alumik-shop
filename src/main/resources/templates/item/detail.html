@@ -91,18 +91,18 @@
                 <li class="prev" th:classappend="${comments.number == 0} ? 'disabled'"
                     th:switch="${comments.number == 0}">
                     <a th:case="${false}"
-                       th:href="@{/item/search(id=${item.id}, sort=${sort}, page=${comments.number})}">&laquo;</a>
+                       th:href="@{/item/detail(id=${item.id}, sort=${sort}, page=${comments.number})}">&laquo;</a>
                     <span th:case="${true}">&laquo;</span>
                 </li>
                 <li th:class="${comments.number + 1 == i ? 'active': ''}"
                     th:each="i : ${#numbers.sequence(comments.number - 5 >= 0 ? comments.number - 5 : 1, comments.number + 5 <= comments.totalPages ? comments.number + 5 : comments.totalPages)}">
-                    <a th:href="@{/item/search(id=${item.id}, sort=${sort}, page=${i})}"
+                    <a th:href="@{/item/detail(id=${item.id}, sort=${sort}, page=${i})}"
                        th:text="${i}"></a>
                 </li>
                 <li class="next" th:classappend="${comments.number + 1 == comments.totalPages} ? 'disabled'"
                     th:switch="${comments.number + 1 == comments.totalPages}">
                     <a th:case="${false}"
-                       th:href="@{/item/search(id=${item.id}, sort=${sort}, page=${comments.number + 2})}">&raquo;</a>
+                       th:href="@{/item/detail(id=${item.id}, sort=${sort}, page=${comments.number + 2})}">&raquo;</a>
                     <span th:case="true">&raquo;</span>
                 </li>
             </ul>
