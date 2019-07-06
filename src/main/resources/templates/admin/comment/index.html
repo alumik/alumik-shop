@@ -59,7 +59,7 @@
                     <tr id="w0-filters" class="filters">
                         <td>&nbsp;</td>
                         <td><input type="text" class="form-control" name="username" th:value="${username}"></td>
-                        <td><input type="text" class="form-control" name="itemId" th:value="${itemId}"></td>
+                        <td><input type="text" class="form-control" name="itemId" th:value="${itemId != 0 ? itemId : ''}"></td>
                         <td><select class="form-control" onchange="this.form.submit()" name="star"
                                     th:value="${star}">
                             <option value="0" th:selected="${star == 0}"></option>
