@@ -37,4 +37,9 @@ public class TransactionServiceImpl implements TransactionService {
         transactionRepository.save(transaction);
         itemRepository.save(item);
     }
+
+    @Override
+    public Transaction getById(int id) {
+        return transactionRepository.findById(id).get();
+    }
 }

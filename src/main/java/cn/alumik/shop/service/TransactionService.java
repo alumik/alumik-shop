@@ -7,4 +7,6 @@ import cn.alumik.shop.entity.User;
 public interface TransactionService {
 
     void save(Transaction transaction, Item item);
+
+    Transaction getById(int id);
 }

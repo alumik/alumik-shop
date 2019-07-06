@@ -32,7 +32,7 @@ public class Transaction {
     @Column(name = "sold_at")
     private Timestamp soldAt;
 
-    @OneToOne(mappedBy = "transaction", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "transaction")
     private Comment comment;
 
     @OneToMany(mappedBy = "transaction", cascade = CascadeType.ALL)

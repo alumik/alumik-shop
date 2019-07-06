@@ -2,7 +2,6 @@ package cn.alumik.shop.controller;
 
 import cn.alumik.shop.entity.*;
 import cn.alumik.shop.service.*;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
@@ -30,14 +29,16 @@ public class ItemController {
     private UserService userService;
     private SecurityService securityService;
     private TransactionService transactionService;
+    private CommentService commentService;
 
     public ItemController(ItemService itemService, CategoryService categoryService,
-                          UserService userService, SecurityService securityService, TransactionService transactionService){
+                          UserService userService, SecurityService securityService, TransactionService transactionService, CommentService commentService){
         this.itemService = itemService;
         this.categoryService = categoryService;
         this.userService = userService;
         this.securityService = securityService;
         this.transactionService = transactionService;
+        this.commentService = commentService;
     }
 
     @GetMapping("/add")
@@ -75,11 +76,56 @@ public class ItemController {
         return "redirect:/";
     }
 
-    @GetMapping("/detail")
-    public String actionDetailGetter(Model model, int id) {
-        Item item = itemService.getById(id);
-        model.addAttribute("item", item);
-        return "item/detail";
+    static class Result{
+
+        int itemId;
+        String address;
+        int amount;
+        String temp;
+
+        public String getTemp() {
+            return temp;
+        }
+
+        public void setTemp(String temp) {
+            this.temp = temp;
+        }
+
+        Result(){
+            itemId = 0;
+            address = null;
+            amount = 0;
+            temp = null;
+        }
+
+        public int getItemId() {
+            return itemId;
+        }
+
+        public void setItemId(int itemId) {
+            this.itemId = itemId;
+        }
+
+        public String getAddress() {
+            return address;
+        }
+
+        public void setAddress(String address) {
+            this.address = address;
+        }
+
+        public int getAmount() {
+            return amount;
+        }
+
+        public void setAmount(int amount) {
+            this.amount = amount;
+        }
+
+        @Override
+        public String toString() {
+            return String.valueOf(itemId) + " " + address + " " + String.valueOf(amount) + " " + temp;
+        }
     }
 
     @GetMapping("/buy")
@@ -144,56 +190,62 @@ public class ItemController {
         return "item/search";
     }
 
-}
+    @GetMapping("/detail")
+    public String actionDetailGetter(
+            Model model, int id,
+            @RequestParam(defaultValue = "id") String sort,
+            @RequestParam(defaultValue = "1") Integer page) {
+        Sort sortObj;
+        Item item = itemService.getById(id);
+        model.addAttribute("item", item);
 
-class Result{
+        if (sort.startsWith("-")) {
+            sortObj = Sort.by(sort.substring(1)).descending();
+        } else {
+            sortObj = Sort.by(sort);
+        }
 
-    int itemId;
-    String address;
-    int amount;
-    String temp;
-
-    public String getTemp() {
-        return temp;
+        Page<Comment> comments = commentService.findAll(id, page - 1, 4, sortObj);
+        model.addAttribute("sort", sort);
+        model.addAttribute("page", page);
+        model.addAttribute("comments", comments);
+        return "item/detail";
     }
 
-    public void setTemp(String temp) {
-        this.temp = temp;
+    @GetMapping("/addComment")
+    public String actionAddCommentGetter(Model model, int id){
+        Comment comment = new Comment();
+        comment.setStar(3);
+        Transaction transaction = transactionService.getById(id);
+        comment.setTransaction(transaction);
+        model.addAttribute("comment", comment);
+        return "item/comment/add";
     }
 
-    Result(){
-        itemId = 0;
-        address = null;
-        amount = 0;
-        temp = null;
+    @PostMapping("/addComment")
+    public String actionAddCommentPoster(@ModelAttribute("comment") Comment comment){
+        commentService.save(comment);
+        return "redirect:/info/";
     }
 
-    public int getItemId() {
-        return itemId;
+    @GetMapping("/modifyComment")
+    public String actionModifyCommentGetter(Model model, int id){
+        Comment comment = commentService.getById(id);
+        model.addAttribute("comment", comment);
+        return "item/comment/modify";
     }
 
-    public void setItemId(int itemId) {
-        this.itemId = itemId;
+    @PostMapping("/modifyComment")
+    public String actionModifyCommentPoster(@ModelAttribute("comment") Comment comment,
+                                            @RequestParam("star") int star){
+        comment.setStar(star);
+        commentService.save(comment);
+        return "redirect:/info/";
     }
 
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public int getAmount() {
-        return amount;
-    }
-
-    public void setAmount(int amount) {
-        this.amount = amount;
-    }
-
-    @Override
-    public String toString() {
-        return String.valueOf(itemId) + " " + address + " " + String.valueOf(amount) + " " + temp;
+    @PostMapping("/deleteComment")
+    public String actionDeleteCommentPoster(Integer id){
+        commentService.delete(id);
+        return "redirect:/info/";
     }
 }

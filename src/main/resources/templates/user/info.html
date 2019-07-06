@@ -9,34 +9,47 @@
 <body>
 
 <div layout:fragment="content" th:object="${user}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-star-rating/4.0.6/css/star-rating.min.css" media="all" rel="stylesheet" type="text/css" />
+
+    <!-- optionally if you need to use a theme, then include the theme CSS file as mentioned below -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-star-rating/4.0.6/themes/krajee-svg/theme.css" media="all" rel="stylesheet" type="text/css" />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-star-rating/4.0.6/js/star-rating.min.js" type="text/javascript"></script>
+
+    <!-- optionally if you need to use a theme, then include the theme JS file as mentioned below -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-star-rating/4.0.6/themes/krajee-svg/theme.js"></script>
+
+    <!-- optionally if you need translation for your language then include locale file as mentioned below -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-star-rating/4.0.6/js/locales/zh.js"></script>
+
     <div class="jumbotron">
         <h1>个人中心</h1>
     </div>
 
     <ul id="myTab" class="nav nav-tabs">
-        <li class="dropdown active">
-            <a href="#baseinfo" data-toggle="tab">
+        <li class="active">
+            <a href="#baseinfo" data-toggle="tab" id="toInfo">
                 基本信息
             </a>
         </li>
         <li>
-            <a href="#address" data-toggle="tab">
+            <a href="#address" data-toggle="tab" id="toAddress">
                 收货地址
             </a>
         </li>
         <li>
-            <a href="#transaction" data-toggle="tab">
+            <a href="#transaction" data-toggle="tab" id="toTransaction">
                 我的订单
             </a>
         </li>
         <li>
-            <a href="#cart" data-toggle="tab">
+            <a href="#cart" data-toggle="tab" id="toCart">
                 我的购物车
             </a>
         </li>
 
         <li>
-            <a href="#sell" data-toggle="tab">
+            <a href="#sell" data-toggle="tab" id="toSell">
                 我的售卖
             </a>
         </li>
@@ -113,7 +126,46 @@
                     <div class="panel-heading">
                         <h3 class="panel-title" th:text="${transaction.item.name}"></h3>
                     </div>
-                    <div class="panel-body" th:text="${transaction.singlePrice}"></div>
+                    <div class="panel-body row">
+                        <div class="col-sm-3">
+                            <label>单价</label>
+                            <div th:text="${transaction.singlePrice}"></div>
+                        </div>
+                        <div class="col-sm-3">
+                            <label>数量</label>
+                            <div th:text="${transaction.amount}"></div>
+                        </div>
+                        <div class="col-sm-6">
+                            <label>购买日期</label>
+                            <div th:text="${transaction.soldAt}"></div>
+                        </div>
+                    </div>
+                    <div class="panel-body row">
+                        <label class="col-sm-12">评论</label>
+                        <div th:if="${transaction.getComment() == null}" class="col-sm-12">
+                            <div style="font-size: 15px">你还没有发表评论</div>
+                            <br>
+                            <a th:href="@{/item/addComment(id=${transaction.id})}" class="btn btn-sm btn-default">添加评论</a>
+                        </div>
+                        <div th:if="${transaction.getComment() != null}">
+                            <div class="col-sm-12">
+                                <input class="rating-loading" data-min="0" data-max="5" data-step="1"
+                                       th:value="${transaction.getComment().getStar()}" data-show-clear="false" data-show-caption="false"/>
+                                <div th:text="${transaction.getComment().getContent()}" style="font-size: 15px"></div>
+                            </div>
+                            <br><br><br><br><br><br>
+                            <div class="col-sm-1">
+                                <a th:href="@{/item/modifyComment(id=${transaction.getComment().id})}" class="btn btn-sm btn-primary">编辑评论</a>
+                            </div>
+                            <div class="col-sm-1">
+                                <form action="#" th:action="@{/item/deleteComment}" method="post"
+                                  onsubmit="if (!(confirm('你确定要删除该评论吗？'))) return false">
+                                    <input type="hidden" name="id" th:value="${transaction.getComment().id}"/>
+                                    <button class="btn btn-sm btn-danger" type="submit">删除</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -159,8 +211,15 @@
         </div>
     </div>
 
-
-    </div>
+    <script>
+        $(document).ready(function () {
+            $("#myTab a").on("shown.bs.tab", function (e) {
+                if (e.target.id == 'toTransaction'){
+                    $("input.rating-loading").rating({displayOnly: true, language: 'zh'});
+                }
+            })
+        })
+    </script>
 </div>
 
 </body>
