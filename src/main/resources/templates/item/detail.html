@@ -51,6 +51,8 @@
 
             <div th:object="${item}">
                 <div class="form-group">
+                    <img th:src="@{${'/item/getpic?id=' + item.id}}" style="margin-bottom: 20px"
+                         class="img-responsive center-block">
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h3 class="panel-title">名称</h3>
