@@ -135,27 +135,22 @@ public class ItemController {
     public String actionBuyGetter(Model model, int id) {
         Item item = itemService.getById(id);
         User user = userService.findByUsername(securityService.findLoggedInUsername());
-        model.addAttribute("srcItem", item);
-        model.addAttribute("srcUser", user);
-        Result result = new Result();
-        result.setItemId(id);
-        result.setAmount(1);
-        model.addAttribute("result", result);
+        Transaction transaction = new Transaction();
+        transaction.setSinglePrice(item.getPrice());
+        transaction.setItem(item);
+        transaction.setBuyer(user);
+        transaction.setAmount(1);
+        model.addAttribute("transaction", transaction);
         return "item/buy";
     }
 
     @PostMapping("/buy")
-    public String actionBuyPoster(@ModelAttribute("result") Result result){
-        Transaction transaction = new Transaction();
-        if (result.address.equals("")){
-            transaction.setAddress(result.temp);
+    public String actionBuyPoster(@ModelAttribute("transaction") Transaction transaction,
+        @RequestParam("tempAddress") String tempAddress){
+        if (transaction.getAddress().equals("")){
+            transaction.setAddress(tempAddress);
         }
-        else{
-            transaction.setAddress(result.address);
-        }
-        transaction.setAmount(result.amount);
-        Item item = itemService.getById(result.itemId);
-        transactionService.save(transaction, item);
+        transactionService.save(transaction);
         return "redirect:/";
     }
 
@@ -242,6 +237,9 @@ public class ItemController {
         model.addAttribute("page", page);
         model.addAttribute("comments", comments);
         model.addAttribute("tab", tab);
+
+        Integer cartId = cartService.findExistUserItem(item);
+        model.addAttribute("cartId", cartId);
         return "item/detail";
     }
 

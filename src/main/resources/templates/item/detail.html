@@ -154,6 +154,8 @@
         </div>
 
         <a th:href="@{/item/buy(id=${item.id})}" class="btn btn-danger">立即购买</a>
+        <a th:if="${cartId == null}" th:href="@{/cart/add(id=${item.id})}" class="btn btn-warning">加入购物车</a>
+        <a th:if="${cartId != null}" th:href="@{/cart/modify(id=${cartId})}" class="btn btn-warning">编辑购物车</a>
 
         <script>
             $(document).ready(function () {

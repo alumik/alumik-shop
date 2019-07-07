@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-CN"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+<head>
+    <title>编辑购物车</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <div class="jumbotron">
+        <h1>编辑购物车</h1>
+    </div>
+    <form action="#" th:object="${cart}" class="form-horizontal" onsubmit="return check();"
+          th:action="@{/cart/modify}" method="post">
+        <div class="form-group">
+            <input type="hidden" th:field="*{id}"/>
+            <input type="hidden" th:field="*{item}"/>
+            <input type="hidden" th:field="*{user}"/>
+            <label class="col-sm-2 control-label">商品名称</label>
+            <div class="col-sm-10"><div class="form-control" th:text='*{item.name}'></div></div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">商品库存</label>
+            <div class="col-sm-10"><div class="form-control" th:text='*{item.stock}'></div></div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">请输入购买的数量</label>
+            <div class="col-sm-10">
+                <input th:field="*{amount}"
+                       class="form-control" type="number" min="1" th:max='*{item.stock}'
+                >
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label"></label>
+            <div class="col-sm-10">
+                <button type="submit" class="btn btn-warning">加入购物车</button>
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+</html>

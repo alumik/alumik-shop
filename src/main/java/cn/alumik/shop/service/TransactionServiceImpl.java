@@ -31,12 +31,9 @@ public class TransactionServiceImpl implements TransactionService {
 
 
     @Override
-    public void save(Transaction transaction, Item item) {
-        User user = userRepository.findByUsername(securityService.findLoggedInUsername());
-        transaction.setItem(item);
-        transaction.setBuyer(user);
-        transaction.setSinglePrice(item.getPrice());
+    public void save(Transaction transaction) {
         transaction.setSoldAt(new Timestamp(System.currentTimeMillis()));
+        Item item = transaction.getItem();
         item.setStock(item.getStock() - transaction.getAmount());
         if (item.getStock() <= 0){
             item.setAvailable(false);
