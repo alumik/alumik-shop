@@ -2,6 +2,7 @@ package cn.alumik.shop.dao;
 
 import cn.alumik.shop.entity.Category;
 import cn.alumik.shop.entity.Item;
+import cn.alumik.shop.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -33,4 +34,6 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
             "order by rand() limit :size",
             nativeQuery = true)
     List<Object[]> findAllByNameContainsSellOrderByRand(@Param("name") String name, @Param("size") int size);
+
+    Page<Item> findAllBySeller(User user, Pageable pageable);
 }

@@ -6,6 +6,10 @@ import cn.alumik.shop.dao.UserRepository;
 import cn.alumik.shop.entity.Item;
 import cn.alumik.shop.entity.Transaction;
 import cn.alumik.shop.entity.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -41,5 +45,12 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public Transaction getById(int id) {
         return transactionRepository.findById(id).get();
+    }
+
+    @Override
+    public Page<Transaction> findAll(int pageNum, int pageSize, Sort sort){
+        Pageable pageable = PageRequest.of(pageNum, pageSize, sort);
+        User user = userRepository.findByUsername(securityService.findLoggedInUsername());
+        return transactionRepository.findAllByBuyer(user, pageable);
     }
 }

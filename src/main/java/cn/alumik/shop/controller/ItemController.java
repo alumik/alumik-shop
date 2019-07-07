@@ -224,12 +224,13 @@ public class ItemController {
     @GetMapping("/detail")
     public String actionDetailGetter(
             Model model, int id,
+            @RequestParam(defaultValue = "info") String tab,
             @RequestParam(defaultValue = "id") String sort,
             @RequestParam(defaultValue = "1") Integer page) {
         Sort sortObj;
         Item item = itemService.getById(id);
         model.addAttribute("item", item);
-
+        System.out.println(tab);
         if (sort.startsWith("-")) {
             sortObj = Sort.by(sort.substring(1)).descending();
         } else {
@@ -240,6 +241,7 @@ public class ItemController {
         model.addAttribute("sort", sort);
         model.addAttribute("page", page);
         model.addAttribute("comments", comments);
+        model.addAttribute("tab", tab);
         return "item/detail";
     }
 

@@ -59,4 +59,11 @@ public class ItemServiceImpl implements ItemService{
     public List<Object[]> findAllOrderByRand(String name, int size) {
         return itemRepository.findAllByNameContainsSellOrderByRand(name, size);
     }
+
+    @Override
+    public Page<Item> findAllBySeller(int pageNum, int pageSize, Sort sort){
+        Pageable pageable = PageRequest.of(pageNum, pageSize, sort);
+        User user = userRepository.findByUsername(securityService.findLoggedInUsername());
+        return itemRepository.findAllBySeller(user, pageable);
+    }
 }
