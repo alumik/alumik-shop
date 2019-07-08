@@ -4,21 +4,21 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/main}">
 <head>
-    <title>添加商品</title>
+    <title>编辑商品</title>
 </head>
 <body>
 
 <div layout:fragment="content">
     <div class="jumbotron">
-        <h1>添加商品</h1>
+        <h1>编辑商品</h1>
     </div>
-    <form th:object="${item}" action="#" th:action="@{/item/add}" method="post"
+    <form th:object="${item}" action="#" th:action="@{/item/modify}" method="post"
           onsubmit="return addItemCheck()" enctype="multipart/form-data">
         <input type="hidden" th:field="*{id}">
         <div class="form-group">
             <label>名称</label>
             <input type="text" class="form-control" id="name" placeholder="请输入商品名称"
-            th:field="*{name}">
+                   th:field="*{name}">
             <label>描述</label>
             <input type="text" class="form-control" id="description" placeholder="请输入商品描述"
                    th:field="*{detail}">

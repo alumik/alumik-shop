@@ -68,7 +68,7 @@ public class InfoController {
             sortObj = Sort.by(sortSelling);
         }
 
-        Page<Item> sellings = itemService.findAllBySeller(pageSelling - 1, 4, sortObj);
+        Page<Item> sellings = itemService.findAllBySeller(pageSelling - 1, 6, sortObj);
         model.addAttribute("sortSelling", sortSelling);
         model.addAttribute("pageSelling", pageSelling);
         model.addAttribute("sellings", sellings);

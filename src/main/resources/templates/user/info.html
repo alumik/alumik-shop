@@ -299,6 +299,8 @@
         </div>
 
         <div th:class="${tab == 'sellings' ? 'tab-pane fade in active' : 'tab-pane fade'}" id="sellings">
+            <a th:href="@{/item/add}" class="btn btn-warning">添加售卖商品</a>
+            <br><br>
             <div th:if="${user.getSellingItems().size() == 0}" class="form-group panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title">
@@ -344,41 +346,61 @@
                     </thead>
                 </table>
 
-                <div th:each="item: ${sellings}" class="form-group panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title" th:text="${item.name}"></h3>
+                <div class="container" style="padding-left: 0; padding-right: 0;">
+                    <div class="col-md-4"  style="padding-left: 0; padding-right: 0;" th:each="item: ${sellings}">
+                        <div class="thumbnail">
+                            <div class="div-func">
+                                <img th:src="@{${'/item/getpic?id=' + item.id}}" class="img-rounded">
+                            </div>
+                            <div class="caption">
+                                <h3 th:text="${item.name}"></h3>
+                                <label>商品信息</label>
+                                <div th:text="${item.detail}"></div>
+                                <label>商品价格</label>
+                                <div th:text="${item.price}"></div>
+                                <label>成交次数</label>
+                                <div th:text="${item.getTransactions().size()}"></div>
+                                <label>库存量</label>
+                                <div th:text="${item.getStock()}"></div>
+                                <label>状态</label>
+                                <div th:if="${item.getAvailable() == true && item.getStock() > 0}" style="color: green;">在售</div>
+                                <div th:if="${item.getAvailable() == true && item.getStock() <= 0}" style="color: orange;">缺货</div>
+                                <div th:if="${item.getAvailable() != true}" style="color: red;">已下架</div>
+                                <p><a href="#" th:href="@{/item/modify(id=${item.id})}" class="btn btn-primary" role="button">修改商品</a>
+                            </div>
+                        </div>
                     </div>
-                    <div class="panel-body" th:text="${item.price}"></div>
                 </div>
 
-                <ul class="pagination" th:if="${sellings.totalPages gt 1}">
-                    <li class="prev" th:classappend="${sellings.number == 0} ? 'disabled'"
-                        th:switch="${sellings.number == 0}">
-                        <a th:case="${false}"
-                           th:href="@{/info/(pageTransaction=${pageTransaction}, sortTransaction=${sortTransaction},
+                <div>
+                    <ul class="pagination" th:if="${sellings.totalPages gt 1}">
+                        <li class="prev" th:classappend="${sellings.number == 0} ? 'disabled'"
+                            th:switch="${sellings.number == 0}">
+                            <a th:case="${false}"
+                               th:href="@{/info/(pageTransaction=${pageTransaction}, sortTransaction=${sortTransaction},
                                pageSelling=${sellings.number}, sortSelling=${sortSelling},
                                  tab='sellings')}">&laquo;</a>
-                        <span th:case="${true}">&laquo;</span>
-                    </li>
-                    <li th:class="${sellings.number + 1 == i ? 'active': ''}"
-                        th:each="i : ${#numbers.sequence(sellings.number - 5 >= 0 ? sellings.number - 5 : 1, sellings.number + 5 <= sellings.totalPages ? sellings.number + 5 : sellings.totalPages)}">
-                        <a th:href="@{/info/(pageTransaction=${pageTransaction}, sortTransaction=${sortTransaction},
+                            <span th:case="${true}">&laquo;</span>
+                        </li>
+                        <li th:class="${sellings.number + 1 == i ? 'active': ''}"
+                            th:each="i : ${#numbers.sequence(sellings.number - 5 >= 0 ? sellings.number - 5 : 1, sellings.number + 5 <= sellings.totalPages ? sellings.number + 5 : sellings.totalPages)}">
+                            <a th:href="@{/info/(pageTransaction=${pageTransaction}, sortTransaction=${sortTransaction},
                                pageSelling=${i}, sortSelling=${sortSelling},
                                  tab='sellings')}"
-                           th:text="${i}"></a>
-                    </li>
-                    <li class="next" th:classappend="${sellings.number + 1 == sellings.totalPages} ? 'disabled'"
-                        th:switch="${sellings.number + 1 == sellings.totalPages}">
-                        <a th:case="${false}"
-                           th:href="@{/info/(pageTransaction=${pageTransaction}, sortTransaction=${sortTransaction},
+                               th:text="${i}"></a>
+                        </li>
+                        <li class="next" th:classappend="${sellings.number + 1 == sellings.totalPages} ? 'disabled'"
+                            th:switch="${sellings.number + 1 == sellings.totalPages}">
+                            <a th:case="${false}"
+                               th:href="@{/info/(pageTransaction=${pageTransaction}, sortTransaction=${sortTransaction},
                                pageSelling=${sellings.number + 2}, sortSelling=${sortSelling},
                                  tab='sellings')}">&raquo;</a>
-                        <span th:case="true">&raquo;</span>
-                    </li>
-                </ul>
+                            <span th:case="true">&raquo;</span>
+                        </li>
+                    </ul>
+                </div>
             </div>
 
-            <a th:href="@{/item/add}" class="btn btn-default">添加售卖商品</a>
         </div>
     </div>
 
@@ -392,6 +414,20 @@
             })
         })
     </script>
+
+    <style>
+        .div-func{
+            width:100%;
+            height:0px;
+            padding-bottom:100%;
+            position:relative;
+        }
+        .div-func img{
+            width:100%;
+            height:100%;
+            position:absolute;
+        }
+    </style>
 </div>
 
 </body>

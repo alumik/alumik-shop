@@ -35,9 +35,6 @@ public class TransactionServiceImpl implements TransactionService {
         transaction.setSoldAt(new Timestamp(System.currentTimeMillis()));
         Item item = transaction.getItem();
         item.setStock(item.getStock() - transaction.getAmount());
-        if (item.getStock() <= 0){
-            item.setAvailable(false);
-        }
         transactionRepository.save(transaction);
         itemRepository.save(item);
     }

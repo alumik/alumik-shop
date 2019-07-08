@@ -58,7 +58,7 @@ public class ItemController {
     private static final int uploadPort = 12345;//服务器端口号
     private static final int downloadPort = 10010;
 
-    @PostMapping("/add")
+    @PostMapping({"/modify", "/add"})
     public String actionAddPoster(@Valid @ModelAttribute("item") Item item, BindingResult bindingResult,
                                   @RequestParam("image")MultipartFile file) throws IOException {
         if (bindingResult.hasErrors()){
@@ -77,6 +77,15 @@ public class ItemController {
         itemService.save(item, newFileName);
         socket.shutdownOutput();
         return "redirect:/";
+    }
+
+    @GetMapping("/modify")
+    public String actionModifyGetter(Model model, int id) {
+        Item item = itemService.getById(id);
+        model.addAttribute("item", item);
+        List<Category> categories = categoryService.findAll();
+        model.addAttribute("categories", categories);
+        return "item/modify";
     }
 
     static class Result{
