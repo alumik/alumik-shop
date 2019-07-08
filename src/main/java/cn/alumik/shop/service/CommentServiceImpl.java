@@ -41,17 +41,17 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public Page<Comment> findAll(String username, Integer itemId, Integer star, String content, Pageable pageable) {
+    public Page<Comment> findAll(String username, Integer itemId, String itemName, Integer star, String content, Pageable pageable) {
         if (star == 0) {
             if (itemId == 0) {
-                return commentRepository.findAllByTransaction_Buyer_UsernameContainsAndContentContains(username, content, pageable);
+                return commentRepository.findAllByTransaction_Buyer_UsernameContainsAndContentContainsAndTransaction_Item_NameContains(username, content, itemName, pageable);
             }
-            return commentRepository.findAllByTransaction_Buyer_UsernameContainsAndContentContainsAndTransaction_Item_Id(username, content, itemId, pageable);
+            return commentRepository.findAllByTransaction_Buyer_UsernameContainsAndContentContainsAndTransaction_Item_IdAndTransaction_Item_NameContains(username, content, itemId, itemName, pageable);
         }
         if (itemId == 0) {
-            return commentRepository.findAllByTransaction_Buyer_UsernameContainsAndContentContainsAndStar(username, content, star, pageable);
+            return commentRepository.findAllByTransaction_Buyer_UsernameContainsAndContentContainsAndStarAndTransaction_Item_NameContains(username, content, star, itemName, pageable);
         }
-        return commentRepository.findAllByTransaction_Buyer_UsernameContainsAndContentContainsAndStarAndTransaction_Item_Id(username, content, star, itemId, pageable);
+        return commentRepository.findAllByTransaction_Buyer_UsernameContainsAndContentContainsAndStarAndTransaction_Item_IdAndTransaction_Item_NameContains(username, content, star, itemId, itemName, pageable);
     }
 
     @Override

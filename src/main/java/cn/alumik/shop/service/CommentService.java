@@ -16,7 +16,7 @@ public interface CommentService {
 
     void deleteById(Integer id);
 
-    Page<Comment> findAll(String username, Integer itemId, Integer star, String content, Pageable pageable);
+    Page<Comment> findAll(String username, Integer itemId, String itemName, Integer star, String content, Pageable pageable);
 
     Optional<Comment> findById(Integer id);
 }

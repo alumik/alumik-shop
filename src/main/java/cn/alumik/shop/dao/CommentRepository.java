@@ -11,11 +11,11 @@ public interface CommentRepository extends JpaRepository<Comment, Integer> {
 
     Page<Comment> findAllByTransaction_Item_Id(Integer id, Pageable pageable);
 
-    Page<Comment> findAllByTransaction_Buyer_UsernameContainsAndContentContains(String username, String content, Pageable pageable);
+    Page<Comment> findAllByTransaction_Buyer_UsernameContainsAndContentContainsAndTransaction_Item_NameContains(String username, String content, String itemName, Pageable pageable);
 
-    Page<Comment> findAllByTransaction_Buyer_UsernameContainsAndContentContainsAndTransaction_Item_Id(String username, String content, Integer itemId, Pageable pageable);
+    Page<Comment> findAllByTransaction_Buyer_UsernameContainsAndContentContainsAndTransaction_Item_IdAndTransaction_Item_NameContains(String username, String content, Integer itemId, String itemName, Pageable pageable);
 
-    Page<Comment> findAllByTransaction_Buyer_UsernameContainsAndContentContainsAndStar(String username, String content, Integer star, Pageable pageable);
+    Page<Comment> findAllByTransaction_Buyer_UsernameContainsAndContentContainsAndStarAndTransaction_Item_NameContains(String username, String content, Integer star, String itemName, Pageable pageable);
 
-    Page<Comment> findAllByTransaction_Buyer_UsernameContainsAndContentContainsAndStarAndTransaction_Item_Id(String username, String content, Integer star, Integer itemId, Pageable pageable);
+    Page<Comment> findAllByTransaction_Buyer_UsernameContainsAndContentContainsAndStarAndTransaction_Item_IdAndTransaction_Item_NameContains(String username, String content, Integer star, Integer itemId, String itemName, Pageable pageable);
 }

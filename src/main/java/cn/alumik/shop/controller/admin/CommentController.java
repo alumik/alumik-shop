@@ -29,6 +29,7 @@ public class CommentController {
             Model model,
             @RequestParam(defaultValue = "") String username,
             @RequestParam(defaultValue = "0") Integer itemId,
+            @RequestParam(defaultValue = "") String itemName,
             @RequestParam(defaultValue = "0") Integer star,
             @RequestParam(defaultValue = "") String content,
             @RequestParam(defaultValue = "id") String sort,
@@ -41,11 +42,12 @@ public class CommentController {
         }
 
         Pageable pageable = PageRequest.of(page - 1, 30, sortObj);
-        Page<Comment> comments = commentService.findAll(username, itemId, star, content, pageable);
+        Page<Comment> comments = commentService.findAll(username, itemId, itemName, star, content, pageable);
 
         model.addAttribute("comments", comments);
         model.addAttribute("username", username);
         model.addAttribute("itemId", itemId);
+        model.addAttribute("itemName", itemName);
         model.addAttribute("star", star);
         model.addAttribute("content", content);
         model.addAttribute("sort", sort);
