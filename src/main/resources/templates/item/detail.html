@@ -140,7 +140,7 @@
                     <span th:case="${true}">&laquo;</span>
                 </li>
                 <li th:class="${comments.number + 1 == i ? 'active': ''}"
-                    th:each="i : ${#numbers.sequence(comments.number - 5 >= 0 ? comments.number - 5 : 1, comments.number + 5 <= comments.totalPages ? comments.number + 5 : comments.totalPages)}">
+                    th:each="i : ${#numbers.sequence(comments.number - 4 > 0 ? comments.number - 4 : 1, comments.number + 5 <= comments.totalPages ? comments.number + 5 : comments.totalPages)}">
                     <a th:href="@{/item/detail(id=${item.id}, sort=${sort}, page=${i}, tab='comments')}"
                        th:text="${i}"></a>
                 </li>

@@ -106,7 +106,7 @@
                     <span th:case="${true}">&laquo;</span>
                 </li>
                 <li th:class="${items.number + 1 == i ? 'active': ''}"
-                    th:each="i : ${#numbers.sequence(items.number - 5 >= 0 ? items.number - 5 : 1, items.number + 5 <= items.totalPages ? items.number + 5 : items.totalPages)}">
+                    th:each="i : ${#numbers.sequence(items.number - 4 > 0 ? items.number - 4 : 1, items.number + 5 <= items.totalPages ? items.number + 5 : items.totalPages)}">
                     <a th:href="@{/item/search(name=${name}, sort=${sort}, page=${i})}"
                        th:text="${i}"></a>
                 </li>

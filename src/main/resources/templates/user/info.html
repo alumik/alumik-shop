@@ -97,22 +97,26 @@
 
         <div th:class="${tab == 'addresses' ? 'tab-pane fade in active' : 'tab-pane fade'}" id="addresses">
             <div th:if="${user.getAddresses().size() == 0}">
+                <p>
+                    <a th:href="@{/info/addAddress}" class="btn btn-primary">添加地址</a>
+                </p>
                 <div class="form-group panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">你还没有添加任何收货地址</h3>
                     </div>
                 </div>
-                <a th:href="@{/info/addAddress}" class="btn btn-default">添加地址</a>
             </div>
 
             <div th:if="${user.getAddresses().size() != 0}">
+                <p>
+                    <a th:href="@{/info/infoAddress}" class="btn btn-warning">修改地址</a>
+                </p>
                 <div th:each="address, index: *{addresses}" class="form-group panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title" th:text="${'地址' + (index.index + 1)}"></h3>
                     </div>
                     <div class="panel-body" th:text="${address.name}"></div>
                 </div>
-                <a th:href="@{/info/infoAddress}" class="btn btn-default">修改地址</a>
             </div>
         </div>
 
@@ -214,7 +218,7 @@
                         <span th:case="${true}">&laquo;</span>
                     </li>
                     <li th:class="${transactions.number + 1 == i ? 'active': ''}"
-                        th:each="i : ${#numbers.sequence(transactions.number - 5 >= 0 ? transactions.number - 5 : 1, transactions.number + 5 <= transactions.totalPages ? transactions.number + 5 : transactions.totalPages)}">
+                        th:each="i : ${#numbers.sequence(transactions.number - 4 > 0 ? transactions.number - 4 : 1, transactions.number + 5 <= transactions.totalPages ? transactions.number + 5 : transactions.totalPages)}">
                         <a th:href="@{/info/(pageTransaction=${i}, sortTransaction=${sortTransaction},
                                pageSelling=${pageSelling}, sortSelling=${sortSelling},
                                  tab='transactions')}"
@@ -383,7 +387,7 @@
                             <span th:case="${true}">&laquo;</span>
                         </li>
                         <li th:class="${sellings.number + 1 == i ? 'active': ''}"
-                            th:each="i : ${#numbers.sequence(sellings.number - 5 >= 0 ? sellings.number - 5 : 1, sellings.number + 5 <= sellings.totalPages ? sellings.number + 5 : sellings.totalPages)}">
+                            th:each="i : ${#numbers.sequence(sellings.number - 4 > 0 ? sellings.number - 4 : 1, sellings.number + 5 <= sellings.totalPages ? sellings.number + 5 : sellings.totalPages)}">
                             <a th:href="@{/info/(pageTransaction=${pageTransaction}, sortTransaction=${sortTransaction},
                                pageSelling=${i}, sortSelling=${sortSelling},
                                  tab='sellings')}"

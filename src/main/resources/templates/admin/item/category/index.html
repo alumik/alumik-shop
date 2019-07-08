@@ -82,7 +82,7 @@
                     <span th:case="${true}">&laquo;</span>
                 </li>
                 <li th:class="${categories.number + 1 == i ? 'active': ''}"
-                    th:each="i : ${#numbers.sequence(categories.number - 5 >= 0 ? categories.number - 5 : 1, categories.number + 5 <= categories.totalPages ? categories.number + 5 : categories.totalPages)}">
+                    th:each="i : ${#numbers.sequence(categories.number - 4 > 0 ? categories.number - 4 : 1, categories.number + 5 <= categories.totalPages ? categories.number + 5 : categories.totalPages)}">
                     <a th:href="@{/admin/item/category(name=${name}, sort=${sort}, page=${i})}"
                        th:text="${i}"></a>
                 </li>

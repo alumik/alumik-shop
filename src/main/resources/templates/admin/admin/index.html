@@ -95,7 +95,7 @@
                     <span th:case="${true}">&laquo;</span>
                 </li>
                 <li th:class="${admins.number + 1 == i ? 'active': ''}"
-                    th:each="i : ${#numbers.sequence(admins.number - 5 >= 0 ? admins.number - 5 : 1, admins.number + 5 <= admins.totalPages ? admins.number + 5 : admins.totalPages)}">
+                    th:each="i : ${#numbers.sequence(admins.number - 4 > 0 ? admins.number - 4 : 1, admins.number + 5 <= admins.totalPages ? admins.number + 5 : admins.totalPages)}">
                     <a th:href="@{/admin/admin(username=${username}, isSuperAdmin=${isSuperAdmin}, sort=${sort}, page=${i})}"
                        th:text="${i}"></a>
                 </li>

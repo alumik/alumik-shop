@@ -26,8 +26,6 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public void save(Address address) {
-        User user = userRepository.findByUsername(securityService.findLoggedInUsername());
-        address.setUser(user);
         addressRepository.save(address);
     }
 

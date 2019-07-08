@@ -21,24 +21,37 @@
         </li>
         <li class="active">修改地址</li>
     </ul>
-    <div class="category-update">
-        <div class="jumbotron">
-            <h1>修改地址</h1>
-        </div>
-        <div class="category-form">
-            <form id="w0" action="#" th:object="${address}" th:action="@{/info/modifyAddress}" method="post">
-                <input type="hidden" th:field="*{id}">
-                <div class="form-group" th:classappend="${#fields.hasAnyErrors() ? 'has-error' : ''}">
-                    <label class="control-label" for="category-name">名称</label>
-                    <input type="text" id="category-name" class="form-control" name="name" th:field="*{name}">
-                    <div class="help-block" th:errors="*{name}"></div>
-                </div>
-                <div class="form-group">
-                    <button type="submit" class="btn btn-success">保存</button>
-                </div>
-            </form>
-        </div>
+    <div class="jumbotron">
+        <h1>修改地址</h1>
     </div>
+    <form id="w0" action="#" th:object="${address}" th:action="@{/info/modifyAddress}" method="post"
+          onsubmit="return check();">
+        <input type="hidden" th:field="*{id}">
+        <input type="hidden" th:field="*{user}">
+        <div class="form-group">
+            <label class="control-label">名称</label>
+            <input type="text" id="address" class="form-control" name="name" th:field="*{name}">
+            <div class="text-danger" hidden="hidden" id="askForAddress">请输入收货地址</div>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-success">保存</button>
+        </div>
+    </form>
+    <script>
+        function check() {
+            var result = true;
+            var address = $("#address");
+            var askForAddress = $("#askForAddress");
+            if (address.val().length <= 0){
+                askForAddress.removeAttr("hidden");
+                result = false;
+            }
+            else {
+                askForAddress.attr("hidden", "hidden");
+            }
+            return result;
+        }
+    </script>
 </div>
 
 </body>

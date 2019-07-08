@@ -56,7 +56,7 @@ public class InfoController {
             sortObj = Sort.by(sortTransaction);
         }
 
-        Page<Transaction> transactions = transactionService.findAll(pageTransaction - 1, 4, sortObj);
+        Page<Transaction> transactions = transactionService.findAll(pageTransaction - 1, 1, sortObj);
         model.addAttribute("sortTransaction", sortTransaction);
         model.addAttribute("pageTransaction", pageTransaction);
         model.addAttribute("transactions", transactions);
@@ -115,8 +115,9 @@ public class InfoController {
 
     @PostMapping("/addAddress")
     public String actionAddAddressPoster(@ModelAttribute("address")Address address){
+        address.setUser(userService.findByUsername(securityService.findLoggedInUsername()));
         addressService.save(address);
-        return "redirect:/info/";
+        return "redirect:/info/infoAddress";
     }
 
     @GetMapping("/modifyAddress")
@@ -130,7 +131,7 @@ public class InfoController {
     @PostMapping("/modifyAddress")
     public String actionModifyAddressPoster(@ModelAttribute("address")Address address){
         addressService.save(address);
-        return "redirect:/info/";
+        return "redirect:/info/infoAddress";
     }
 
     @PostMapping("/deleteAddress")
