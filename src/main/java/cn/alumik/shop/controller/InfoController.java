@@ -56,7 +56,7 @@ public class InfoController {
             sortObj = Sort.by(sortTransaction);
         }
 
-        Page<Transaction> transactions = transactionService.findAll(pageTransaction - 1, 1, sortObj);
+        Page<Transaction> transactions = transactionService.findAll(pageTransaction - 1, 6, sortObj);
         model.addAttribute("sortTransaction", sortTransaction);
         model.addAttribute("pageTransaction", pageTransaction);
         model.addAttribute("transactions", transactions);

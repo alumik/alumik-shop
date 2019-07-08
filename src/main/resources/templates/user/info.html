@@ -181,6 +181,10 @@
                             <label>购买日期</label>
                             <div th:text="${transaction.soldAt}"></div>
                         </div>
+                        <br><br><br>
+                        <div class="col-sm-1">
+                            <a th:href="@{/transaction/detail(id=${transaction.id})}" class="btn btn-sm btn-primary">查看交易详情</a>
+                        </div>
                     </div>
                     <div class="panel-body row">
                         <label class="col-sm-12">评论</label>
@@ -196,7 +200,7 @@
                                 <div th:text="${transaction.getComment().getContent()}" style="font-size: 15px"></div>
                             </div>
                             <div class="col-sm-1" style="margin-top: 20px;">
-                                <a th:href="@{/item/modifyComment(id=${transaction.getComment().id})}" class="btn btn-sm btn-primary">编辑评论</a>
+                                <a th:href="@{/item/modifyComment(id=${transaction.getComment().id})}" class="btn btn-sm btn-default">编辑评论</a>
                             </div>
                             <div class="col-sm-1" style="margin-top: 20px;">
                                 <form action="#" th:action="@{/item/deleteComment}" method="post"
