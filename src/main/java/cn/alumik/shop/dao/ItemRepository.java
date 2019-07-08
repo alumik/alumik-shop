@@ -37,4 +37,12 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
     List<Object[]> findAllByNameContainsSellOrderByRand(@Param("name") String name, @Param("size") int size);
 
     Page<Item> findAllBySeller(User user, Pageable pageable);
+
+    Page<Item> findAllByCategory_IdAndNameContainsAndSeller_UsernameContainsAndAvailable(Integer categoryId, String name, String sellerName, Boolean available, Pageable pageable);
+
+    Page<Item> findAllByCategory_IdAndNameContainsAndSeller_UsernameContains(Integer categoryId, String name, String sellerName, Pageable pageable);
+
+    Page<Item> findAllByNameContainsAndSeller_UsernameContainsAndAvailable(String name, String sellerName, Boolean b, Pageable pageable);
+
+    Page<Item> findAllByNameContainsAndSeller_UsernameContains(String name, String sellerName, Pageable pageable);
 }

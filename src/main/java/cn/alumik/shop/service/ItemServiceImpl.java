@@ -82,4 +82,18 @@ public class ItemServiceImpl implements ItemService{
             itemRepository.save(item);
         }
     }
+
+    @Override
+    public Page<Item> findAll(Integer categoryId, String name, String sellerName, Integer available, Pageable pageable) {
+        if (categoryId != 0) {
+            if (available != -1) {
+                return itemRepository.findAllByCategory_IdAndNameContainsAndSeller_UsernameContainsAndAvailable(categoryId, name, sellerName, available != 0, pageable);
+            }
+            return itemRepository.findAllByCategory_IdAndNameContainsAndSeller_UsernameContains(categoryId, name, sellerName, pageable);
+        }
+        if (available != -1) {
+            return itemRepository.findAllByNameContainsAndSeller_UsernameContainsAndAvailable(name, sellerName, available != 0, pageable);
+        }
+        return itemRepository.findAllByNameContainsAndSeller_UsernameContains(name, sellerName, pageable);
+    }
 }

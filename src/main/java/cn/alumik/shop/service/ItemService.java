@@ -26,4 +26,6 @@ public interface ItemService {
     Optional<Item> findById(Integer id);
 
     void toggleAvailable(Integer id);
+
+    Page<Item> findAll(Integer categoryId, String name, String sellerName, Integer available, Pageable pageable);
 }
