@@ -63,7 +63,14 @@
                             <a th:case="*"
                                th:href="@{/admin/item(categoryId=${categoryId}, name=${name}, sellerName=${sellerName}, available=${available}, page=${page}, sort='price')}">价格</a>
                         </th>
-                        <th>销售者</th>
+                        <th th:switch="${sort}">
+                            <a th:case="'seller.username'" class="asc"
+                               th:href="@{/admin/item(categoryId=${categoryId}, name=${name}, sellerName=${sellerName}, available=${available}, page=${page}, sort='-seller.username')}">销售者</a>
+                            <a th:case="'-seller.username'" class="desc"
+                               th:href="@{/admin/item(categoryId=${categoryId}, name=${name}, sellerName=${sellerName}, available=${available}, page=${page}, sort='seller.username')}">销售者</a>
+                            <a th:case="*"
+                               th:href="@{/admin/item(categoryId=${categoryId}, name=${name}, sellerName=${sellerName}, available=${available}, page=${page}, sort='seller.username')}">销售者</a>
+                        </th>
                         <th th:switch="${sort}">
                             <a th:case="'available'" class="asc"
                                th:href="@{/admin/item(categoryId=${categoryId}, name=${name}, sellerName=${sellerName}, available=${available}, page=${page}, sort='-available')}">上架状态</a>
