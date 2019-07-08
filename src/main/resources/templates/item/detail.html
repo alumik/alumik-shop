@@ -71,7 +71,7 @@
                         <div class="panel-heading">
                             <h3 class="panel-title">价格</h3>
                         </div>
-                        <div class="panel-body" th:text="*{price}">
+                        <div class="panel-body" th:text="*{#numbers.formatCurrency(price)}">
                         </div>
                     </div>
                     <div class="panel panel-default">

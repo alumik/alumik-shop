@@ -32,7 +32,7 @@
                 <img th:src="@{${'/item/getpic?id=' + item[1]}}" th:href="@{${'/item/detail?id=' + item[1]}}">
             </div>
             <div style="text-align: center; display: block;width: 100%;" th:text="${item[3]}"></div>
-            <div style="text-align: center; display: block;width: 100%;" th:text="${item[6] + '元'}"></div>
+            <div style="text-align: center; display: block;width: 100%;" th:text="${#numbers.formatCurrency(item[6])}"></div>
         </a>
     </div>
 

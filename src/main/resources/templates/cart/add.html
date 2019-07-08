@@ -28,8 +28,10 @@
             <label class="col-sm-2 control-label">请输入购买的数量</label>
             <div class="col-sm-10">
                 <input th:field="*{amount}"
-                       class="form-control" type="number" min="1" th:max='*{item.stock}'
+                       class="form-control" type="number" min="1" th:max='*{item.stock}' id="amount"
                 >
+                <div hidden class="text-danger" id="askForAmount">请输入购买的数量</div>
+                <div hidden class="text-danger" id="validForAmount">请输入合法的购买数量</div>
             </div>
         </div>
 
@@ -40,6 +42,31 @@
             </div>
         </div>
     </form>
+
+    <script>
+        function check() {
+            var result = true;
+            var amountArea = $("#amount");
+            var askForAmount = $("#askForAmount");
+            var validForAmount = $("#validForAmount");
+
+            if (amountArea.val().length <= 0){
+                askForAmount.removeAttr("hidden");
+                validForAmount.attr("hidden", "hidden");
+                result = false;
+            }
+            else if (isNaN(amountArea.val()) || parseFloat(amountArea.val()) <= 0){
+                askForAmount.attr("hidden",  "hidden");
+                validForAmount.removeAttr("hidden");
+                result = false;
+            }
+            else {
+                askForAmount.attr("hidden", "hidden");
+                validForAmount.attr("hidden", "hidden");
+            }
+            return result;
+        }
+    </script>
 </div>
 </body>
 </html>

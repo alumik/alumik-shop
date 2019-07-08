@@ -167,7 +167,7 @@
                     <div class="panel-body row">
                         <div class="col-sm-3">
                             <label>单价</label>
-                            <div th:text="${transaction.singlePrice}"></div>
+                            <div th:text="${#numbers.formatCurrency(transaction.singlePrice)}"></div>
                         </div>
                         <div class="col-sm-3">
                             <label>数量</label>
@@ -357,15 +357,15 @@
                                 <label>商品信息</label>
                                 <div th:text="${item.detail}"></div>
                                 <label>商品价格</label>
-                                <div th:text="${item.price}"></div>
+                                <div th:text="${#numbers.formatCurrency(item.price)}"></div>
                                 <label>成交次数</label>
                                 <div th:text="${item.getTransactions().size()}"></div>
                                 <label>库存量</label>
                                 <div th:text="${item.getStock()}"></div>
                                 <label>状态</label>
-                                <div th:if="${item.getAvailable() == true && item.getStock() > 0}" style="color: green;">在售</div>
-                                <div th:if="${item.getAvailable() == true && item.getStock() <= 0}" style="color: orange;">缺货</div>
-                                <div th:if="${item.getAvailable() != true}" style="color: red;">已下架</div>
+                                <div th:if="${item.getAvailable() == true && item.getStock() > 0}"  class="text-success">在售</div>
+                                <div th:if="${item.getAvailable() == true && item.getStock() <= 0}"  class="text-warning">缺货</div>
+                                <div th:if="${item.getAvailable() != true}" class="text-danger">已下架</div>
                                 <p><a href="#" th:href="@{/item/modify(id=${item.id})}" class="btn btn-primary" role="button">修改商品</a>
                             </div>
                         </div>
