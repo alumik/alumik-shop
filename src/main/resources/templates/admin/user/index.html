@@ -43,7 +43,14 @@
                             <a th:case="*"
                                th:href="@{/admin/user(username=${username}, enabled=${enabled}, page=${page}, sort='username')}">用户名</a>
                         </th>
-                        <th>已禁用</th>
+                        <th th:switch="${sort}">
+                            <a th:case="'enabled'" class="asc"
+                               th:href="@{/admin/user(username=${username}, enabled=${enabled}, page=${page}, sort='-enabled')}">已禁用</a>
+                            <a th:case="'-enabled'" class="desc"
+                               th:href="@{/admin/user(username=${username}, enabled=${enabled}, page=${page}, sort='enabled')}">已禁用</a>
+                            <a th:case="*"
+                               th:href="@{/admin/user(username=${username}, enabled=${enabled}, page=${page}, sort='enabled')}">已禁用</a>
+                        </th>
                         <th class="action-column">操作</th>
                     </tr>
 
