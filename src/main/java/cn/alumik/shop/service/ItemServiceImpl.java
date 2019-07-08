@@ -72,4 +72,14 @@ public class ItemServiceImpl implements ItemService{
     public Optional<Item> findById(Integer id) {
         return itemRepository.findById(id);
     }
+
+    @Override
+    public void toggleAvailable(Integer id) {
+        Optional<Item> itemOptional = itemRepository.findById(id);
+        if (itemOptional.isPresent()) {
+            Item item = itemOptional.get();
+            item.setAvailable(!item.getAvailable());
+            itemRepository.save(item);
+        }
+    }
 }

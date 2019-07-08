@@ -33,4 +33,10 @@ public class ItemController {
         }
         return "redirect:/admin/item";
     }
+
+    @GetMapping("/toggle-available")
+    public String actionDisable(Integer id) {
+        itemService.toggleAvailable(id);
+        return "redirect:/admin/item";
+    }
 }

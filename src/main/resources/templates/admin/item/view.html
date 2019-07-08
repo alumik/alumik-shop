@@ -18,8 +18,13 @@
         <h1 th:text="${item.name}"></h1>
         <p>
             <a class="btn btn-danger btn-sm"
-               th:href="@{/admin/item/disable(id=${item.id})}"
+               th:if="${item.available}"
+               th:href="@{/admin/item/toggle-available(id=${item.id})}"
                onclick="if (!(confirm('你确定要下架该商品吗？'))) return false">下架商品</a>
+            <a class="btn btn-success btn-sm"
+               th:if="${!item.available}"
+               th:href="@{/admin/item/toggle-available(id=${item.id})}"
+               onclick="if (!(confirm('你确定要上架该商品吗？'))) return false">上架商品</a>
         </p>
         <table id="w0" class="table table-striped table-bordered detail-view">
             <tr>
