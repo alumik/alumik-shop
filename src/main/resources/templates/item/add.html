@@ -15,37 +15,134 @@
     <form th:object="${item}" action="#" th:action="@{/item/add}" method="post"
           onsubmit="return addItemCheck()" enctype="multipart/form-data">
         <input type="hidden" th:field="*{id}">
+        <input type="hidden" th:field="*{pic}">
         <div class="form-group">
             <label>名称</label>
             <input type="text" class="form-control" id="name" placeholder="请输入商品名称"
             th:field="*{name}">
+            <div hidden style="color: red;" id="askForName">请输入商品名称</div>
             <label>描述</label>
             <input type="text" class="form-control" id="description" placeholder="请输入商品描述"
                    th:field="*{detail}">
+            <div hidden style="color: red;" id="askForDescription">请输入商品描述</div>
             <label>价格</label>
             <input type="text" class="form-control" id="price" placeholder="请输入商品价格（元）"
                    th:field="*{price}">
+            <div hidden style="color: red;" id="askForPrice">请输入价格</div>
+            <div hidden style="color: red;" id="validForPrice">请输入合法的价格</div>
             <label>库存</label>
             <input type="text" class="form-control" id="stock" placeholder="请输入商品库存（个）"
                    th:field="*{stock}">
+            <div hidden style="color: red;" id="askForStock">请输入库存</div>
+            <div hidden style="color: red;" id="validForStock">请输入合法的库存</div>
             <label>选择商品类型</label>
             <div class="dropdown">
                 <select class="form-control" role="menu" th:field="*{category}">
                     <option class="form-control" th:each="category:${categories}"
-                            th:text="${category.name}" th:value="${category.id}">
+                        th:text="${category.name}" th:value="${category.id}">
                     </option>
                 </select>
             </div>
             <label>上传商品图片</label>
-            <input type="file" class="form-control" id="image" name="image"/>
+            <input type="file" class="form-control" id="imageInput" name="image"/>
+            <div>
+                <img src="" id="img" style="padding-top: 15px;" class="img-responsive center-block">
+            </div>
+            <div hidden style="color: red;" id="askForImage">请上传图片</div>
         </div>
         <button type="submit" class="btn btn-default">提交</button>
     </form>
+    <style>
+        .div-func{
+            width:100%;
+            height:0px;
+            padding-bottom:100%;
+            position:relative;
+        }
+        .div-func img{
+            width:100%;
+            height:100%;
+            position:absolute;
+        }
+    </style>
+    <script>
+        $(document).ready(function () {
+            $("#imageInput").change(function(){
+                if ($("#imageInput").val().length > 0){
+                    $("#img").attr("src",URL.createObjectURL($(this)[0].files[0]));
+                }
+                else {
+                    $("#img").attr("src","");
+                }
+            });
+        });
+        function addItemCheck() {
+            var check = true;
+            var name = $("#name");
+            var description = $("#description");
+            var price = $("#price");
+            var stock = $("#stock");
+            var image = $("#imageInput");
+            var askForName = $("#askForName");
+            var askForDescription = $("#askForDescription");
+            var askForPrice = $("#askForPrice");
+            var validForPrice = $("#validForPrice");
+            var askForStock = $("#askForStock");
+            var validForStock = $("#validForStock");
+            var askForImage = $("#askForImage");
+            if (name.val().length <= 0){
+                askForName.removeAttr("hidden");
+                check = false;
+            }
+            else {
+                askForName.attr("hidden", "hidden");
+            }
+            if (description.val().length <= 0){
+                askForDescription.removeAttr("hidden");
+                check = false;
+            }
+            else {
+                askForDescription.attr("hidden", "hidden");
+            }
+            if (price.val().length <= 0){
+                askForPrice.removeAttr("hidden");
+                validForPrice.attr("hidden", "hidden");
+                check = false;
+            }
+            else if (isNaN(price.val()) || parseFloat(price.val()) <= 0){
+                askForPrice.attr("hidden",  "hidden");
+                validForPrice.removeAttr("hidden");
+                check = false;
+            }
+            else {
+                askForPrice.attr("hidden", "hidden");
+                validForPrice.attr("hidden", "hidden");
+            }
+            if (stock.val().length <= 0){
+                askForStock.removeAttr("hidden");
+                validForStock.attr("hidden",  "hidden");
+                check = false;
+            }
+            else if (isNaN(stock.val()) || parseFloat(stock.val()) <= 0){
+                askForStock.attr("hidden",  "hidden");
+                validForStock.removeAttr("hidden");
+                check = false;
+            }
+            else {
+                askForStock.attr("hidden",  "hidden");
+                validForStock.attr("hidden",  "hidden");
+            }
+            if (image.val().length <= 0){
+                askForImage.removeAttr("hidden");
+                check = false;
+            }
+            else {
+                askForImage.attr("hidden", "hidden");
+            }
+            return check;
+        }
+    </script>
 </div>
-<script>
-    function addItemCheck() {
-        return true;
-    }
-</script>
+
 </body>
 </html>

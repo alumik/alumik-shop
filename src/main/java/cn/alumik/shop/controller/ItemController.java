@@ -47,6 +47,7 @@ public class ItemController {
     @GetMapping("/add")
     public String actionAddGetter(Model model) {
         Item item = new Item();
+        item.setStock(1);
         model.addAttribute("item", item);
         List<Category> categories = categoryService.findAll();
         model.addAttribute("categories", categories);
@@ -58,24 +59,13 @@ public class ItemController {
     private static final int uploadPort = 12345;//服务器端口号
     private static final int downloadPort = 10010;
 
-    @PostMapping({"/modify", "/add"})
+    @PostMapping("/add")
     public String actionAddPoster(@Valid @ModelAttribute("item") Item item, BindingResult bindingResult,
                                   @RequestParam("image")MultipartFile file) throws IOException {
         if (bindingResult.hasErrors()){
             return "item/add";
         }
-        String fileOriginalName = file.getOriginalFilename();
-        String newFileName = UUID.randomUUID() + fileOriginalName.substring(fileOriginalName.lastIndexOf("."));
-        Socket socket = new Socket(IP_ADDR, uploadPort);
-        DataOutputStream filenameos = new DataOutputStream(socket.getOutputStream());
-        filenameos.writeUTF(newFileName);
-        filenameos.writeLong(file.getSize());
-        OutputStream filecontentos = socket.getOutputStream();
-        InputStream filecontentis = file.getInputStream();
-        byte [] results = filecontentis.readAllBytes();
-        filecontentos.write(results);
-        itemService.save(item, newFileName);
-        socket.shutdownOutput();
+        getImageFromServer(item, file);
         return "redirect:/";
     }
 
@@ -86,6 +76,37 @@ public class ItemController {
         List<Category> categories = categoryService.findAll();
         model.addAttribute("categories", categories);
         return "item/modify";
+    }
+
+    @PostMapping("/modify")
+    public String actionModifyPoster(@Valid @ModelAttribute("item") Item item, BindingResult bindingResult,
+                                  MultipartFile image,
+                                  @RequestParam("changeImage") String changeImage) throws IOException {
+        if (bindingResult.hasErrors()){
+            return "item/modify";
+        }
+        if (changeImage.equals("change")) {
+            getImageFromServer(item, image);
+        }
+        else if (changeImage.equals("notChange")) {
+            itemService.save(item);
+        }
+        return "redirect:/";
+    }
+
+    private void getImageFromServer(@ModelAttribute("item") @Valid Item item, @RequestParam(defaultValue = "") MultipartFile image) throws IOException {
+        String fileOriginalName = image.getOriginalFilename();
+        String newFileName = UUID.randomUUID() + fileOriginalName.substring(fileOriginalName.lastIndexOf("."));
+        Socket socket = new Socket(IP_ADDR, uploadPort);
+        DataOutputStream filenameos = new DataOutputStream(socket.getOutputStream());
+        filenameos.writeUTF(newFileName);
+        filenameos.writeLong(image.getSize());
+        OutputStream filecontentos = socket.getOutputStream();
+        InputStream filecontentis = image.getInputStream();
+        byte[] results = filecontentis.readAllBytes();
+        filecontentos.write(results);
+        itemService.save(item, newFileName);
+        socket.shutdownOutput();
     }
 
     static class Result{

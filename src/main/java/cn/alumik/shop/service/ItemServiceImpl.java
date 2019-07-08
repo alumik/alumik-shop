@@ -96,4 +96,13 @@ public class ItemServiceImpl implements ItemService{
         }
         return itemRepository.findAllByNameContainsAndSeller_UsernameContains(name, sellerName, pageable);
     }
+
+    @Override
+    public void save(Item item) {
+        String username = securityService.findLoggedInUsername();
+        User user = userRepository.findByUsername(username);
+        item.setSeller(user);
+        item.setModifiedAt(new Timestamp(System.currentTimeMillis()));
+        itemRepository.save(item);
+    }
 }
