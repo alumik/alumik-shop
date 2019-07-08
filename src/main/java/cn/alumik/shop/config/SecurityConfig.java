@@ -40,7 +40,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return authenticationManager();
     }
 
-    public SecurityConfig(@Qualifier("userDetailsServiceImpl") UserDetailsService userDetailsService, DataSource dataSource) {
+    public SecurityConfig(
+            @Qualifier("userDetailsServiceImpl") UserDetailsService userDetailsService,
+            DataSource dataSource) {
         this.userDetailsService = userDetailsService;
         this.dataSource = dataSource;
     }
@@ -56,32 +58,31 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/",
                         "/webjars/**",
                         "/css/**",
-                        "/js/**",
-                        "/img/**",
                         "/error",
                         "/registration",
                         "/item/getpic**"
-                )
-                .permitAll()
+                ).permitAll()
                 .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/admin/admin/**").hasRole("SUPER_ADMIN")
-                .antMatchers("/category/**").hasRole("ADMIN");
+                .antMatchers("/admin/admin/**").hasRole("SUPER_ADMIN");
 
         http.authorizeRequests()
                 .anyRequest()
                 .authenticated();
 
-        http.authorizeRequests().and()
+        http.authorizeRequests()
+                .and()
                 .formLogin()
                 .loginPage("/login")
                 .permitAll();
 
-        http.authorizeRequests().and()
+        http.authorizeRequests()
+                .and()
                 .logout()
                 .logoutSuccessUrl("/")
                 .permitAll();
 
-        http.authorizeRequests().and()
+        http.authorizeRequests()
+                .and()
                 .rememberMe()
                 .tokenRepository(this.persistentTokenRepository())
                 .tokenValiditySeconds(3600 * 7 * 24);

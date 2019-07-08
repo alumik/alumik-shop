@@ -24,7 +24,17 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public Page<User> findAll(String username, String roleName, Pageable pageable) {
-        return userRepository.findAllByUsernameContainingAndRoles_Name(username, roleName, pageable);
+        Page<User> admins = userRepository.findAllByUsernameContainingAndRoles_Name(username, roleName, pageable);
+        for (User admin : admins) {
+            admin.setIsSuperAdmin(false);
+            for (Role role : admin.getRoles()) {
+                if (role.getName().equals("ROLE_SUPER_ADMIN")) {
+                    admin.setIsSuperAdmin(true);
+                    break;
+                }
+            }
+        }
+        return admins;
     }
 
     @Override

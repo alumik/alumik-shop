@@ -13,6 +13,9 @@
         <li>
             <a th:href="@{/}">首页</a>
         </li>
+        <li>
+            <a th:href="@{/admin}">后台管理</a>
+        </li>
         <li class="active">评论管理</li>
     </ul>
     <div class="comment-index">
@@ -46,11 +49,14 @@
                         </th>
                         <th th:switch="${sort}">
                             <a th:case="'transaction.item.id'" class="asc"
-                               th:href="@{/admin/comment(username=${username}, itemId=${itemId}, itemName=${itemName}, star=${star}, content=${content}, page=${page}, sort='-transaction.item.id')}">商品 ID</a>
+                               th:href="@{/admin/comment(username=${username}, itemId=${itemId}, itemName=${itemName}, star=${star}, content=${content}, page=${page}, sort='-transaction.item.id')}">商品
+                                ID</a>
                             <a th:case="'-transaction.item.id'" class="desc"
-                               th:href="@{/admin/comment(username=${username}, itemId=${itemId}, itemName=${itemName}, star=${star}, content=${content}, page=${page}, sort='transaction.item.id')}">商品 ID</a>
+                               th:href="@{/admin/comment(username=${username}, itemId=${itemId}, itemName=${itemName}, star=${star}, content=${content}, page=${page}, sort='transaction.item.id')}">商品
+                                ID</a>
                             <a th:case="*"
-                               th:href="@{/admin/comment(username=${username}, itemId=${itemId}, itemName=${itemName}, star=${star}, content=${content}, page=${page}, sort='transaction.item.id')}">商品 ID</a>
+                               th:href="@{/admin/comment(username=${username}, itemId=${itemId}, itemName=${itemName}, star=${star}, content=${content}, page=${page}, sort='transaction.item.id')}">商品
+                                ID</a>
                         </th>
                         <th th:switch="${sort}">
                             <a th:case="'transaction.item.name'" class="asc"
@@ -81,7 +87,8 @@
                     <tr id="w0-filters" class="filters">
                         <td>&nbsp;</td>
                         <td><input type="text" class="form-control" name="username" th:value="${username}"></td>
-                        <td><input type="text" class="form-control" name="itemId" th:value="${itemId != 0 ? itemId : ''}"></td>
+                        <td><input type="text" class="form-control" name="itemId"
+                                   th:value="${itemId != 0 ? itemId : ''}"></td>
                         <td><input type="text" class="form-control" name="itemName" th:value="${itemName}"></td>
                         <td><select class="form-control" onchange="this.form.submit()" name="star"
                                     th:value="${star}">

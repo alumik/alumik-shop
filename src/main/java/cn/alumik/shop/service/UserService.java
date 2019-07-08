@@ -12,9 +12,9 @@ public interface UserService {
 
     User findByUsername(String username);
 
-    Page<User> findAll(String username, Boolean enabled, Pageable pageable);
+    Page<User> findAll(String username, Integer enabled, Pageable pageable);
 
     Optional<User> findById(Integer id);
 
-    Page<User> findAll(String username, Pageable pageable);
+    long count();
 }

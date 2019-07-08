@@ -52,8 +52,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Page<User> findAll(String username, Boolean enabled, Pageable pageable) {
-        return userRepository.findAllByUsernameContainingAndEnabled(username, enabled, pageable);
+    public Page<User> findAll(String username, Integer enabled, Pageable pageable) {
+        if (enabled == -1) {
+            return userRepository.findAllByUsernameContaining(username, pageable);
+        }
+        return userRepository.findAllByUsernameContainingAndEnabled(username, enabled != 0, pageable);
     }
 
     @Override
@@ -62,7 +65,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Page<User> findAll(String username, Pageable pageable) {
-        return userRepository.findAllByUsernameContaining(username, pageable);
+    public long count() {
+        return userRepository.count();
     }
 }

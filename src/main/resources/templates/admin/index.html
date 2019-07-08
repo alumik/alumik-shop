@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-CN"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      layout:decorate="~{layouts/main}" xmlns="http://www.w3.org/1999/html">
+<head>
+    <title>后台管理</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <ul class="breadcrumb">
+        <li>
+            <a th:href="@{/}">首页</a>
+        </li>
+        <li class="active">后台管理</li>
+    </ul>
+    <div class="admin-index">
+        <div class="jumbotron">
+            <h1>后台管理系统</h1>
+            <p class="lead">网站目前已拥有 <span th:text="${userCount}"></span> 名用户</p>
+        </div>
+
+        <div class="body-content">
+            <div class="row">
+                <div class="col-lg-4">
+                    <h2>用户管理</h2>
+                    <p>浏览用户详情。<br/>禁用/启用用户。</p>
+                    <p>
+                        <a class="btn btn-default" th:href="@{/admin/user}">用户管理 &raquo;</a>
+                    </p>
+                </div>
+                <div class="col-lg-4">
+                    <h2>商品管理</h2>
+                    <p>浏览商品详情，下架/重新上架商品。<br/>新增及修改商品分类。</p>
+                    <p>
+                        <a class="btn btn-default" th:href="@{/admin/item}">商品管理 &raquo;</a>
+                    </p>
+                </div>
+                <div class="col-lg-4">
+                    <h2>评论管理</h2>
+                    <p>浏览并审核用户评论。<br/>删除用户评论。</p>
+                    <p>
+                        <a class="btn btn-default" th:href="@{/admin/comment}">评论管理 &raquo;</a>
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div sec:authorize="hasRole('ROLE_SUPER_ADMIN')" class="col-lg-4">
+                    <h2>管理员管理</h2>
+                    <p>添加/删除管理员。<br/>设置超级管理员权限。</p>
+                    <p>
+                        <a class="btn btn-default" th:href="@{/admin/admin}">管理员管理 &raquo;</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

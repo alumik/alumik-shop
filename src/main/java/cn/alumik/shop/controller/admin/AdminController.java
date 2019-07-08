@@ -1,6 +1,5 @@
 package cn.alumik.shop.controller.admin;
 
-import cn.alumik.shop.entity.Role;
 import cn.alumik.shop.entity.User;
 import cn.alumik.shop.service.AdminService;
 import org.springframework.data.domain.Page;
@@ -29,7 +28,7 @@ public class AdminController {
     public String actionIndex(
             Model model,
             @RequestParam(defaultValue = "") String username,
-            @RequestParam(defaultValue = "false") Boolean isSuperAdmin,
+            @RequestParam(defaultValue = "0") Boolean isSuperAdmin,
             @RequestParam(defaultValue = "id") String sort,
             @RequestParam(defaultValue = "1") Integer page) {
         Sort sortObj;
@@ -48,16 +47,6 @@ public class AdminController {
 
         Pageable pageable = PageRequest.of(page - 1, 30, sortObj);
         Page<User> admins = adminService.findAll(username, roleName, pageable);
-
-        for (User admin : admins) {
-            admin.setIsSuperAdmin(false);
-            for (Role role : admin.getRoles()) {
-                if (role.getName().equals("ROLE_SUPER_ADMIN")) {
-                    admin.setIsSuperAdmin(true);
-                    break;
-                }
-            }
-        }
 
         model.addAttribute("admins", admins);
         model.addAttribute("username", username);

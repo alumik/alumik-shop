@@ -13,6 +13,9 @@
         <li>
             <a th:href="@{/}">首页</a>
         </li>
+        <li>
+            <a th:href="@{/admin}">后台管理</a>
+        </li>
         <li class="active">用户管理</li>
     </ul>
     <div class="admin-index">
@@ -59,9 +62,9 @@
                         <td><input type="text" class="form-control" name="username" th:value="${username}"></td>
                         <td><select class="form-control" onchange="this.form.submit()" name="enabled"
                                     th:value="${enabled}">
-                            <option value="0" th:selected="${enabled == 0}"></option>
+                            <option value="-1" th:selected="${enabled == -1}"></option>
                             <option value="1" th:selected="${enabled == 1}">否</option>
-                            <option value="2" th:selected="${enabled == 2}">是</option>
+                            <option value="0" th:selected="${enabled == 0}">是</option>
                         </select></td>
                         <td>&nbsp;</td>
                     </tr>

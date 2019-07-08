@@ -28,7 +28,7 @@ public class UserController {
     public String actionIndex(
             Model model,
             @RequestParam(defaultValue = "") String username,
-            @RequestParam(defaultValue = "0") Integer enabled,
+            @RequestParam(defaultValue = "-1") Integer enabled,
             @RequestParam(defaultValue = "id") String sort,
             @RequestParam(defaultValue = "1") Integer page) {
         Sort sortObj;
@@ -39,17 +39,7 @@ public class UserController {
         }
 
         Pageable pageable = PageRequest.of(page - 1, 30, sortObj);
-        Page<User> users;
-        switch (enabled) {
-            case 1:
-                users = userService.findAll(username, true, pageable);
-                break;
-            case 2:
-                users = userService.findAll(username, false, pageable);
-                break;
-            default:
-                users = userService.findAll(username, pageable);
-        }
+        Page<User> users = userService.findAll(username, enabled, pageable);
 
         model.addAttribute("users", users);
         model.addAttribute("username", username);

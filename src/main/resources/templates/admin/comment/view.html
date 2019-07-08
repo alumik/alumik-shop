@@ -10,8 +10,15 @@
 
 <div layout:fragment="content">
     <ul class="breadcrumb">
-        <li><a th:href="@{/}">首页</a></li>
-        <li><a th:href="@{/admin/comment}">评论管理</a></li>
+        <li>
+            <a th:href="@{/}">首页</a>
+        </li>
+        <li>
+            <a th:href="@{/admin}">后台管理</a>
+        </li>
+        <li>
+            <a th:href="@{/admin/comment}">评论管理</a>
+        </li>
         <li class="active" th:text="${comment.id}"></li>
     </ul>
     <div class="comment-view">

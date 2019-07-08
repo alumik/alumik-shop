@@ -10,8 +10,15 @@
 
 <div layout:fragment="content">
     <ul class="breadcrumb">
-        <li><a th:href="@{/}">首页</a></li>
-        <li><a th:href="@{/admin/user}">用户管理</a></li>
+        <li>
+            <a th:href="@{/}">首页</a>
+        </li>
+        <li>
+            <a th:href="@{/admin}">后台管理</a>
+        </li>
+        <li>
+            <a th:href="@{/admin/user}">用户管理</a>
+        </li>
         <li class="active" th:text="${user.id}"></li>
     </ul>
     <div class="user-view">
@@ -54,7 +61,8 @@
             </tr>
             <tr th:if="${user.userProfile != null}">
                 <th>头像</th>
-                <td><img th:if="${user.userProfile.avatar != null}" class="avatar" src="#" th:src="${user.userProfile.avatar}" alt="头像"/></td>
+                <td><img th:if="${user.userProfile.avatar != null}" class="avatar" src="#"
+                         th:src="${user.userProfile.avatar}" alt="头像"/></td>
             </tr>
             <tr th:if="${user.userProfile != null}">
                 <th>注册日期</th>
