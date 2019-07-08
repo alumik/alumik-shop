@@ -8,6 +8,7 @@ import org.springframework.data.domain.Sort;
 
 import java.io.File;
 import java.util.List;
+import java.util.Optional;
 
 public interface ItemService {
     void save(Item item, String filename);
@@ -21,4 +22,6 @@ public interface ItemService {
     List<Object []> findAllOrderByRand(String name, int size);
 
     Page<Item> findAllBySeller(int i, int i1, Sort sortObj);
+
+    Optional<Item> findById(Integer id);
 }

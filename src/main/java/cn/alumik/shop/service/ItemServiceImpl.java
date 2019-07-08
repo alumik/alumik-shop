@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.io.File;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ItemServiceImpl implements ItemService{
@@ -65,5 +66,10 @@ public class ItemServiceImpl implements ItemService{
         Pageable pageable = PageRequest.of(pageNum, pageSize, sort);
         User user = userRepository.findByUsername(securityService.findLoggedInUsername());
         return itemRepository.findAllBySeller(user, pageable);
+    }
+
+    @Override
+    public Optional<Item> findById(Integer id) {
+        return itemRepository.findById(id);
     }
 }
