@@ -36,8 +36,22 @@
                             <a th:case="*"
                                th:href="@{/admin/comment(username=${username}, itemId=${itemId}, star=${star}, content=${content}, page=${page}, sort='id')}">ID</a>
                         </th>
-                        <th>用户名</th>
-                        <th>商品 ID</th>
+                        <th th:switch="${sort}">
+                            <a th:case="'transaction.buyer.username'" class="asc"
+                               th:href="@{/admin/comment(username=${username}, itemId=${itemId}, star=${star}, content=${content}, page=${page}, sort='-transaction.buyer.username')}">用户名</a>
+                            <a th:case="'-transaction.buyer.username'" class="desc"
+                               th:href="@{/admin/comment(username=${username}, itemId=${itemId}, star=${star}, content=${content}, page=${page}, sort='transaction.buyer.username')}">用户名</a>
+                            <a th:case="*"
+                               th:href="@{/admin/comment(username=${username}, itemId=${itemId}, star=${star}, content=${content}, page=${page}, sort='transaction.buyer.username')}">用户名</a>
+                        </th>
+                        <th th:switch="${sort}">
+                            <a th:case="'transaction.item.id'" class="asc"
+                               th:href="@{/admin/comment(username=${username}, itemId=${itemId}, star=${star}, content=${content}, page=${page}, sort='-transaction.item.id')}">商品 ID</a>
+                            <a th:case="'-transaction.item.id'" class="desc"
+                               th:href="@{/admin/comment(username=${username}, itemId=${itemId}, star=${star}, content=${content}, page=${page}, sort='transaction.item.id')}">商品 ID</a>
+                            <a th:case="*"
+                               th:href="@{/admin/comment(username=${username}, itemId=${itemId}, star=${star}, content=${content}, page=${page}, sort='transaction.item.id')}">商品 ID</a>
+                        </th>
                         <th th:switch="${sort}">
                             <a th:case="'star'" class="asc"
                                th:href="@{/admin/comment(username=${username}, itemId=${itemId}, star=${star}, content=${content}, page=${page}, sort='-star')}">星级</a>
