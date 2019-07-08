@@ -64,7 +64,9 @@
                     <tbody>
                     <tr th:each="admin : ${admins}">
                         <td th:text="${admin.id}"></td>
-                        <td th:text="${admin.username}"></td>
+                        <td>
+                            <a th:text="${admin.username}" th:href="@{/admin/user/view(id=${admin.id})}"></a>
+                        </td>
                         <td th:text="${admin.isSuperAdmin ? '是' : '否'}"></td>
                         <td>
                             <span th:if="${#authentication.name != admin.username}">
