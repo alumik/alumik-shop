@@ -256,9 +256,6 @@
                     <a class="btn btn-primary" th:href="@{/cart/checkout}">购物车结算</a>
                 </p>
                 <div class="grid-view">
-                    <div class="summary">
-                        共 <b th:text="${user.carts.size()}"></b> 种商品，共需支付 <b id="total"></b>
-                    </div>
                     <table class="table table-striped table-bordered">
                         <thead>
                         <tr>
@@ -274,7 +271,7 @@
                             <td th:text="${cart.item.name}"></td>
                             <td th:text="${#numbers.formatCurrency(cart.item.price)}"></td>
                             <td th:text="${cart.amount}"></td>
-                            <td class="total" th:text="${cart.amount * cart.item.price}"></td>
+                            <td class="total" th:text="${#numbers.formatCurrency(cart.amount * cart.item.price)}"></td>
                             <td>
                                 <a class="btn btn-sm btn-primary" th:href="@{/cart/modify(id=${cart.id})}">修改</a>
                                 <a class="btn btn-sm btn-danger" th:href="@{/cart/delete(id=${cart.id})}">删除</a>
