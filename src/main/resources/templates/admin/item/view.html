@@ -44,7 +44,7 @@
             </tr>
             <tr>
                 <th>分类</th>
-                <td th:text="${item.category.name}"></td>
+                <td th:text="${item.category != null ? item.category.name : '未分类'}"></td>
             </tr>
             <tr>
                 <th>销售者</th>
