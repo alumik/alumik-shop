@@ -108,7 +108,7 @@
                     <tbody>
                     <tr th:each="item : ${items}">
                         <td th:text="${item.id}"></td>
-                        <td th:text="${item.category.name}"></td>
+                        <td th:text="${item.category != null ? item.category.name : '未分类'}"></td>
                         <td th:text="${item.name}"></td>
                         <td th:text="${#numbers.formatCurrency(item.price)}"></td>
                         <td>
