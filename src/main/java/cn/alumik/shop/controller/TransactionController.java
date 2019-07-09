@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/transaction")
@@ -84,5 +85,13 @@ public class TransactionController {
         List<RefundRequest> refundRequests = new ArrayList<>(transaction.getRefundRequests());
         model.addAttribute("refundRequests", refundRequests);
         return "transaction/refunds";
+    }
+
+    @GetMapping("/refundState")
+    public String actionRefundStateGetter(Model model, int id) {
+        Transaction transaction = transactionService.getById(id);
+        Set<RefundRequest> requests = transaction.getRefundRequests();
+        model.addAttribute("requests", requests);
+        return "transaction/refundState";
     }
 }

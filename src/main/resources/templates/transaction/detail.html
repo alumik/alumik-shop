@@ -69,6 +69,7 @@
             </div>
             <a th:href="@{/transaction/refund(id=${transaction.id})}" class="btn btn-danger">申请退款</a>
             <a th:href="@{/item/buy(id=${transaction.item.id})}" class="btn btn-success">再来一单</a>
+            <a th:href="@{/transaction/refundState(id=${transaction.id})}" class="btn btn-success">退款状态</a>
         </div>
 
     </div>

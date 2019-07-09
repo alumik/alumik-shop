@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-CN"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+<head>
+    <title>查看交易详情</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <div class="jumbotron">
+        <h1>查看退款状态</h1>
+    </div>
+    <div>
+        <div th:if="${requests.size() == 0}" class="form-group panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">你还没有任何退款申请</h3>
+            </div>
+        </div>
+        <div th:if="${requests.size() != 0}" th:each="requset, index: ${requests}" class="form-group panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title" th:text="${requset.transaction.item.name}"></h3>
+            </div>
+            <div class="panel-body row">
+                <div class="col-sm-3">
+                    <label>申请退款原因</label>
+                    <div th:text="${requset.reason}"></div>
+                </div>
+                <div class="col-sm-6">
+                    <label>申请退款时间</label>
+                    <div th:text="${requset.createdAt}"></div>
+                </div>
+            </div>
+            <div class="panel-body row">
+                <div class="col-sm-3">
+                    <label>处理状态</label>
+                    <div th:if="${requset.dealt == false}">未处理</div>
+                    <div th:if="${requset.dealt == true}">已处理</div>
+                </div>
+                <div th:if="${requset.dealt == true}">
+                    <div th:if="${requset.refund == null}" class="col-sm-3">
+                        <label>处理结果</label>
+                        <div>拒绝退款</div>
+                    </div>
+                    <div th:if="${requset.refund != null}" class="col-sm-3">
+                        <label>处理结果</label>
+                        <div>退款：<b th:text="${requset.refund.price}"></b> 元.</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
