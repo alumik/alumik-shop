@@ -249,7 +249,7 @@ public class ItemController {
 
     @GetMapping("/transactions")
     public String actionShowTransactionsGetter(Model model, Integer id,
-                                               @RequestParam(defaultValue = "id") String sort,
+                                               @RequestParam(defaultValue = "soldAt") String sort,
                                                @RequestParam(defaultValue = "1") Integer page) {
         Sort sortObj;
         Item item = itemService.getById(id);
@@ -264,7 +264,7 @@ public class ItemController {
         model.addAttribute("sort", sort);
         model.addAttribute("page", page);
         model.addAttribute("transactions", transactions);
-        model.addAttribute("itemName", item.getName());
+        model.addAttribute("item", item);
         return "transaction/index";
     }
 
@@ -276,9 +276,9 @@ public class ItemController {
     }
 
     @PostMapping("/favorite/delete")
-    public String actionDeleteToFavoriteGetter(Model model, int id){
-        Item item = itemService.getById(id);
-        itemService.delFavoriteItem(item);
+    public String actionDeleteToFavoritePoster(@ModelAttribute("item") Item item){
+        Item result = itemService.getById(item.getId());
+        itemService.delFavoriteItem(result);
         return "redirect:/info?tab=favorites";
     }
 }

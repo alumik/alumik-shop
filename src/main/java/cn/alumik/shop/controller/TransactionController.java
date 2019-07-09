@@ -7,6 +7,7 @@ import cn.alumik.shop.entity.Transaction;
 import cn.alumik.shop.service.RefundRequestService;
 import cn.alumik.shop.service.RefundService;
 import cn.alumik.shop.service.TransactionService;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -21,12 +22,10 @@ import java.util.Set;
 public class TransactionController {
     private TransactionService transactionService;
     private RefundRequestService refundRequestService;
-    private RefundService refundService;
 
     public TransactionController(TransactionService transactionService, RefundRequestService refundRequestService, RefundService refundService) {
         this.transactionService = transactionService;
         this.refundRequestService = refundRequestService;
-        this.refundService = refundService;
     }
 
     @GetMapping("/detail")
@@ -39,7 +38,6 @@ public class TransactionController {
 
     @GetMapping("/refund")
     public String actionRefundGetter(Model model, int id){
-        System.out.println(id);
         Transaction transaction = transactionService.getById(id);
         RefundRequest refundRequest = new RefundRequest();
         refundRequest.setTransaction(transaction);
@@ -82,7 +80,7 @@ public class TransactionController {
     @GetMapping("/refunds")
     public String actionRefundsGetter(Model model, int id){
         Transaction transaction = transactionService.getById(id);
-        List<RefundRequest> refundRequests = new ArrayList<>(transaction.getRefundRequests());
+        List<RefundRequest> refundRequests = refundRequestService.findAllByTransaction(transaction);
         model.addAttribute("refundRequests", refundRequests);
         return "transaction/refunds";
     }
@@ -90,7 +88,7 @@ public class TransactionController {
     @GetMapping("/refundState")
     public String actionRefundStateGetter(Model model, int id) {
         Transaction transaction = transactionService.getById(id);
-        Set<RefundRequest> requests = transaction.getRefundRequests();
+        List<RefundRequest> requests = refundRequestService.findAllByTransaction(transaction);
         model.addAttribute("requests", requests);
         return "transaction/refundState";
     }

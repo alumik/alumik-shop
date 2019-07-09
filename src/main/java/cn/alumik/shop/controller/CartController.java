@@ -62,7 +62,7 @@ public class CartController {
     @PostMapping("/add")
     public String actionAddtoCartPoster(@ModelAttribute("cart") Cart cart){
         cartService.save(cart);
-        return "redirect:/item/detail?id="+cart.getItem().getId();
+        return "redirect:/info?tab=carts";
     }
 
     @GetMapping("/modify")

@@ -51,8 +51,8 @@
 
             <div th:object="${item}">
                 <div class="form-group">
-                    <img th:src="@{${'/item/getpic?id=' + item.id}}" style="margin-bottom: 20px"
-                         class="img-responsive center-block">
+                    <img th:src="@{${'/item/getpic?id=' + item.id}}" style="margin-bottom: 20px; width: 300px;
+                    height: 300px; object-fit: cover">
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h3 class="panel-title">名称</h3>
@@ -153,8 +153,9 @@
             </ul>
         </div>
 
-        <form action="#" th:action="@{/item/favorite/delete(id=${item.id})}" method="post"
-              class="form-actions">
+        <form action="#" th:action="@{/item/favorite/delete}" method="post"
+              class="form-actions" th:object="${item}">
+            <input type="hidden" th:field="*{id}"/>
             <input type="hidden" th:name="${_csrf.parameterName}"
                    th:value="${_csrf.token}">
             <a th:href="@{/item/buy(id=${item.id})}" class="btn btn-danger">立即购买</a>
