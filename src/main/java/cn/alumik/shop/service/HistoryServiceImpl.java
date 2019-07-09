@@ -6,7 +6,10 @@ import cn.alumik.shop.dao.UserRepository;
 import cn.alumik.shop.entity.History;
 import cn.alumik.shop.entity.Item;
 import cn.alumik.shop.entity.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 import java.util.Optional;
@@ -46,5 +49,16 @@ public class HistoryServiceImpl implements HistoryService {
             history.setLastViewed(new Timestamp(System.currentTimeMillis()));
             historyRepository.save(history);
         }
+    }
+
+    @Override
+    public Page<History> findAllByUser_UsernameOrderByLastViewedDesc(String username, Pageable pageable) {
+        return historyRepository.findAllByUser_UsernameOrderByLastViewedDesc(username, pageable);
+    }
+
+    @Override
+    @Transactional
+    public void deleteByUser_Username(String username) {
+        historyRepository.deleteByUser_Username(username);
     }
 }

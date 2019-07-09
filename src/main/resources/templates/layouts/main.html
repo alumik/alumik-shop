@@ -38,11 +38,11 @@
                     </li>
                     <li sec:authorize="isAuthenticated()"
                         th:class="${#request.getRequestURI().startsWith('/history') ? 'active' : ''}">
-                        <a th:href="@{/history/}">我的足迹</a>
+                        <a th:href="@{/history}">我的足迹</a>
                     </li>
                     <li sec:authorize="isAuthenticated()"
                         th:class="${#request.getRequestURI().startsWith('/info') ? 'active' : ''}">
-                        <a th:href="@{/info/}">个人中心</a>
+                        <a th:href="@{/info}">个人中心</a>
                     </li>
                     <li sec:authorize="!isAuthenticated()"
                         th:class="${#request.getRequestURI().startsWith('/login') ? 'active' : ''}">
