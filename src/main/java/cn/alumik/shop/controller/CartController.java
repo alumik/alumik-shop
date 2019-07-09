@@ -41,10 +41,10 @@ public class CartController {
         return "cart/cart";
     }
 
-    @PostMapping("/delete")
-    public String actionDeleteGood(Model model, int id) {
+    @GetMapping("/delete")
+    public String actionDeleteGood(int id) {
         cartService.delete(id);
-        return "redirect:/info/";
+        return "redirect:/info?tab=carts";
     }
 
     @GetMapping("/add")
@@ -75,7 +75,7 @@ public class CartController {
     @PostMapping("/modify")
     public String actionModifytoCartPoster(@ModelAttribute("cart") Cart cart){
         cartService.save(cart);
-        return "redirect:/item/detail?id="+cart.getItem().getId();
+        return "redirect:/info?tab=carts";
     }
 
     @GetMapping("/checkout")
