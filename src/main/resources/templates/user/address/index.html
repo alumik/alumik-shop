@@ -4,7 +4,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/main}">
 <head>
-    <title>查看地址</title>
+    <title>修改地址</title>
 </head>
 <body>
 
@@ -16,11 +16,11 @@
         <li>
             <a th:href="@{/info/}">个人中心</a>
         </li>
-        <li class="active">查看地址</li>
+        <li class="active">修改地址</li>
     </ul>
     <div class="category-update">
         <div class="jumbotron">
-            <h1>查看地址</h1>
+            <h1>修改地址</h1>
         </div>
         <p>
             <a th:href="@{/info/addAddress}" class="btn btn-primary">添加地址</a>
@@ -51,7 +51,6 @@
                     </tr>
                 </tbody>
             </table>
-
         </div>
     </div>
 </div>

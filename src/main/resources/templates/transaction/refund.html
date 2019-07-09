@@ -45,14 +45,15 @@
                 </div>
             </div>
             <form th:object="${refund}" th:action="@{/transaction/refund}" method="post"
-                  onsubmit="if (!(confirm('你确定要发起退款申请吗？'))) return false">
+                  onsubmit="return check();">
                 <input type="hidden" th:field="*{transaction}"/>
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">退款理由</h3>
                     </div>
                     <div class="panel-body">
-                        <textarea class="form-control" style="resize:none;" rows="20" th:field="*{reason}"></textarea>
+                        <textarea class="form-control" style="resize:none;" rows="20" th:field="*{reason}" id="reason"></textarea>
+                        <div class="text-danger" hidden="hidden" id="askForReason">理由不能为空</div>
                     </div>
                 </div>
                 <div class="col-sm-1" style="margin-top: 20px;">
@@ -62,11 +63,22 @@
         </div>
 
     </div>
+    <script>
+        function check() {
+            var result = true;
+            var reason = $("#reason");
+            var askForReason = $("#askForReason");
+            if (reason.val().length <= 0){
+                askForReason.removeAttr("hidden");
+                result = false;
+            }
+            else {
+                askForReason.attr("hidden", "hidden");
+            }
+            return result && confirm('你确定要发起退款申请吗？');
+        }
+    </script>
 </div>
-<script>
-    function addItemCheck() {
-        return true;
-    }
-</script>
+
 </body>
 </html>

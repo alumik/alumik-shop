@@ -182,7 +182,7 @@
                             <div th:text="${transaction.soldAt}"></div>
                         </div>
                         <br><br><br>
-                        <div class="col-sm-1">
+                        <div class="col-sm-3">
                             <a th:href="@{/transaction/detail(id=${transaction.id})}" class="btn btn-sm btn-primary">查看交易详情</a>
                         </div>
                     </div>
@@ -199,7 +199,7 @@
                                        th:value="${transaction.getComment().getStar()}" data-show-clear="false" data-show-caption="false"/>
                                 <div th:text="${transaction.getComment().getContent()}" style="font-size: 15px"></div>
                             </div>
-                            <div class="col-sm-1" style="margin-top: 20px;">
+                            <div class="col-sm-2" style="margin-top: 20px;">
                                 <a th:href="@{/item/modifyComment(id=${transaction.getComment().id})}" class="btn btn-sm btn-default">编辑评论</a>
                             </div>
                             <div class="col-sm-1" style="margin-top: 20px;">
@@ -307,8 +307,7 @@
         </div>
 
         <div th:class="${tab == 'sellings' ? 'tab-pane fade in active' : 'tab-pane fade'}" id="sellings">
-            <a th:href="@{/item/add}" class="btn btn-warning">添加售卖商品</a>
-            <br><br>
+            <a th:href="@{/item/add}" class="btn btn-warning" style="margin-bottom: 10px;">添加售卖商品</a>
             <div th:if="${user.getSellingItems().size() == 0}" class="form-group panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title">
@@ -354,8 +353,8 @@
                     </thead>
                 </table>
 
-                <div class="container" style="padding-left: 0; padding-right: 0;">
-                    <div class="col-md-4"  style="padding-left: 0; padding-right: 0;" th:each="item: ${sellings}">
+                <div class="container-fluid">
+                    <div class="col-sm-4"  th:each="item: ${sellings}">
                         <div class="thumbnail">
                             <div class="div-func">
                                 <img th:src="@{${'/item/getpic?id=' + item.id}}" class="img-rounded">

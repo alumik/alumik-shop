@@ -4,7 +4,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/main}">
 <head>
-    <title>修改地址</title>
+    <title>编辑地址</title>
 </head>
 <body>
 
@@ -17,12 +17,12 @@
             <a th:href="@{/info/}">个人中心</a>
         </li>
         <li>
-            <a th:href="@{/info/infoAddress}">查看地址</a>
+            <a th:href="@{/info/infoAddress}">修改地址</a>
         </li>
-        <li class="active">修改地址</li>
+        <li class="active">编辑地址</li>
     </ul>
     <div class="jumbotron">
-        <h1>修改地址</h1>
+        <h1>编辑地址</h1>
     </div>
     <form id="w0" action="#" th:object="${address}" th:action="@{/info/modifyAddress}" method="post"
           onsubmit="return check();">

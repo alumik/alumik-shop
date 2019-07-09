@@ -9,11 +9,20 @@
 <body>
 
 <div layout:fragment="content">
+    <ul class="breadcrumb">
+        <li>
+            <a th:href="@{/}">首页</a>
+        </li>
+        <li>
+            <a th:href="@{/info/}">个人中心</a>
+        </li>
+        <li class="active">添加商品</li>
+    </ul>
     <div class="jumbotron">
         <h1>添加商品</h1>
     </div>
     <form th:object="${item}" action="#" th:action="@{/item/add}" method="post"
-          onsubmit="return addItemCheck()" enctype="multipart/form-data">
+          onsubmit="return check()" enctype="multipart/form-data">
         <input type="hidden" th:field="*{id}">
         <input type="hidden" th:field="*{pic}">
         <div class="form-group">
@@ -76,7 +85,7 @@
                 }
             });
         });
-        function addItemCheck() {
+        function check() {
             var check = true;
             var name = $("#name");
             var description = $("#description");

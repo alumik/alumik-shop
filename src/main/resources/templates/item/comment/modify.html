@@ -39,14 +39,16 @@
     </div>
 
     <div>
-        <form id="w0" action="#" th:object="${comment}" th:action="@{/item/modifyComment}" method="post">
+        <form id="w0" action="#" th:object="${comment}" th:action="@{/item/modifyComment}" method="post"
+              onsubmit="return check();">
             <input type="hidden" th:field="*{id}"/>
             <input type="hidden" th:field="*{transaction}"/>
             <label>评分</label>
             <input id="input-id" type="text"  class="rating-loading" data-min="0" data-max="5" data-step="1"
                    th:field="*{star}" data-show-clear="false" data-show-caption="false">
             <label>评论</label>
-            <textarea class="form-control" style="resize:none;" rows="20" th:field="*{content}"></textarea>
+            <textarea id="comment" class="form-control" style="resize:none;" rows="20" th:field="*{content}"></textarea>
+            <div class="text-danger" hidden="hidden" id="askForComment">评论不能为空</div>
             <br>
             <div class="form-group">
                 <button type="submit" class="btn btn-success">保存</button>
@@ -57,6 +59,19 @@
         $(document).on('ready', function(){
             $("#input-id").rating({language: 'zh'});
         });
+        function check() {
+            var result = true;
+            var comment = $("#comment");
+            var askForComment = $("#askForComment");
+            if (comment.val().length <= 0){
+                askForComment.removeAttr("hidden");
+                result = false;
+            }
+            else {
+                askForComment.attr("hidden", "hidden");
+            }
+            return result;
+        }
     </script>
 </div>
 

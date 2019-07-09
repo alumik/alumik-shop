@@ -21,6 +21,16 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
             "right outer join item on a.id_item = item.id " +
             "where name like %:name% and stock > 0 and " +
             "available <> 0",
+        countQuery = "select count(*) from (select case " +
+                "when sell is null then 0 " +
+                "else sell end sell, id, id_category,  " +
+                "name, pic, detail, price, stock, seller, " +
+                "created_at, modified_at, available from " +
+                "(select count(*) as sell, id_item from " +
+                "transaction group by id_item ) as a " +
+                "right outer join item on a.id_item = item.id " +
+                "where name like %:name% and stock > 0 and " +
+                "available <> 0) as ai",
         nativeQuery = true)
     Page<Object []> findAllByNameContainsSell(@Param("name") String name, Pageable pageable);
 
