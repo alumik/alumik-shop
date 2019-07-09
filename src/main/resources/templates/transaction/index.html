@@ -26,12 +26,12 @@
             <thead>
             <tr>
                 <th th:switch="${sort}">
-                    <a th:case="'id'" class="asc"
-                       th:href="@{/item/transactions(id=${item.id}, name=${name}, page=${page}, sort='-id')}">用户名</a>
-                    <a th:case="'-id'" class="desc"
-                       th:href="@{/item/transactions(id=${item.id}, name=${name}, page=${page}, sort='id')}">用户名</a>
+                    <a th:case="'buyer.username'" class="asc"
+                       th:href="@{/item/transactions(id=${item.id}, name=${name}, page=${page}, sort='-buyer.username')}">用户名</a>
+                    <a th:case="'-buyer.username'" class="desc"
+                       th:href="@{/item/transactions(id=${item.id}, name=${name}, page=${page}, sort='buyer.username')}">用户名</a>
                     <a th:case="*"
-                       th:href="@{/item/transactions(id=${item.id}, name=${name}, page=${page}, sort='id')}">用户名</a>
+                       th:href="@{/item/transactions(id=${item.id}, name=${name}, page=${page}, sort='buyer.username')}">用户名</a>
                 </th>
                 <th th:switch="${sort}">
                     <a th:case="'soldAt'" class="asc"

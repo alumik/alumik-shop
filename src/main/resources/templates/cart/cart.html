@@ -9,6 +9,15 @@
 <body>
 
 <div layout:fragment="content">
+    <ul class="breadcrumb">
+        <li>
+            <a th:href="@{/}">首页</a>
+        </li>
+        <li>
+            <a th:href="@{/info}">个人中心</a>
+        </li>
+        <li class="active">购物车</li>
+    </ul>
     <h1>购物车</h1>
     <p>
         <a class="btn btn-success">结算</a>

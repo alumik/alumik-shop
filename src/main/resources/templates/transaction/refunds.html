@@ -4,7 +4,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/main}">
 <head>
-    <title>查看退款记录</title>
+    <title>查看退款请求</title>
 </head>
 <body>
 
@@ -16,10 +16,13 @@
         <li>
             <a th:href="@{/info/}">个人中心</a>
         </li>
-        <li class="active">查看退款记录</li>
+        <li>
+            <a th:href="@{/item/transactions(id=${item.id})}">查看销售记录</a>
+        </li>
+        <li class="active">查看退款请求</li>
     </ul>
     <div class="jumbotron">
-        <h1>查看退款记录</h1>
+        <h1>查看退款请求</h1>
     </div>
 
     <div th:each="refundRequest : ${refundRequests}">

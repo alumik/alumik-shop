@@ -4,11 +4,23 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/main}">
 <head>
-    <title>查看交易详情</title>
+    <title>查看退款状态</title>
 </head>
 <body>
 
 <div layout:fragment="content">
+    <ul class="breadcrumb">
+        <li>
+            <a th:href="@{/}">首页</a>
+        </li>
+        <li>
+            <a th:href="@{/info/}">个人中心</a>
+        </li>
+        <li>
+            <a th:href="@{/transaction/detail(id=${transaction.id})}">查看交易详情</a>
+        </li>
+        <li class="active">查看退款状态</li>
+    </ul>
     <div class="jumbotron">
         <h1>查看退款状态</h1>
     </div>

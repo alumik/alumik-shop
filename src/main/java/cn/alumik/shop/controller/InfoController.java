@@ -44,9 +44,9 @@ public class InfoController {
 
     @GetMapping("")
     public String actionInfoGetter(Model model, @RequestParam(defaultValue = "info") String tab,
-                                   @RequestParam(defaultValue = "soldAt") String sortTransaction,
+                                   @RequestParam(defaultValue = "-soldAt") String sortTransaction,
                                    @RequestParam(defaultValue = "1") Integer pageTransaction,
-                                   @RequestParam(defaultValue = "createdAt") String sortSelling,
+                                   @RequestParam(defaultValue = "-createdAt") String sortSelling,
                                    @RequestParam(defaultValue = "1") Integer pageSelling,
                                    @RequestParam(defaultValue = "id") String sortFavorite,
                                    @RequestParam(defaultValue = "1") Integer pageFavorite) {

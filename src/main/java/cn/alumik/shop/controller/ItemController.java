@@ -149,7 +149,7 @@ public class ItemController {
             Model model,
             @RequestParam(defaultValue = "") String name,
             @RequestParam(defaultValue = "0") Integer categoryId,
-            @RequestParam(defaultValue = "name") String sort,
+            @RequestParam(defaultValue = "id") String sort,
             @RequestParam(defaultValue = "1") Integer page) {
         Sort sortObj;
 
@@ -178,7 +178,7 @@ public class ItemController {
     public String actionDetailGetter(
             Model model, int id,
             @RequestParam(defaultValue = "info") String tab,
-            @RequestParam(defaultValue = "id") String sort,
+            @RequestParam(defaultValue = "-createdAt") String sort,
             @RequestParam(defaultValue = "1") Integer page) {
         Sort sortObj;
         Item item = itemService.getById(id);
@@ -249,7 +249,7 @@ public class ItemController {
 
     @GetMapping("/transactions")
     public String actionShowTransactionsGetter(Model model, Integer id,
-                                               @RequestParam(defaultValue = "soldAt") String sort,
+                                               @RequestParam(defaultValue = "-soldAt") String sort,
                                                @RequestParam(defaultValue = "1") Integer page) {
         Sort sortObj;
         Item item = itemService.getById(id);

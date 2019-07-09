@@ -1,6 +1,7 @@
 package cn.alumik.shop.controller;
 
 
+import cn.alumik.shop.entity.Item;
 import cn.alumik.shop.entity.Refund;
 import cn.alumik.shop.entity.RefundRequest;
 import cn.alumik.shop.entity.Transaction;
@@ -82,6 +83,8 @@ public class TransactionController {
         Transaction transaction = transactionService.getById(id);
         List<RefundRequest> refundRequests = refundRequestService.findAllByTransaction(transaction);
         model.addAttribute("refundRequests", refundRequests);
+        Item item = transaction.getItem();
+        model.addAttribute("item", item);
         return "transaction/refunds";
     }
 
@@ -90,6 +93,7 @@ public class TransactionController {
         Transaction transaction = transactionService.getById(id);
         List<RefundRequest> requests = refundRequestService.findAllByTransaction(transaction);
         model.addAttribute("requests", requests);
+        model.addAttribute("transaction", transaction);
         return "transaction/refundState";
     }
 }
