@@ -5,6 +5,7 @@ import cn.alumik.shop.dao.RoleRepository;
 import cn.alumik.shop.dao.UserRepository;
 import cn.alumik.shop.entity.User;
 import cn.alumik.shop.entity.UserProfile;
+import cn.alumik.shop.form.ChangePasswordForm;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -67,5 +68,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public long count() {
         return userRepository.count();
+    }
+
+    @Override
+    public void setPassword(User user, ChangePasswordForm changePasswordForm) {
+        user.setPassword(bCryptPasswordEncoder.encode(changePasswordForm.getPassword()));
+        userRepository.save(user);
+    }
+
+    @Override
+    public boolean passwordMatches(User user, String password) {
+        return bCryptPasswordEncoder.matches(password, user.getPassword());
     }
 }

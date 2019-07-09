@@ -57,6 +57,10 @@
     </ul>
     <div id="myTabContent" class="tab-content panel-body">
         <div th:class="${tab == 'info' ? 'tab-pane fade in active' : 'tab-pane fade'}" id="info">
+            <p>
+                <a th:href="@{/info/modify}" class="btn btn-default">修改信息</a>
+                <a th:href="@{/info/change-password}" class="btn btn-default">修改密码</a>
+            </p>
             <div class="form-group panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title">用户名</h3>
@@ -92,7 +96,6 @@
                 <div class="panel-body" th:text="*{userProfile.detail}">
                 </div>
             </div>
-            <a th:href="@{/info/modify}" class="btn btn-default">修改信息</a>
         </div>
 
         <div th:class="${tab == 'addresses' ? 'tab-pane fade in active' : 'tab-pane fade'}" id="addresses">

@@ -1,11 +1,14 @@
 package cn.alumik.shop.controller;
 
 import cn.alumik.shop.entity.*;
+import cn.alumik.shop.form.ChangePasswordForm;
 import cn.alumik.shop.service.*;
+import cn.alumik.shop.validator.PasswordValidator;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,17 +29,20 @@ public class InfoController {
 
     private ItemService itemService;
 
+    private PasswordValidator passwordValidator;
 
-    public InfoController(SecurityService securityService, UserService userService, GenderService genderService, AddressService addressService, TransactionService transactionService, ItemService itemService) {
+
+    public InfoController(SecurityService securityService, UserService userService, GenderService genderService, AddressService addressService, TransactionService transactionService, ItemService itemService, PasswordValidator passwordValidator) {
         this.securityService = securityService;
         this.userService = userService;
         this.genderService = genderService;
         this.addressService = addressService;
         this.transactionService = transactionService;
         this.itemService = itemService;
+        this.passwordValidator = passwordValidator;
     }
 
-    @GetMapping("/")
+    @GetMapping("")
     public String actionInfoGetter(Model model, @RequestParam(defaultValue = "info") String tab,
                                    @RequestParam(defaultValue = "soldAt") String sortTransaction,
                                    @RequestParam(defaultValue = "1") Integer pageTransaction,
@@ -138,5 +144,26 @@ public class InfoController {
     public String actionDeleteAddressPoster(Integer id){
         addressService.delete(addressService.getById(id));
         return "redirect:/info/";
+    }
+
+    @GetMapping("/change-password")
+    public String actionChangePassword(Model model) {
+        ChangePasswordForm changePasswordForm = new ChangePasswordForm();
+        changePasswordForm.setUsername(securityService.findLoggedInUsername());
+        model.addAttribute("changePasswordForm", changePasswordForm);
+        return "user/change-password";
+    }
+
+    @PostMapping("/change-password")
+    public String actionChangePassword(
+            @ModelAttribute("changePasswordForm") ChangePasswordForm changePasswordForm,
+            BindingResult bindingResult) {
+        passwordValidator.validate(changePasswordForm, bindingResult);
+        if (bindingResult.hasErrors()) {
+            return "user/change-password";
+        }
+        User user = userService.findByUsername(securityService.findLoggedInUsername());
+        userService.setPassword(user, changePasswordForm);
+        return "redirect:/info";
     }
 }

@@ -112,7 +112,7 @@ public class CartController {
             transactionService.save(transaction);
         }
         cartService.deleteByUser_Username(securityService.findLoggedInUsername());
-        return "redirect:/info/";
+        return "redirect:/info";
     }
 }
 
