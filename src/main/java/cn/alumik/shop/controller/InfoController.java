@@ -47,7 +47,9 @@ public class InfoController {
                                    @RequestParam(defaultValue = "soldAt") String sortTransaction,
                                    @RequestParam(defaultValue = "1") Integer pageTransaction,
                                    @RequestParam(defaultValue = "createdAt") String sortSelling,
-                                   @RequestParam(defaultValue = "1") Integer pageSelling) {
+                                   @RequestParam(defaultValue = "1") Integer pageSelling,
+                                   @RequestParam(defaultValue = "id") String sortFavorite,
+                                   @RequestParam(defaultValue = "1") Integer pageFavorite) {
         String username = securityService.findLoggedInUsername();
         User user = userService.findByUsername(username);
         model.addAttribute("user", user);
@@ -78,6 +80,18 @@ public class InfoController {
         model.addAttribute("sortSelling", sortSelling);
         model.addAttribute("pageSelling", pageSelling);
         model.addAttribute("sellings", sellings);
+
+        //Sort and page by favorites
+        if (sortFavorite.startsWith("-")) {
+            sortObj = Sort.by(sortFavorite.substring(1)).descending();
+        } else {
+            sortObj = Sort.by(sortFavorite);
+        }
+
+        Page<Item> favoriteItems = itemService.findAllByFavoriteBy(pageFavorite - 1, 6, sortObj);
+        model.addAttribute("sortFavorite", sortFavorite);
+        model.addAttribute("pageFavorite", pageFavorite);
+        model.addAttribute("favorites", favoriteItems);
 
         model.addAttribute("tab", tab);
         return "user/info";

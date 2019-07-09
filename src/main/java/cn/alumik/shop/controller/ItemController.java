@@ -181,12 +181,14 @@ public class ItemController {
             sortObj = Sort.by(sort);
         }
 
+        User user = userService.findByUsername(securityService.findLoggedInUsername());
+        boolean hasFavorite = user.getFavoriteItems().contains(item);
         Page<Comment> comments = commentService.findAll(id, page - 1, 4, sortObj);
         model.addAttribute("sort", sort);
         model.addAttribute("page", page);
         model.addAttribute("comments", comments);
         model.addAttribute("tab", tab);
-
+        model.addAttribute("hasFavorite", hasFavorite);
         Integer cartId = cartService.findExistUserItem(item);
         model.addAttribute("cartId", cartId);
         return "item/detail";
@@ -256,5 +258,19 @@ public class ItemController {
         model.addAttribute("transactions", transactions);
         model.addAttribute("itemName", item.getName());
         return "transaction/index";
+    }
+
+    @GetMapping("/favorite/add")
+    public String actionAddToFavoriteGetter(Model model, int id){
+        Item item = itemService.getById(id);
+        itemService.addFavoriteItem(item);
+        return "redirect:/info?tab=favorites";
+    }
+
+    @PostMapping("/favorite/delete")
+    public String actionDeleteToFavoriteGetter(Model model, int id){
+        Item item = itemService.getById(id);
+        itemService.delFavoriteItem(item);
+        return "redirect:/info?tab=favorites";
     }
 }

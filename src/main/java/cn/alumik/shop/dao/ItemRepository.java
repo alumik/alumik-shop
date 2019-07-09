@@ -55,4 +55,6 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
     Page<Item> findAllByNameContainsAndSeller_UsernameContainsAndAvailable(String name, String sellerName, Boolean b, Pageable pageable);
 
     Page<Item> findAllByNameContainsAndSeller_UsernameContains(String name, String sellerName, Pageable pageable);
+
+    Page<Item> findAllByFavoriteBy(User user, Pageable pageable);
 }

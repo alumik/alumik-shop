@@ -50,6 +50,14 @@ public class Item {
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
     private Set<Transaction> transactions;
 
+    @ManyToMany
+    @JoinTable(
+            name = "favorite_item",
+            joinColumns = @JoinColumn(name = "id_item"),
+            inverseJoinColumns = @JoinColumn(name = "id_user")
+    )
+    private Set<User> favoriteBy;
+
     public int getId() {
         return id;
     }
@@ -151,5 +159,13 @@ public class Item {
             transactions = new HashSet<>();
         }
         transactions.add(transaction);
+    }
+
+    public Set<User> getFavoriteBy() {
+        return favoriteBy;
+    }
+
+    public void setFavoriteBy(Set<User> favoriteBy) {
+        this.favoriteBy = favoriteBy;
     }
 }

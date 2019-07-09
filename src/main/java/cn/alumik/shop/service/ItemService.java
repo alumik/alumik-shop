@@ -30,4 +30,10 @@ public interface ItemService {
     Page<Item> findAll(Integer categoryId, String name, String sellerName, Integer available, Pageable pageable);
 
     void save(Item item);
+
+    Page<Item> findAllByFavoriteBy(int i, int i1, Sort sortObj);
+
+    void addFavoriteItem(Item item);
+
+    void delFavoriteItem(Item item);
 }

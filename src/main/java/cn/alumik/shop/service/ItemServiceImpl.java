@@ -2,7 +2,6 @@ package cn.alumik.shop.service;
 
 import cn.alumik.shop.dao.ItemRepository;
 import cn.alumik.shop.dao.UserRepository;
-import cn.alumik.shop.entity.Category;
 import cn.alumik.shop.entity.Item;
 import cn.alumik.shop.entity.User;
 import org.springframework.data.domain.Page;
@@ -11,7 +10,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
@@ -104,5 +102,26 @@ public class ItemServiceImpl implements ItemService{
         item.setSeller(user);
         item.setModifiedAt(new Timestamp(System.currentTimeMillis()));
         itemRepository.save(item);
+    }
+
+    @Override
+    public Page<Item> findAllByFavoriteBy(int pageNum, int pageSize, Sort sort) {
+        Pageable pageable = PageRequest.of(pageNum, pageSize, sort);
+        User user = userRepository.findByUsername(securityService.findLoggedInUsername());
+        return itemRepository.findAllByFavoriteBy(user, pageable);
+    }
+
+    @Override
+    public void addFavoriteItem(Item item) {
+        User user = userRepository.findByUsername(securityService.findLoggedInUsername());
+        user.addFavoriteItem(item);
+        userRepository.save(user);
+    }
+
+    @Override
+    public void delFavoriteItem(Item item) {
+        User user = userRepository.findByUsername(securityService.findLoggedInUsername());
+        user.removeFavoriteItem(item);
+        userRepository.save(user);
     }
 }
