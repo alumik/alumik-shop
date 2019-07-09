@@ -109,58 +109,6 @@ public class ItemController {
         socket.shutdownOutput();
     }
 
-    static class Result{
-
-        int itemId;
-        String address;
-        int amount;
-        String temp;
-
-        public String getTemp() {
-            return temp;
-        }
-
-        public void setTemp(String temp) {
-            this.temp = temp;
-        }
-
-        Result(){
-            itemId = 0;
-            address = null;
-            amount = 0;
-            temp = null;
-        }
-
-        public int getItemId() {
-            return itemId;
-        }
-
-        public void setItemId(int itemId) {
-            this.itemId = itemId;
-        }
-
-        public String getAddress() {
-            return address;
-        }
-
-        public void setAddress(String address) {
-            this.address = address;
-        }
-
-        public int getAmount() {
-            return amount;
-        }
-
-        public void setAmount(int amount) {
-            this.amount = amount;
-        }
-
-        @Override
-        public String toString() {
-            return String.valueOf(itemId) + " " + address + " " + String.valueOf(amount) + " " + temp;
-        }
-    }
-
     @GetMapping("/buy")
     public String actionBuyGetter(Model model, int id) {
         Item item = itemService.getById(id);
@@ -181,34 +129,6 @@ public class ItemController {
             transaction.setAddress(tempAddress);
         }
         transactionService.save(transaction);
-        return "redirect:/";
-    }
-
-    @GetMapping("/buyAll")
-    public String actionBuyAllGetter(Model model) {
-        Set<Cart> carts = cartService.findAll();
-        model.addAttribute("carts", carts);
-        User user = userService.findByUsername(securityService.findLoggedInUsername());
-        model.addAttribute("srcUser", user);
-        Result result = new Result();
-        model.addAttribute("result", result);
-        return "item/buyAll";
-    }
-
-    @PostMapping("/buyAll")
-    public String actionBuyAllPoster(@ModelAttribute("result") Result result) {
-        Set<Cart> carts = cartService.findAll();
-        for (Cart cart : carts) {
-            Transaction transaction = new Transaction();
-            if (result.address.equals("")){
-                transaction.setAddress(result.temp);
-            }
-            else{
-                transaction.setAddress(result.address);
-            }
-            transaction.setAmount(cart.getAmount());
-        }
-        cartService.deleteAll();
         return "redirect:/";
     }
 

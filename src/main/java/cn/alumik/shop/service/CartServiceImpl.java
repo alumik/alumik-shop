@@ -5,7 +5,9 @@ import cn.alumik.shop.entity.Cart;
 import cn.alumik.shop.entity.Item;
 import cn.alumik.shop.entity.User;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -59,5 +61,16 @@ public class CartServiceImpl implements CartService {
     @Override
     public Cart getById(int id) {
         return cartRepository.findById(id).get();
+    }
+
+    @Override
+    public List<Cart> findAllByUser_UsernameOrderByCreatedAt(String username) {
+        return cartRepository.findAllByUser_UsernameOrderByCreatedAt(username);
+    }
+
+    @Override
+    @Transactional
+    public void deleteByUser_Username(String username) {
+        cartRepository.deleteByUser_Username(username);
     }
 }

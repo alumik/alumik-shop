@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-CN"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+<head>
+    <title>购物车结算</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <ul class="breadcrumb">
+        <li>
+            <a th:href="@{/}">首页</a>
+        </li>
+        <li>
+            <a th:href="@{/info/}">个人中心</a>
+        </li>
+        <li class="active">购物车结算</li>
+    </ul>
+    <div class="cart-checkout">
+        <h1>购物车结算</h1>
+        <div class="grid-view">
+            <div class="summary">
+                共 <b th:text="${checkout.carts.size()}"></b> 种商品，共需支付 <b
+                    th:text="${#numbers.formatCurrency(checkout.total)}"></b>
+            </div>
+            <table class="table table-striped table-bordered">
+                <thead>
+                <tr>
+                    <th>商品名</th>
+                    <th>单价</th>
+                    <th>数量</th>
+                    <th>总价</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="cart : ${checkout.carts}">
+                    <td th:text="${cart.item.name}"></td>
+                    <td th:text="${#numbers.formatCurrency(cart.item.price)}"></td>
+                    <td th:text="${cart.amount}"></td>
+                    <td th:text="${#numbers.formatCurrency(cart.amount * cart.item.price)}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="cart-form">
+            <form action="#" th:object="${checkout}" th:action="@{/cart/checkout}" onsubmit="return check()" method="post">
+                <div class="form-group">
+                    <label class="control-label">派送地址</label>
+                    <div class="input-group" th:each="userAddress : ${checkout.carts[0].user.addresses}">
+                        <span class="input-group-addon">
+                            <input type="radio" th:field="*{address}" th:value="${userAddress.name}" name="address"/>
+                        </span>
+                        <input type="text" class="form-control" th:value="${userAddress.name}" readonly>
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <input id="new-address-radio" type="radio" th:field="*{address}" value=""/>
+                        </span>
+                        <input id="new-address" type="text" class="form-control" placeholder="请输入新的地址" th:field="*{newAddress}"
+                               name="address"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success">购买</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        function check() {
+            let selected = 0
+            $('input').each(function () {
+                if ($(this).attr('type') === 'radio' && $(this).prop('checked') === true) {
+                    selected++
+                }
+            })
+            if (selected !== 1){
+                alert("请选择一个收货地址！")
+                return false
+            }
+            if ($("#new-address-radio").prop('checked') && $("#new-address").val() === "") {
+                alert("地址不能为空！")
+                return false
+            }
+            return true
+        }
+    </script>
+</div>
+
+</body>
+</html>
