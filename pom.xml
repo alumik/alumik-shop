@@ -10,7 +10,7 @@
     </parent>
     <groupId>cn.alumik</groupId>
     <artifactId>shop</artifactId>
-    <version>0.0.2-SNAPSHOT</version>
+    <version>1.0.0</version>
     <name>Shop</name>
     <description>Demo app for Java class</description>
 
