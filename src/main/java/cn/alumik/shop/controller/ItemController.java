@@ -148,7 +148,8 @@ public class ItemController {
     public String actionSearchGetter(
             Model model,
             @RequestParam(defaultValue = "") String name,
-            @RequestParam(defaultValue = "id") String sort,
+            @RequestParam(defaultValue = "0") Integer categoryId,
+            @RequestParam(defaultValue = "name") String sort,
             @RequestParam(defaultValue = "1") Integer page) {
         Sort sortObj;
 
@@ -157,12 +158,19 @@ public class ItemController {
         } else {
             sortObj = Sort.by(sort);
         }
-
-        Page<Object []> items = itemService.findAll(name, page - 1, 4, sortObj);
+        Page<Object []> items;
+        if (categoryId != 0) {
+            items = itemService.findAll(name, categoryId, page - 1, 16, sortObj);
+        } else {
+            items = itemService.findAll(name, page - 1, 16, sortObj);
+        }
+        List<Category> categories = categoryService.findAll();
         model.addAttribute("name", name);
+        model.addAttribute("categoryId", categoryId);
         model.addAttribute("sort", sort);
         model.addAttribute("page", page);
         model.addAttribute("items", items);
+        model.addAttribute("categories", categories);
         return "item/search";
     }
 

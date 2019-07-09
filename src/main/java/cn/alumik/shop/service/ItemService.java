@@ -19,6 +19,8 @@ public interface ItemService {
 
     Page<Object []> findAll(String name, int pageNum, int pageSize, Sort sort);
 
+    Page<Object []> findAll(String name, int categoryId, int pageNum, int pageSize, Sort sort);
+
     List<Object []> findAllOrderByRand(String name, int size);
 
     Page<Item> findAllBySeller(int i, int i1, Sort sortObj);
@@ -28,6 +30,7 @@ public interface ItemService {
     void toggleAvailable(Integer id);
 
     Page<Item> findAll(Integer categoryId, String name, String sellerName, Integer available, Pageable pageable);
+    
 
     void save(Item item);
 

@@ -46,6 +46,28 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
             nativeQuery = true)
     List<Object[]> findAllByNameContainsSellOrderByRand(@Param("name") String name, @Param("size") int size);
 
+    @Query(value = "select case when sell is null then 0 " +
+            "else sell end sell, id, id_category,  " +
+            "name, pic, detail, price, stock, seller, " +
+            "created_at, modified_at, available from " +
+            "(select count(*) as sell, id_item from " +
+            "transaction group by id_item ) as a " +
+            "right outer join item on a.id_item = item.id " +
+            "where name like %:name% and stock > 0 and " +
+            "available <> 0 and id_category = :categoryId",
+            countQuery = "select count(*) from (select case " +
+                    "when sell is null then 0 " +
+                    "else sell end sell, id, id_category,  " +
+                    "name, pic, detail, price, stock, seller, " +
+                    "created_at, modified_at, available from " +
+                    "(select count(*) as sell, id_item from " +
+                    "transaction group by id_item ) as a " +
+                    "right outer join item on a.id_item = item.id " +
+                    "where name like %:name% and stock > 0 and " +
+                    "available <> 0 and id_category = :categoryId) as ai",
+            nativeQuery = true)
+    Page<Object[]> findAllByNameContainsAndCategory_IdAndSell(@Param("name") String name, @Param("categoryId") int categoryId, Pageable pageable);
+
     Page<Item> findAllBySeller(User user, Pageable pageable);
 
     Page<Item> findAllByCategory_IdAndNameContainsAndSeller_UsernameContainsAndAvailable(Integer categoryId, String name, String sellerName, Boolean available, Pageable pageable);

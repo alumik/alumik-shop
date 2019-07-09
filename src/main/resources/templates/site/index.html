@@ -10,45 +10,44 @@
 
 <div layout:fragment="content">
     <div class="jumbotron">
-        <h1>欢迎使用</h1>
+        <h1 th:text="${@environment.getProperty('site.app.name')}"></h1>
     </div>
 
-    <p class="row head">
-        <p class="col-lg-12">
-    <form action="#" th:action="@{/item/search}" method="get" class="input-group">
-        <input type="text" class="form-control" name="name" placeholder="搜你想要的">
-        <span class="input-group-btn">
-            <button type="submit" class="btn btn-info"><span class="glyphicon glyphicon-search"></span></button>
-        </span>
+    <form action="#" th:action="@{/item/search}" method="get">
+        <div class="input-group input-group-lg">
+            <input type="text" class="form-control" name="name" placeholder="搜你想要的">
+            <span class="input-group-btn">
+                <button type="submit" class="btn btn-success">
+                    <span class="glyphicon glyphicon-search"></span>
+                </button>
+            </span>
+        </div>
     </form>
-        </p>
-    </p>
 
     <br><br>
 
-    <div class="col-sm-3" th:each="item:${items}">
-        <a th:href="@{${'/item/detail?id=' + item[1]}}">
-            <div class="div-func">
-                <img th:src="@{${'/item/getpic?id=' + item[1]}}" th:href="@{${'/item/detail?id=' + item[1]}}">
+    <div th:each="i : ${#numbers.sequence(0, T(Math).floor(items.size() / 4), 1)}" class="row">
+        <div class="col-md-3" th:each="j : ${#numbers.sequence(0, 3, 1)}" th:with="item=${items[i * 4 + j]}"
+             th:if="${i * 4 + j < items.size()}">
+            <div class="thumbnail">
+                <a th:href="@{${'/item/detail?id=' + item[1]}}">
+                    <img style="width: 250px; height: 250px; object-fit: cover;" src="#" alt="#" th:src="@{${'/item/getpic?id=' + item[1]}}" th:alt="${item[1]}">
+                </a>
+                <div class="caption">
+                    <h4 th:text="${item[3]}"></h4>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <h3 style="margin-bottom: 0" class="text-danger" th:text="${#numbers.formatCurrency(item[6])}"></h3>
+                        </div>
+                        <div class="col-xs-6">
+                            <div style="line-height: 23px; color: gray;" class="pull-right" th:text="'成交笔数：' + ${item[0]}"></div>
+                            <div style="line-height: 23px; color: gray;" class="pull-right" th:text="'库存：' + ${item[7]}"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div style="text-align: center; display: block;width: 100%;" th:text="${item[3]}"></div>
-            <div style="text-align: center; display: block;width: 100%;" th:text="${#numbers.formatCurrency(item[6])}"></div>
-        </a>
+        </div>
     </div>
-
-    <style>
-        .div-func{
-            width:100%;
-            height:0px;
-            padding-bottom:100%;
-            position:relative;
-        }
-        .div-func img{
-            width:100%;
-            height:100%;
-            position:absolute;
-        }
-    </style>
 </div>
 
 </body>
