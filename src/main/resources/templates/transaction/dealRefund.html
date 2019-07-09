@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh-CN"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+<head>
+    <title>处理退款请求</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <div class="jumbotron">
+        <h1>处理退款请求</h1>
+    </div>
+    <div>
+        <div class="form-group">
+            <img th:src="@{${'/item/getpic?id=' + refundRequest.transaction.item.id}}" style="margin-bottom: 20px"
+                 class="img-responsive center-block">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">商品名称</h3>
+                </div>
+                <div class="panel-body" th:text="${refundRequest.transaction.item.name}">
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">用户名</h3>
+                </div>
+                <div class="panel-body" th:text="${refundRequest.transaction.buyer.username}">
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">价格</h3>
+                </div>
+                <div class="panel-body" th:text="${#numbers.formatCurrency(refundRequest.transaction.singlePrice)}">
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">数量</h3>
+                </div>
+                <div class="panel-body" th:text="${refundRequest.transaction.amount}">
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">交易日期</h3>
+                </div>
+                <div class="panel-body" th:text="${refundRequest.transaction.soldAt}">
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">退款理由</h3>
+                </div>
+                <div class="panel-body" th:text="${refundRequest.reason}">
+                </div>
+            </div>
+            <div class="text-danger">请在下方填入你对退款请求的处理：</div>
+            <form action="#" th:action="@{/transaction/dealRefund(id=${refundRequest.id})}"
+                method="post" onsubmit="return check();" th:object="${refundRequest}" id="agrees">
+                <input type="hidden" th:field="*{id}">
+                <input type="hidden" th:field="*{transaction}">
+                <input type="hidden" th:field="*{createdAt}">
+                <div class="list-group">
+                    <li class="list-group-item">
+                        <input type="radio"  name="agree" value="disagree" />不同意退款请求
+                    </li>
+                    <li class="list-group-item">
+                        <input type="radio"  name="agree" value="agree" id="agree"/>同意退款请求
+                        <input type="number" class="form-control" placeholder="请输入退款金额" id="agreeMoney"
+                               th:min="0" step="0.001" name="agreeMoney"
+                               th:max="${refundRequest.transaction.singlePrice}">
+                    </li>
+                    <div hidden class="text-danger" id="askForAgree">请选择同意或者不同意退款请求</div>
+                    <div hidden class="text-danger" id="validForAgree">请输入正确的退款金额</div>
+                </div>
+                <p>
+                    <button class="btn btn-danger" type="submit">提交退款处理</button>
+                </p>
+            </form>
+
+        </div>
+
+    </div>
+    <script>
+        function check() {
+            var result = true;
+            var allSelected = 0;
+            var allRadios = $("#agrees input");
+            var askForAgree = $("#askForAgree");
+            var validForAgree = $("#validForAgree");
+            allRadios.each(function () {
+                if ($(this).attr('type') === 'radio' && $(this).prop('checked') === true){
+                    ++allSelected;
+                }
+            });
+            if (allSelected !== 1){
+                askForAgree.removeAttr("hidden");
+                validForAgree.attr("hidden", "hidden");
+                result = false;
+            }
+            else if ($("#agree").prop("checked") && ($("#agreeMoney").val().length <= 0 ||
+                isNaN($("#agreeMoney").val()))){
+                askForAgree.attr("hidden", "hidden");
+                validForAgree.removeAttr("hidden");
+                result = false;
+            }
+            else {
+                askForAgree.attr("hidden", "hidden");
+                validForAgree.attr("hidden", "hidden");
+            }
+            return result && confirm('你确定要提交这个退款申请的处理吗？');
+        }
+    </script>
+</div>
+
+</body>
+</html>

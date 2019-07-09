@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-CN"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+<head>
+    <title>查看销售记录</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <ul class="breadcrumb">
+        <li>
+            <a th:href="@{/}">首页</a>
+        </li>
+        <li>
+            <a th:href="@{/info/}">个人中心</a>
+        </li>
+        <li class="active">查看销售记录</li>
+    </ul>
+    <div class="jumbotron">
+        <h1 th:text="${'查看' + itemName + '的销售记录'}"></h1>
+    </div>
+    <div>
+        <table class="table table-striped table-bordered">
+            <thead>
+            <tr>
+                <th>用户名</th>
+                <th>购买日期</th>
+                <th>单价</th>
+                <th>数量</th>
+                <th>售后服务</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:each="transaction : ${transactions}">
+                <th th:text="${transaction.getBuyer().getUsername()}"></th>
+                <th th:text="${transaction.getSoldAt()}"></th>
+                <th th:text="${#numbers.formatCurrency(transaction.getSinglePrice())}"></th>
+                <th th:text="${transaction.getAmount()}"></th>
+                <th>
+                    <div th:if="${transaction.getIfUnhandledRefundrequest() >= 2}">
+                        <a class="btn btn-warning" th:href="@{/transaction/dealRefund(id=${transaction.getUnhandledRefundrequest().id})}">
+                            处理退款
+                        </a>
+                    </div>
+                    <div th:if="${transaction.getIfUnhandledRefundrequest() >= 1}">
+                        <a class="btn btn-default" th:href="@{/transaction/refunds(id=${transaction.id})}">
+                            查看退款请求
+                        </a>
+                    </div>
+                    <div th:if="${transaction.getIfUnhandledRefundrequest() == 0}">
+                        <a class="btn btn-default" disabled="disabled">
+                            没有退款请求
+                        </a>
+                    </div>
+                </th>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>

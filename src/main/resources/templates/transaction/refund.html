@@ -47,6 +47,7 @@
             <form th:object="${refund}" th:action="@{/transaction/refund}" method="post"
                   onsubmit="return check();">
                 <input type="hidden" th:field="*{transaction}"/>
+                <input type="hidden" th:field="*{dealt}"/>
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">退款理由</h3>

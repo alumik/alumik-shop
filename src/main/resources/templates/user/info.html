@@ -202,12 +202,11 @@
                                        th:value="${transaction.getComment().getStar()}" data-show-clear="false" data-show-caption="false"/>
                                 <div th:text="${transaction.getComment().getContent()}" style="font-size: 15px"></div>
                             </div>
-                            <div class="col-sm-2" style="margin-top: 20px;">
-                                <a th:href="@{/item/modifyComment(id=${transaction.getComment().id})}" class="btn btn-sm btn-default">编辑评论</a>
-                            </div>
-                            <div class="col-sm-1" style="margin-top: 20px;">
+
+                            <div class="col-sm-12" style="margin-top: 15px;">
                                 <form action="#" th:action="@{/item/deleteComment}" method="post"
-                                  onsubmit="if (!(confirm('你确定要删除该评论吗？'))) return false">
+                                      onsubmit="if (!(confirm('你确定要删除该评论吗？'))) return false" class="form-actions">
+                                    <a th:href="@{/item/modifyComment(id=${transaction.getComment().id})}" class="btn btn-sm btn-default">编辑评论</a>
                                     <input type="hidden" name="id" th:value="${transaction.getComment().id}"/>
                                     <button class="btn btn-sm btn-danger" type="submit">删除</button>
                                 </form>
@@ -343,8 +342,8 @@
                     </thead>
                 </table>
 
-                <div class="container-fluid">
-                    <div class="col-sm-4"  th:each="item: ${sellings}">
+                <div class="container-fluid" style="padding-left: 0; padding-right: 0">
+                    <div class="col-sm-4"  th:each="item: ${sellings}" style="padding-left: 0;padding-right: 0;">
                         <div class="thumbnail">
                             <div class="div-func">
                                 <img th:src="@{${'/item/getpic?id=' + item.id}}" class="img-rounded">
@@ -363,7 +362,16 @@
                                 <div th:if="${item.getAvailable() == true && item.getStock() > 0}"  class="text-success">在售</div>
                                 <div th:if="${item.getAvailable() == true && item.getStock() <= 0}"  class="text-warning">缺货</div>
                                 <div th:if="${item.getAvailable() != true}" class="text-danger">已下架</div>
-                                <p><a href="#" th:href="@{/item/modify(id=${item.id})}" class="btn btn-primary" role="button">修改商品</a>
+                                <form action="#" th:action="@{/item/delete(id=${item.id})}" method="post"
+                                      class="form-actions">
+                                    <a href="#" th:href="@{/item/transactions(id=${item.id})}" class="btn btn-default" role="button">销售记录</a>
+                                    <a href="#" th:href="@{/item/modify(id=${item.id})}" class="btn btn-primary" role="button">修改商品</a>
+                                    <input type="hidden" th:name="${_csrf.parameterName}"
+                                           th:value="${_csrf.token}">
+                                    <button type="submit" class="btn btn-danger" th:if="${item.available}"
+                                            onclick="if (!(confirm('你确定要下架该商品吗？下架后只有管理员才能重新上架！'))) return false">下架商品
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     </div>

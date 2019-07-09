@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-CN"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+<head>
+    <title>查看退款记录</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <ul class="breadcrumb">
+        <li>
+            <a th:href="@{/}">首页</a>
+        </li>
+        <li>
+            <a th:href="@{/info/}">个人中心</a>
+        </li>
+        <li class="active">查看退款记录</li>
+    </ul>
+    <div class="jumbotron">
+        <h1>查看退款记录</h1>
+    </div>
+
+    <div th:each="refundRequest : ${refundRequests}">
+        <div class="form-group panel panel-default" th:if="${refundRequest.dealt == false}">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    <div>未处理退款请求
+                        <a class="btn btn-warning" th:href="@{/transaction/dealRefund(id=${refundRequest.id})}">
+                            处理退款
+                        </a>
+                    </div>
+                </h3>
+            </div>
+            <div class="panel-body">
+                <label>申请退款时间</label>
+                <div th:text="${refundRequest.createdAt}"></div>
+                <label>申请退款理由</label>
+                <div th:text="${refundRequest.reason}"></div>
+            </div>
+        </div>
+    </div>
+
+    <div th:each="refundRequest : ${refundRequests}">
+        <div class="form-group panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    <div th:if="${refundRequest.refund == null && refundRequest.dealt == true}">已拒绝退款</div>
+                    <div th:if="${refundRequest.refund != null && refundRequest.dealt == true}"
+                         th:text="${'已接收退款' + #numbers.formatCurrency(refundRequest.refund.price)}">
+                    </div>
+                </h3>
+            </div>
+            <div class="panel-body">
+                <label>申请退款时间</label>
+                <div th:text="${refundRequest.createdAt}"></div>
+                <label>申请退款理由</label>
+                <div th:text="${refundRequest.reason}"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

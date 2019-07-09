@@ -50,4 +50,10 @@ public class TransactionServiceImpl implements TransactionService {
         User user = userRepository.findByUsername(securityService.findLoggedInUsername());
         return transactionRepository.findAllByBuyer(user, pageable);
     }
+
+    @Override
+    public Page<Transaction> findByItem(Item item, int pageNum, int pageSize, Sort sortObj) {
+        Pageable pageable = PageRequest.of(pageNum, pageSize, sortObj);
+        return transactionRepository.findAllByItem(item, pageable);
+    }
 }

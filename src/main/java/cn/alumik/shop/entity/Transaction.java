@@ -125,4 +125,32 @@ public class Transaction {
     public void setAddress(String address) {
         this.address = address;
     }
+
+    public RefundRequest getUnhandledRefundrequest(){
+        RefundRequest result = null;
+        Set<RefundRequest> refundRequests = getRefundRequests();
+        for (RefundRequest refundRequest:refundRequests){
+            if (!refundRequest.getDealt()){
+                result = refundRequest;
+                break;
+            }
+        }
+        return result;
+    }
+
+    public int getIfUnhandledRefundrequest(){
+        int undealt = 0;
+        int exist = 0;
+        Set<RefundRequest> refundRequests = getRefundRequests();
+        if (refundRequests.size() > 0){
+            exist = 1;
+        }
+        for (RefundRequest refundRequest:refundRequests){
+            if (!refundRequest.getDealt()){
+                undealt = 1;
+                break;
+            }
+        }
+        return undealt + exist;
+    }
 }

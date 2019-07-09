@@ -36,7 +36,10 @@
                         th:class="${#request.getRequestURI().startsWith('/admin') ? 'active' : ''}">
                         <a th:href="@{/admin}">后台管理</a>
                     </li>
-
+                    <li sec:authorize="isAuthenticated()"
+                        th:class="${#request.getRequestURI().startsWith('/history') ? 'active' : ''}">
+                        <a th:href="@{/history/}">我的足迹</a>
+                    </li>
                     <li sec:authorize="isAuthenticated()"
                         th:class="${#request.getRequestURI().startsWith('/info') ? 'active' : ''}">
                         <a th:href="@{/info/}">个人中心</a>

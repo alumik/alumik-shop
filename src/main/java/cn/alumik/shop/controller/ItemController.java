@@ -66,7 +66,7 @@ public class ItemController {
             return "item/add";
         }
         getImageFromServer(item, file);
-        return "redirect:/";
+        return "redirect:/info/?tab=sellings";
     }
 
     @GetMapping("/modify")
@@ -91,7 +91,7 @@ public class ItemController {
         else if (changeImage.equals("notChange")) {
             itemService.save(item);
         }
-        return "redirect:/";
+        return "redirect:/info/?tab=sellings";
     }
 
     private void getImageFromServer(@ModelAttribute("item") @Valid Item item, @RequestParam(defaultValue = "") MultipartFile image) throws IOException {
@@ -175,7 +175,6 @@ public class ItemController {
         Sort sortObj;
         Item item = itemService.getById(id);
         model.addAttribute("item", item);
-        System.out.println(tab);
         if (sort.startsWith("-")) {
             sortObj = Sort.by(sort.substring(1)).descending();
         } else {
@@ -193,6 +192,14 @@ public class ItemController {
         return "item/detail";
     }
 
+    @PostMapping("/delete")
+    public String actionDeletePoster(Model model, int id){
+        Item item = itemService.getById(id);
+        item.setAvailable(false);
+        itemService.save(item);
+        return "redirect:/info/?tab=sellings";
+    }
+
     @GetMapping("/addComment")
     public String actionAddCommentGetter(Model model, int id){
         Comment comment = new Comment();
@@ -206,7 +213,7 @@ public class ItemController {
     @PostMapping("/addComment")
     public String actionAddCommentPoster(@ModelAttribute("comment") Comment comment){
         commentService.save(comment);
-        return "redirect:/info/";
+        return "redirect:/info/?tab=transactions";
     }
 
     @GetMapping("/modifyComment")
@@ -221,12 +228,33 @@ public class ItemController {
                                             @RequestParam("star") int star){
         comment.setStar(star);
         commentService.save(comment);
-        return "redirect:/info/";
+        return "redirect:/info/?tab=transactions";
     }
 
     @PostMapping("/deleteComment")
     public String actionDeleteCommentPoster(Integer id){
         commentService.deleteById(id);
-        return "redirect:/info/";
+        return "redirect:/info/?tab=transactions";
+    }
+
+    @GetMapping("/transactions")
+    public String actionShowTransactionsGetter(Model model, Integer id,
+                                               @RequestParam(defaultValue = "id") String sort,
+                                               @RequestParam(defaultValue = "1") Integer page) {
+        Sort sortObj;
+        Item item = itemService.getById(id);
+        model.addAttribute("item", item);
+        if (sort.startsWith("-")) {
+            sortObj = Sort.by(sort.substring(1)).descending();
+        } else {
+            sortObj = Sort.by(sort);
+        }
+
+        Page<Transaction> transactions = transactionService.findByItem(item, page - 1, 30, sortObj);
+        model.addAttribute("sort", sort);
+        model.addAttribute("page", page);
+        model.addAttribute("transactions", transactions);
+        model.addAttribute("itemName", item.getName());
+        return "transaction/index";
     }
 }

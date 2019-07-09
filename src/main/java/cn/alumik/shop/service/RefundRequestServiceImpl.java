@@ -17,4 +17,9 @@ public class RefundRequestServiceImpl implements RefundRequestService {
     public void save(RefundRequest refundRequest) {
         refundRequestRepository.save(refundRequest);
     }
+
+    @Override
+    public RefundRequest getById(int id) {
+        return refundRequestRepository.findById(id).get();
+    }
 }

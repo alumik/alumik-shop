@@ -13,7 +13,7 @@ public class Refund {
     @Column(name = "id")
     private int id;
 
-    @OneToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @OneToOne
     @JoinColumn(name = "id_refund_request")
     private RefundRequest refundRequest;
 

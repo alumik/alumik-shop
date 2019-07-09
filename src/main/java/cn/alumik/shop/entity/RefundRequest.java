@@ -25,6 +25,9 @@ public class RefundRequest {
     @OneToOne(mappedBy = "refundRequest", cascade = CascadeType.ALL)
     private Refund refund;
 
+    @Column(name = "dealt")
+    private Boolean dealt;
+
     public int getId() {
         return id;
     }
@@ -63,5 +66,13 @@ public class RefundRequest {
 
     public void setRefund(Refund refund) {
         this.refund = refund;
+    }
+
+    public Boolean getDealt() {
+        return dealt;
+    }
+
+    public void setDealt(Boolean dealt) {
+        this.dealt = dealt;
     }
 }
