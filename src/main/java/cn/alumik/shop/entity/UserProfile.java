@@ -29,9 +29,6 @@ public class UserProfile {
     @Column(name = "detail")
     private String detail;
 
-    @Column(name = "avatar")
-    private String avatar;
-
     @Column(name = "join_date")
     private Date joinDate;
 
@@ -81,14 +78,6 @@ public class UserProfile {
 
     public void setDetail(String detail) {
         this.detail = detail;
-    }
-
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
     }
 
     public Date getJoinDate() {

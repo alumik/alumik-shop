@@ -121,8 +121,3 @@ a.desc:after {
 td {
     vertical-align: middle !important;
 }
-
-.user-view .avatar {
-    max-width: 200px;
-    height: auto;
-}

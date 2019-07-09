@@ -60,11 +60,6 @@
                 <td th:text="${user.userProfile.detail}">否</td>
             </tr>
             <tr th:if="${user.userProfile != null}">
-                <th>头像</th>
-                <td><img th:if="${user.userProfile.avatar != null}" class="avatar" src="#"
-                         th:src="${user.userProfile.avatar}" alt="头像"/></td>
-            </tr>
-            <tr th:if="${user.userProfile != null}">
                 <th>注册日期</th>
                 <td th:text="${user.userProfile.joinDate}">否</td>
             </tr>
