@@ -1,0 +1,9 @@
+{
+  "properties": [
+    {
+      "name": "site.app.name",
+      "type": "java.lang.String",
+      "description": "The name of the website."
+    }
+  ]
+}
