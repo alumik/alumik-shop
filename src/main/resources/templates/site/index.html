@@ -34,7 +34,7 @@
                     <img style="width: 250px; height: 250px; object-fit: cover;" src="#" alt="#" th:src="@{${'/item/getpic?id=' + item[1]}}" th:alt="${item[1]}">
                 </a>
                 <div class="caption">
-                    <h4 th:text="${item[3]}"></h4>
+                    <h4 th:text="${#strings.length(item[3]) > 12 ? #strings.substring(item[3], 0, 12) + '...' : item[3]}"></h4>
                     <div class="row">
                         <div class="col-xs-6">
                             <h3 style="margin-bottom: 0" class="text-danger" th:text="${#numbers.formatCurrency(item[6])}"></h3>
