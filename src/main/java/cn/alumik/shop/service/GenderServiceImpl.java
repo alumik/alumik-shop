@@ -19,4 +19,9 @@ public class GenderServiceImpl implements GenderService {
     public List<Gender> findAll() {
         return genderRepository.findAll();
     }
+
+    @Override
+    public List<Gender> findAllByOrderById() {
+        return genderRepository.findAllByOrderById();
+    }
 }

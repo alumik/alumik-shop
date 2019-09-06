@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh-CN"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+<head>
+    <title>修改信息</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <ul class="breadcrumb">
+        <li>
+            <a th:href="@{/}">首页</a>
+        </li>
+        <li>
+            <a th:href="@{/user/info}">个人中心</a>
+        </li>
+        <li>
+            <a th:href="@{/user/info}">基本信息</a>
+        </li>
+        <li class="active">修改信息</li>
+    </ul>
+
+    <div class="info-update">
+        <h1>修改信息</h1>
+        <form th:object="${user}" action="#" th:action="@{/user/info/update}" method="post">
+            <div class="form-group">
+                <label for="gender">性别</label>
+                <select id="gender" class="form-control" th:field="*{userProfile.gender}">
+                    <option th:each="gender : ${genders}" th:text="${gender.name}" th:value="${gender.id}"></option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="phone">电话</label>
+                <input type="text" class="form-control" id="phone" th:field="*{userProfile.phone}">
+            </div>
+            <div class="form-group">
+                <label for="email">电子邮箱</label>
+                <input type="email" class="form-control" id="email" th:field="*{userProfile.email}">
+            </div>
+            <div class="form-group">
+                <label for="detail">个人简介</label>
+                <textarea class="form-control" id="detail" th:field="*{userProfile.detail}"></textarea>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-success">保存</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>
