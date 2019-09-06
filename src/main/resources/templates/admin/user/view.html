@@ -25,10 +25,10 @@
         <h1 th:text="${user.username}"></h1>
         <p>
             <span th:if="${#authentication.name != user.username}">
-                <a th:if="${user.enabled}" class="btn btn-danger btn-sm"
+                <a th:if="${user.enabled}" class="btn btn-danger"
                    th:href="@{/admin/user/toggle-enabled(id=${user.id})}"
                    onclick="if (!(confirm('你确定要禁用该用户吗？'))) return false">禁用用户</a>
-                <a th:if="${!user.enabled}" class="btn btn-success btn-sm"
+                <a th:if="${!user.enabled}" class="btn btn-success"
                    th:href="@{/admin/user/toggle-enabled(id=${user.id})}"
                    onclick="if (!(confirm('你确定要启用该用户吗？'))) return false">启用用户</a>
             </span>
@@ -52,16 +52,16 @@
                 <td th:text="${user.userProfile.phone}"></td>
             </tr>
             <tr th:if="${user.userProfile != null}">
-                <th>电子邮件</th>
-                <td th:text="${user.userProfile.email}">否</td>
+                <th>电子邮箱</th>
+                <td th:text="${user.userProfile.email}"></td>
             </tr>
             <tr th:if="${user.userProfile != null}">
                 <th>个人简介</th>
-                <td th:text="${user.userProfile.detail}">否</td>
+                <td th:text="${user.userProfile.detail}"></td>
             </tr>
             <tr th:if="${user.userProfile != null}">
                 <th>注册日期</th>
-                <td th:text="${user.userProfile.joinDate}">否</td>
+                <td th:text="${user.userProfile.joinDate}"></td>
             </tr>
         </table>
     </div>

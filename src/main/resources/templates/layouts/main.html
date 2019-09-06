@@ -29,9 +29,6 @@
                 <a class="navbar-brand" th:href="@{/}" th:text="${@environment.getProperty('site.app.name')}"></a></div>
             <div id="w0-collapse" class="collapse navbar-collapse">
                 <ul id="w1" class="navbar-nav navbar-right nav">
-                    <li th:class="${#request.getRequestURI() == '/' ? 'active' : ''}">
-                        <a th:href="@{/}">主页</a>
-                    </li>
                     <li sec:authorize="hasRole('ROLE_ADMIN')"
                         th:class="${#request.getRequestURI().startsWith('/admin') ? 'active' : ''}">
                         <a th:href="@{/admin}">后台管理</a>
@@ -41,8 +38,8 @@
                         <a th:href="@{/history}">我的足迹</a>
                     </li>
                     <li sec:authorize="isAuthenticated()"
-                        th:class="${#request.getRequestURI().startsWith('/info') ? 'active' : ''}">
-                        <a th:href="@{/info}">个人中心</a>
+                        th:class="${#request.getRequestURI().startsWith('/user') ? 'active' : ''}">
+                        <a th:href="@{/user/info}">个人中心</a>
                     </li>
                     <li sec:authorize="!isAuthenticated()"
                         th:class="${#request.getRequestURI().startsWith('/login') ? 'active' : ''}">
