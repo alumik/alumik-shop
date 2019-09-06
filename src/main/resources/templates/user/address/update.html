@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="zh-CN"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+<head>
+    <title>修改收货地址</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <ul class="breadcrumb">
+        <li>
+            <a th:href="@{/}">首页</a>
+        </li>
+        <li>
+            <a th:href="@{/user/info}">个人中心</a>
+        </li>
+        <li>
+            <a th:href="@{/user/address}">收货地址</a>
+        </li>
+        <li class="active" th:text="${address.id}"></li>
+        <li class="active">修改</li>
+    </ul>
+    <div class="address-create">
+        <h1>修改收货地址</h1>
+        <div class="address-form">
+            <form id="w0" action="#" th:object="${address}" th:action="@{/user/address/update}" method="post">
+                <input type="hidden" th:field="*{id}">
+                <input type="hidden" th:field="*{user}">
+                <div class="form-group" th:classappend="${#fields.hasAnyErrors() ? 'has-error' : ''}">
+                    <label class="control-label" for="address-name">收货地址</label>
+                    <input type="text" id="address-name" class="form-control" name="name" th:field="*{name}">
+                    <div class="help-block" th:errors="*{name}"></div>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success">保存</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

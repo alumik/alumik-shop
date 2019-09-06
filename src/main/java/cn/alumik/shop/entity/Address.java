@@ -1,6 +1,7 @@
 package cn.alumik.shop.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "address")
@@ -15,6 +16,7 @@ public class Address {
     @JoinColumn(name = "id_user")
     private User user;
 
+    @NotBlank
     @Column(name = "name")
     private String name;
 

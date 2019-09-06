@@ -4,10 +4,13 @@ import cn.alumik.shop.dao.AddressRepository;
 import cn.alumik.shop.dao.UserRepository;
 import cn.alumik.shop.entity.Address;
 import cn.alumik.shop.entity.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AddressServiceImpl implements AddressService {
@@ -45,5 +48,20 @@ public class AddressServiceImpl implements AddressService {
     @Override
     public Address getById(int id) {
         return addressRepository.findById(id).get();
+    }
+
+    @Override
+    public Page<Address> findAllByNameContainsAndUser_Username(String name, String username, Pageable pageable) {
+        return addressRepository.findAllByNameContainsAndUser_Username(name, username, pageable);
+    }
+
+    @Override
+    public void deleteById(Integer id) {
+        addressRepository.deleteById(id);
+    }
+
+    @Override
+    public Optional<Address> findById(Integer id) {
+        return addressRepository.findById(id);
     }
 }
