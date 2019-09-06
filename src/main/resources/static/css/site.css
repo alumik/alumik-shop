@@ -121,3 +121,7 @@ a.desc:after {
 td {
     vertical-align: middle !important;
 }
+
+.user-center .nav-tabs {
+    margin-bottom: 15px;
+}
