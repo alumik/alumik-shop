@@ -2,6 +2,7 @@ package cn.alumik.shop.service;
 
 import cn.alumik.shop.entity.Category;
 import cn.alumik.shop.entity.Item;
+import cn.alumik.shop.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -30,7 +31,6 @@ public interface ItemService {
     void toggleAvailable(Integer id);
 
     Page<Item> findAll(Integer categoryId, String name, String sellerName, Integer available, Pageable pageable);
-    
 
     void save(Item item);
 
@@ -39,4 +39,8 @@ public interface ItemService {
     void addFavoriteItem(Item item);
 
     void delFavoriteItem(Item item);
+
+    Page<Item> findAll(User user, String name, Integer categoryId, int pageNum, int pageSize, Sort sort);
+
+    Page<Item> findAll(User user, String name, int pageNum, int pageSize, Sort sort);
 }

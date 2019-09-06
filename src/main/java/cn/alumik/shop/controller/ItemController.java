@@ -288,18 +288,4 @@ public class ItemController {
         model.addAttribute("item", item);
         return "transaction/index";
     }
-
-    @GetMapping("/favorite/add")
-    public String actionAddToFavoriteGetter(Model model, int id) {
-        Item item = itemService.getById(id);
-        itemService.addFavoriteItem(item);
-        return "redirect:/info?tab=favorites";
-    }
-
-    @PostMapping("/favorite/delete")
-    public String actionDeleteToFavoritePoster(@ModelAttribute("item") Item item) {
-        Item result = itemService.getById(item.getId());
-        itemService.delFavoriteItem(result);
-        return "redirect:/info?tab=favorites";
-    }
 }

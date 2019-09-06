@@ -130,4 +130,16 @@ public class ItemServiceImpl implements ItemService{
         user.removeFavoriteItem(item);
         userRepository.save(user);
     }
+
+    @Override
+    public Page<Item> findAll(User user, String name, Integer categoryId, int pageNum, int pageSize, Sort sort) {
+        Pageable pageable = PageRequest.of(pageNum, pageSize, sort);
+        return itemRepository.findAllByFavoriteByAndNameContainsAndCategory_Id(user, name, categoryId, pageable);
+    }
+
+    @Override
+    public Page<Item> findAll(User user, String name, int pageNum, int pageSize, Sort sort) {
+        Pageable pageable = PageRequest.of(pageNum, pageSize, sort);
+        return itemRepository.findAllByFavoriteByAndNameContains(user, name, pageable);
+    }
 }

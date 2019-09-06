@@ -61,6 +61,7 @@
                             <a th:if="${isFavorite == false}" th:href="@{/user/favorite/create(id=${item.id})}"
                                class="btn btn-default">收藏商品</a>
                             <a th:if="${isFavorite == true}" class="btn btn-danger"
+                               th:href="@{/user/favorite/delete(id=${item.id})}"
                                onclick="if (!(confirm('你确定将此商品从收藏中移除吗？'))) return false">删除收藏</a>
                         </p>
                     </div>
