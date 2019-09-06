@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-CN"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+<head>
+    <title th:text="${#strings.length(item.name) > 20 ? #strings.substring(item.name, 0, 20) + '...' : item.name}"></title>
+    <style>
+        .item-view .price {
+            font-size: xx-large;
+            color: darkred;
+            margin-bottom: 15px;
+        }
+
+        .item-view .item-info {
+            font-size: large;
+            margin-bottom: 15px;
+        }
+
+        .item-view .panel {
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <ul class="breadcrumb">
+        <li>
+            <a th:href="@{/}">首页</a>
+        </li>
+        <li>
+            <a th:href="@{/item}">商品</a>
+        </li>
+        <li class="active" th:text="${item.id}"></li>
+    </ul>
+
+    <div class="item-view">
+        <h1 th:text="${item.name}"></h1>
+        <ul class="nav nav-tabs">
+            <li class="active"><a th:href="@{/item/view(id=${item.id})}">商品信息</a></li>
+            <li><a th:href="@{/item/comment(id=${item.id})}">评论</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active">
+                <div class="row">
+                    <img class="col-md-4" th:src="@{${'/item/getpic?id=' + item.id}}" alt="#" src="#">
+                    <div class="col-md-8">
+                        <b>售价</b>
+                        <div class="price" th:text="${#numbers.formatCurrency(item.price)}"></div>
+                        <b>库存</b>
+                        <div class="item-info" th:text="${item.stock}"></div>
+                        <b>商品类型</b>
+                        <div class="item-info" th:text="${item.category.name}"></div>
+                        <p>
+                            <a th:href="@{/item/buy(id=${item.id})}" class="btn btn-primary">立即购买</a>
+                            <a th:if="${isInCart == false}" th:href="@{/cart/create(id=${item.id})}"
+                               class="btn btn-default">加入购物车</a>
+                            <a th:if="${isInCart == true}" th:href="@{/cart/update(id=${item.id})}"
+                               class="btn btn-default">编辑购物车</a>
+                            <a th:if="${isFavorite == false}" th:href="@{/user/favorite/create(id=${item.id})}"
+                               class="btn btn-default">收藏商品</a>
+                            <a th:if="${isFavorite == true}" class="btn btn-danger"
+                               onclick="if (!(confirm('你确定将此商品从收藏中移除吗？'))) return false">删除收藏</a>
+                        </p>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">商品详情</h3>
+                    </div>
+                    <div class="panel-body" th:text="${item.detail}"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

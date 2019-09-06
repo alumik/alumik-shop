@@ -122,6 +122,6 @@ td {
     vertical-align: middle !important;
 }
 
-.user-center .nav-tabs {
+.user-center .nav-tabs, .item-view .nav-tabs {
     margin-bottom: 15px;
 }

@@ -50,7 +50,7 @@
                         <tr th:each="history,iter : ${histories}">
                             <td th:text="${iter.index + (page - 1) * 30 + 1}"></td>
                             <td>
-                                <a th:text="${history.item.name}" th:href="@{/item/detail(id=${history.item.id})}"></a>
+                                <a th:text="${history.item.name}" th:href="@{/item/view(id=${history.item.id})}"></a>
                             </td>
                             <td th:text="${history.lastViewed}"></td>
                         </tr>

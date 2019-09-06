@@ -13,7 +13,7 @@
         <h1 th:text="${@environment.getProperty('site.app.name')}"></h1>
     </div>
 
-    <form action="#" th:action="@{/item/search}" method="get">
+    <form action="#" th:action="@{/item}" method="get">
         <div class="input-group input-group-lg">
             <input type="text" class="form-control" name="name" placeholder="搜你想要的">
             <span class="input-group-btn">
@@ -30,7 +30,7 @@
         <div class="col-md-3" th:each="j : ${#numbers.sequence(0, 3, 1)}" th:with="item=${items[i * 4 + j]}"
              th:if="${i * 4 + j < items.size()}">
             <div class="thumbnail">
-                <a th:href="@{${'/item/detail?id=' + item[1]}}">
+                <a th:href="@{${'/item/view?id=' + item[1]}}">
                     <img style="width: 250px; height: 250px; object-fit: cover;" src="#" alt="#" th:src="@{${'/item/getpic?id=' + item[1]}}" th:alt="${item[1]}">
                 </a>
                 <div class="caption">

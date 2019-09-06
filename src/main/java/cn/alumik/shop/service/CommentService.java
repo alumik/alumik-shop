@@ -19,4 +19,6 @@ public interface CommentService {
     Page<Comment> findAll(String username, Integer itemId, String itemName, Integer star, String content, Pageable pageable);
 
     Optional<Comment> findById(Integer id);
+
+    Page<Comment> findAllByTransaction_Item_Id(Integer id, Pageable pageable);
 }

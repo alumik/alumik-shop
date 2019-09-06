@@ -58,4 +58,9 @@ public class CommentServiceImpl implements CommentService {
     public Optional<Comment> findById(Integer id) {
         return commentRepository.findById(id);
     }
+
+    @Override
+    public Page<Comment> findAllByTransaction_Item_Id(Integer id, Pageable pageable) {
+        return commentRepository.findAllByTransaction_Item_Id(id, pageable);
+    }
 }

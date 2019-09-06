@@ -17,7 +17,7 @@ public class HistoryAspect {
         this.historyService = historyService;
     }
 
-    @Pointcut("execution(* cn.alumik.shop.controller.ItemController.actionDetailGetter(..))")
+    @Pointcut("execution(* cn.alumik.shop.controller.ItemController.actionView(..))")
     private void viewItemDetail() {
     }
 

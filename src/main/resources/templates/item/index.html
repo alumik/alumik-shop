@@ -4,7 +4,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/main}">
 <head>
-    <title>商品搜索</title>
+    <title>商品</title>
 </head>
 <body>
 
@@ -17,9 +17,9 @@
     </ul>
 
     <div class="item-index">
-        <h1>搜索商品</h1>
+        <h1>商品</h1>
 
-        <form action="#" th:action="@{/item/search}" method="get">
+        <form action="#" th:action="@{/item}" method="get">
             <div class="form-group">
                 <label for="name">商品名称</label>
                 <input id="name" type="text" class="form-control" name="name" th:value="${name}">
@@ -44,66 +44,71 @@
                     th:text="${(items.totalElements == 0 ? 0 : items.pageable.offset + 1) + '-' + (items.pageable.offset + items.numberOfElements)}"></b>
                 条，共 <b th:text="${items.totalElements}"></b> 条数据.
             </div>
-            <form action="#" th:action="@{/item/search}" method="get">
+            <form action="#" th:action="@{/item}" method="get">
                 <input type="hidden" name="sort" th:value="${sort}">
                 <table class="table table-striped table-bordered">
                     <thead>
                     <tr>
                         <th th:switch="${sort}">
                             <a th:case="'name'" class="asc"
-                               th:href="@{/item/search(name=${name}, page=${page}, sort='-name')}">名称</a>
+                               th:href="@{/item(name=${name}, page=${page}, sort='-name')}">名称</a>
                             <a th:case="'-name'" class="desc"
-                               th:href="@{/item/search(name=${name}, page=${page}, sort='name')}">名称</a>
+                               th:href="@{/item(name=${name}, page=${page}, sort='name')}">名称</a>
                             <a th:case="*"
-                               th:href="@{/item/search(name=${name}, page=${page}, sort='name')}">名称</a>
+                               th:href="@{/item(name=${name}, page=${page}, sort='name')}">名称</a>
                         </th>
 
                         <th th:switch="${sort}">
                             <a th:case="'price'" class="asc"
-                               th:href="@{/item/search(name=${name}, page=${page}, sort='-price')}">价格</a>
+                               th:href="@{/item(name=${name}, page=${page}, sort='-price')}">价格</a>
                             <a th:case="'-price'" class="desc"
-                               th:href="@{/item/search(name=${name}, page=${page}, sort='price')}">价格</a>
+                               th:href="@{/item(name=${name}, page=${page}, sort='price')}">价格</a>
                             <a th:case="*"
-                               th:href="@{/item/search(name=${name}, page=${page}, sort='price')}">价格</a>
+                               th:href="@{/item(name=${name}, page=${page}, sort='price')}">价格</a>
                         </th>
 
                         <th th:switch="${sort}">
                             <a th:case="'stock'" class="asc"
-                               th:href="@{/item/search(name=${name}, page=${page}, sort='-stock')}">库存</a>
+                               th:href="@{/item(name=${name}, page=${page}, sort='-stock')}">库存</a>
                             <a th:case="'-stock'" class="desc"
-                               th:href="@{/item/search(name=${name}, page=${page}, sort='stock')}">库存</a>
+                               th:href="@{/item(name=${name}, page=${page}, sort='stock')}">库存</a>
                             <a th:case="*"
-                               th:href="@{/item/search(name=${name}, page=${page}, sort='stock')}">库存</a>
+                               th:href="@{/item(name=${name}, page=${page}, sort='stock')}">库存</a>
                         </th>
 
                         <th th:switch="${sort}">
                             <a th:case="'sell'" class="asc"
-                               th:href="@{/item/search(name=${name}, page=${page}, sort='-sell')}">销量</a>
+                               th:href="@{/item(name=${name}, page=${page}, sort='-sell')}">销量</a>
                             <a th:case="'-sell'" class="desc"
-                               th:href="@{/item/search(name=${name}, page=${page}, sort='sell')}">销量</a>
+                               th:href="@{/item(name=${name}, page=${page}, sort='sell')}">销量</a>
                             <a th:case="*"
-                               th:href="@{/item/search(name=${name}, page=${page}, sort='sell')}">销量</a>
+                               th:href="@{/item(name=${name}, page=${page}, sort='sell')}">销量</a>
                         </th>
                     </tr>
                     </thead>
                 </table>
 
                 <div th:each="i : ${#numbers.sequence(0, T(Math).floor(items.content.size() / 4), 1)}" class="row">
-                    <div class="col-md-3" th:each="j : ${#numbers.sequence(0, 3, 1)}" th:with="item=${items.content[i * 4 + j]}"
+                    <div class="col-md-3" th:each="j : ${#numbers.sequence(0, 3, 1)}"
+                         th:with="item=${items.content[i * 4 + j]}"
                          th:if="${i * 4 + j < items.content.size()}">
                         <div class="thumbnail">
-                            <a th:href="@{${'/item/detail?id=' + item[1]}}">
-                                <img style="width: 250px; height: 250px; object-fit: cover;" src="#" alt="#" th:src="@{${'/item/getpic?id=' + item[1]}}" th:alt="${item[1]}">
+                            <a th:href="@{${'/item/view?id=' + item[1]}}">
+                                <img style="width: 250px; height: 250px; object-fit: cover;" src="#" alt="#"
+                                     th:src="@{${'/item/getpic?id=' + item[1]}}" th:alt="${item[1]}">
                             </a>
                             <div class="caption">
                                 <h4 th:text="${#strings.length(item[3]) > 12 ? #strings.substring(item[3], 0, 12) + '...' : item[3]}"></h4>
                                 <div class="row">
                                     <div class="col-xs-6">
-                                        <h3 style="margin-bottom: 0" class="text-danger" th:text="${#numbers.formatCurrency(item[6])}"></h3>
+                                        <h3 style="margin-bottom: 0" class="text-danger"
+                                            th:text="${#numbers.formatCurrency(item[6])}"></h3>
                                     </div>
                                     <div class="col-xs-6">
-                                        <div style="line-height: 23px; color: gray;" class="pull-right" th:text="'成交笔数：' + ${item[0]}"></div>
-                                        <div style="line-height: 23px; color: gray;" class="pull-right" th:text="'库存：' + ${item[7]}"></div>
+                                        <div style="line-height: 23px; color: gray;" class="pull-right"
+                                             th:text="'成交笔数：' + ${item[0]}"></div>
+                                        <div style="line-height: 23px; color: gray;" class="pull-right"
+                                             th:text="'库存：' + ${item[7]}"></div>
                                     </div>
                                 </div>
                             </div>
@@ -116,18 +121,18 @@
                 <li class="prev" th:classappend="${items.number == 0} ? 'disabled'"
                     th:switch="${items.number == 0}">
                     <a th:case="${false}"
-                       th:href="@{/item/search(name=${name}, sort=${sort}, page=${items.number})}">&laquo;</a>
+                       th:href="@{/item(name=${name}, sort=${sort}, page=${items.number})}">&laquo;</a>
                     <span th:case="${true}">&laquo;</span>
                 </li>
                 <li th:class="${items.number + 1 == i ? 'active': ''}"
                     th:each="i : ${#numbers.sequence(items.number - 4 > 0 ? items.number - 4 : 1, items.number + 5 <= items.totalPages ? items.number + 5 : items.totalPages)}">
-                    <a th:href="@{/item/search(name=${name}, sort=${sort}, page=${i})}"
+                    <a th:href="@{/item(name=${name}, sort=${sort}, page=${i})}"
                        th:text="${i}"></a>
                 </li>
                 <li class="next" th:classappend="${items.number + 1 == items.totalPages} ? 'disabled'"
                     th:switch="${items.number + 1 == items.totalPages}">
                     <a th:case="${false}"
-                       th:href="@{/item/search(name=${name}, sort=${sort}, page=${items.number + 2})}">&raquo;</a>
+                       th:href="@{/item(name=${name}, sort=${sort}, page=${items.number + 2})}">&raquo;</a>
                     <span th:case="true">&raquo;</span>
                 </li>
             </ul>
