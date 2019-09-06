@@ -1,4 +1,4 @@
-package cn.alumik.shop.controller;
+package cn.alumik.shop.controller.user;
 
 import cn.alumik.shop.entity.History;
 import cn.alumik.shop.service.HistoryService;
@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@Controller
-@RequestMapping("/history")
+@Controller("userHistoryController")
+@RequestMapping("/user/history")
 public class HistoryController {
 
     private HistoryService historyService;
@@ -35,12 +35,12 @@ public class HistoryController {
         model.addAttribute("histories", histories);
         model.addAttribute("page", page);
 
-        return "history/index";
+        return "user/history/index";
     }
 
-    @GetMapping("/clear")
-    public String actionClear() {
+    @GetMapping("/delete")
+    public String actionDelete() {
         historyService.deleteByUser_Username(securityService.findLoggedInUsername());
-        return "redirect:/history";
+        return "redirect:/user/history";
     }
 }

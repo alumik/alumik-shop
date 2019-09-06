@@ -20,12 +20,12 @@
         <h1>个人中心</h1>
 
         <ul class="nav nav-tabs">
-            <li class="active"><a href="#">基本信息</a></li>
-            <li><a href="#">收货地址</a></li>
-            <li><a href="#">收藏</a></li>
-            <li><a href="#">购物车</a></li>
-            <li><a href="#">订单</a></li>
-            <li><a href="#">售卖</a></li>
+            <li class="active"><a th:href="@{/user/info}">基本信息</a></li>
+            <li><a th:href="@{/user/address}">收货地址</a></li>
+            <li><a th:href="@{/user/favorite}">收藏</a></li>
+            <li><a th:href="@{/user/order}">订单</a></li>
+            <li><a th:href="@{/user/item}">售卖</a></li>
+            <li><a th:href="@{/user/history}">我的足迹</a></li>
         </ul>
 
         <div class="tab-content">
