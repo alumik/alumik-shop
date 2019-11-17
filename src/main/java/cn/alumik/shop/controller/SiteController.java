@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("")
 public class SiteController {
 
     private ItemService itemService;
@@ -34,15 +34,15 @@ public class SiteController {
         this.securityService = securityService;
     }
 
-    @GetMapping("/")
-    public String actionIndexGetter(Model model) {
+    @GetMapping("")
+    public String actionIndex(Model model) {
         List<Object[]> items = itemService.findAllOrderByRand("", 20);
         model.addAttribute("items", items);
         return "site/index";
     }
 
     @GetMapping("/about")
-    public String actionAboutGetter() {
+    public String actionAbout() {
         return "site/about";
     }
 

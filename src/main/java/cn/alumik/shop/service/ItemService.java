@@ -40,7 +40,7 @@ public interface ItemService {
 
     void delFavoriteItem(Item item);
 
-    Page<Item> findAll(User user, String name, Integer categoryId, int pageNum, int pageSize, Sort sort);
+    Page<Item> findAll(User user, String name, Integer categoryId, Pageable pageable);
 
-    Page<Item> findAll(User user, String name, int pageNum, int pageSize, Sort sort);
+    Page<Item> findAll(User user, Integer categoryId, String name, Integer status, Pageable pageable);
 }

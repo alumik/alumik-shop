@@ -1,6 +1,6 @@
 # AlumiK 在线商城
 
-利用 Spring 框架制作的在线商城网站。
+项目基于 [Spring](https://spring.io/projects/spring-framework) 框架制作。
 
 ## 技术栈
 

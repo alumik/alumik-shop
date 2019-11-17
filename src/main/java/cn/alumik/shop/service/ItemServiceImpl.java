@@ -132,14 +132,21 @@ public class ItemServiceImpl implements ItemService{
     }
 
     @Override
-    public Page<Item> findAll(User user, String name, Integer categoryId, int pageNum, int pageSize, Sort sort) {
-        Pageable pageable = PageRequest.of(pageNum, pageSize, sort);
-        return itemRepository.findAllByFavoriteByAndNameContainsAndCategory_Id(user, name, categoryId, pageable);
+    public Page<Item> findAll(User user, String name, Integer categoryId, Pageable pageable) {
+        if (categoryId != 0) {
+            return itemRepository.findAllByFavoriteByAndNameContainsAndCategory_Id(user, name, categoryId, pageable);
+        }
+        return itemRepository.findAllByFavoriteByAndNameContains(user, name, pageable);
     }
 
     @Override
-    public Page<Item> findAll(User user, String name, int pageNum, int pageSize, Sort sort) {
-        Pageable pageable = PageRequest.of(pageNum, pageSize, sort);
+    public Page<Item> findAll(User user, Integer categoryId, String name, Integer status, Pageable pageable) {
+        if (categoryId != 0) {
+            switch (status) {
+                case 1:
+//                    return itemRepository.findAllByNameContains
+            }
+        }
         return itemRepository.findAllByFavoriteByAndNameContains(user, name, pageable);
     }
 }
